@@ -1,21 +1,15 @@
 using UnityEngine;
 
-public abstract class BaseObject : IUnlockable, IRequirement
+public abstract class BaseObject : Updatable, IUnlockable, IRequirement
 {
     public event IRequirement.RequirementValueUpdated OnRequirementValueUpdated;
 
     public bool IsUnlocked => _isUnlocked;
     
-    private UnlockRequirements _unlockRequirements;
-    private ObjectBluePrint _objectBluePrint;
+    [SerializeField] private UnlockRequirements _unlockRequirements;
+    [SerializeField] private ObjectBluePrint _objectBluePrint;
     
-    private bool _isUnlocked;
-
-    protected BaseObject(UnlockRequirements unlockRequirements, ObjectBluePrint objectBluePrint)
-    {
-        _unlockRequirements = unlockRequirements;
-        _objectBluePrint = objectBluePrint;
-    }
+    protected bool _isUnlocked;
 
     public IUnlockable.RequirementFulfilledHandler GetEventHandler()
     {

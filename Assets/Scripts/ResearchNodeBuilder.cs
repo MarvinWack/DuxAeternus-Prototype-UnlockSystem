@@ -6,20 +6,20 @@ using UnityEngine;
 public class ResearchNodeBuilder : MonoBehaviour
 {
     [SerializeField] private ResearchNodeData[] lastEntriesInTree;
-    [SerializeField] private GameObject prefab;
-    [SerializeField] private SerializedDictionary<string, GameObject> _researchNodes;
+    [SerializeField] private ResearchNode prefab;
+    [SerializeField] private SerializedDictionary<string, ResearchNode> _researchNodes;
     
     private ulong _playerID;
 
     private void OnEnable()
     {
-        _researchNodes = new SerializedDictionary<string, GameObject>();
+        _researchNodes = new SerializedDictionary<string, ResearchNode>();
         BuildResearchTree(lastEntriesInTree);
     }
     
-    private List<GameObject> BuildResearchTree(ResearchNodeData[] researchNodeData)
+    private List<ResearchNode> BuildResearchTree(ResearchNodeData[] researchNodeData)
     {
-        var requiredNodes = new List<GameObject>();
+        var requiredNodes = new List<ResearchNode>();
 
         if (researchNodeData.Length == 0)
             return requiredNodes;
@@ -43,7 +43,7 @@ public class ResearchNodeBuilder : MonoBehaviour
         return researchNodeData.RequiredResearch;
     }
 
-    private GameObject InstantiateResearchNode(ResearchNodeData nodeData)
+    private ResearchNode InstantiateResearchNode(ResearchNodeData nodeData)
     {
         var instance = Instantiate(prefab, transform);
         instance.name = nodeData.name;
@@ -51,7 +51,7 @@ public class ResearchNodeBuilder : MonoBehaviour
         return instance;
     }
 
-    private GameObject GetNodeFromDictionaryOrCreateNewOne(ResearchNodeData nodeData)
+    private ResearchNode GetNodeFromDictionaryOrCreateNewOne(ResearchNodeData nodeData)
     {
         if(_researchNodes.ContainsKey(nodeData.name))
             return _researchNodes[nodeData.name];

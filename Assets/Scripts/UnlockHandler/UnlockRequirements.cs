@@ -3,8 +3,9 @@ using UnityEngine;
 
 public enum ObjectType
 {
-    Building
+    Building,
 }
+[CreateAssetMenu]
 public class UnlockRequirements : ScriptableObject
 {
     public Dictionary<ObjectType, int> RequiredLevels;

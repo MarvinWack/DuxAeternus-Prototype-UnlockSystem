@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
+using AYellowpaper.SerializedCollections;using UnityEngine;
 
-public class ObjectBuilder : IRequirementBuilder, IUnlockableBuilder
+public class ObjectBuilder : MonoBehaviour, IRequirementBuilder, IUnlockableBuilder
 {
     public event IRequirementBuilder.RequirementCreated OnRequirementCreated;
     public event IUnlockableBuilder.UnlockableCreated OnUnlockableCreated;
+
+    [SerializeField] private SerializedDictionary<ObjectType, BaseObject> objects = new();
     
-    private Dictionary<ObjectType, UnlockRequirements> _unlockRequirements;
-    private Dictionary<ObjectType, ObjectBluePrint> _objectBluePrints;
-    
-    public BaseObject CreateObject(ObjectType objectType) //, SpecificVariationOfObjectType variationName)
+    public BaseObject CreateObject(ObjectType objectType) //, (SpecificVariationOfObjectType variationName)
     {
         return objectType switch
         {
@@ -20,9 +20,18 @@ public class ObjectBuilder : IRequirementBuilder, IUnlockableBuilder
         };
     }
 
-    private Building CreateBuilding(ObjectType objectType) //, SpecificVariationOfObjectType variationName)
+    private Building CreateBuilding(ObjectType objectType) //, (SpecificVariationOfObjectType variationName)
     {
-        var building = new Building(_unlockRequirements[objectType], _objectBluePrints[objectType]);
+        if (!objects.TryGetValue(objectType, out var objectPrefab))
+        {
+            throw new KeyNotFoundException($"No prefab found for object type: {objectType}");
+        }
+
+        var building = Instantiate(objectPrefab) as Building;
+        if (building == null)
+        {
+            throw new InvalidCastException($"Prefab for {objectType} cannot be cast to Building type");
+        }
         
         OnRequirementCreated?.Invoke(building);
         OnUnlockableCreated?.Invoke(building.GetEventHandler(), building.GetRequirements());

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu]
-public class ResearchNodeData : IData
+public class ResearchNodeData : ScriptableObject
 {
     public ResearchNodeData[] RequiredResearch;
     public ushort ResearchTime;

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 [Serializable]
-public class ResearchNode : Updatable
+public class ResearchNode : BaseObject
 {
     [InspectorButton("StartResearch")]
     public bool StartResearchButton;
@@ -20,10 +20,6 @@ public class ResearchNode : Updatable
 
     [SerializeField] private ResearchNode[] _requiredResearch;
 
-    [SerializeField] private GameObject[] _requiredResearchObjects;
-    
-    public bool _isUnlocked;
-
     private bool _isResearching;
     private bool _isResearchFinished;
     private ushort _elapsedResearchTime;
@@ -33,10 +29,9 @@ public class ResearchNode : Updatable
         _data = nodeData;
     }
     
-    public void SetRequiredResearch(List<GameObject> requiredResearch)
+    public void SetRequiredResearch(List<ResearchNode> requiredResearch)
     {
-        _requiredResearchObjects = requiredResearch.ToArray();
-        _requiredResearch = new ResearchNode[requiredResearch.Count];
+        _requiredResearch = requiredResearch.ToArray();
         
         if(requiredResearch.Count == 0)
         {
@@ -44,12 +39,7 @@ public class ResearchNode : Updatable
             return;
         }
         
-        for(var i = 0; i < _requiredResearchObjects.Length; i++)
-        {
-            _requiredResearch[i] = _requiredResearchObjects[i].GetComponent<ResearchNode>();
-        }
-        
-        for(var i = 0; i < _requiredResearchObjects.Length; i++)
+        for(var i = 0; i < _requiredResearch.Length; i++)
         {
             _requiredResearch[i].ResearchComplete -= OnRequiredResearchComplete;
             _requiredResearch[i].ResearchComplete += OnRequiredResearchComplete;
