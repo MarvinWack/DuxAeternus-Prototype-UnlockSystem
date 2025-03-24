@@ -16,8 +16,6 @@ public class ResearchNode : BaseObject
     
     public bool IsResearchFinished => _isResearchFinished;
 
-    [SerializeField] public ResearchNodeData _data;
-
     [SerializeField] private ResearchNode[] _requiredResearch;
 
     private bool _isResearching;
@@ -29,7 +27,7 @@ public class ResearchNode : BaseObject
         _objectBluePrint = nodeData;
     }
     
-    public void SetRequiredResearch(List<ResearchNode> requiredResearch)
+    public void SetRequiredResearchNodes(List<ResearchNode> requiredResearch)
     {
         _requiredResearch = requiredResearch.ToArray();
         
@@ -39,10 +37,10 @@ public class ResearchNode : BaseObject
             return;
         }
         
-        for(var i = 0; i < _requiredResearch.Length; i++)
+        foreach (var research in _requiredResearch)
         {
-            _requiredResearch[i].ResearchComplete -= OnRequiredResearchComplete;
-            _requiredResearch[i].ResearchComplete += OnRequiredResearchComplete;
+            research.ResearchComplete -= OnRequiredResearchComplete;
+            research.ResearchComplete += OnRequiredResearchComplete;
         }
     }
 
@@ -81,7 +79,7 @@ public class ResearchNode : BaseObject
             
         _elapsedResearchTime++;
         
-        if(_elapsedResearchTime >= _data.ResearchTime)
+        if(_elapsedResearchTime >= _objectBluePrint.UnlockRequirements.UnlockTime)
             CompleteResearch();
     }
 }

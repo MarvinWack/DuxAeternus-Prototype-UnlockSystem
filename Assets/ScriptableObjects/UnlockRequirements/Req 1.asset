@@ -16,4 +16,4 @@ MonoBehaviour:
     _serializedList:
     - Key: {fileID: 0}
       Value: 0
-  UnlockTime: 0
+  UnlockTime: 3

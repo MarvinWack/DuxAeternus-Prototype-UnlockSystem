@@ -19,41 +19,40 @@ public class ResearchNodeBuilder : MonoBehaviour
         BuildResearchTree(lastEntriesInTree);
     }
     
-    private List<ResearchNode> BuildResearchTree(ObjectBluePrint[] researchNodeData)
+    private List<ResearchNode> BuildResearchTree(ObjectBluePrint[] bluePrints)
     {
         var requiredNodes = new List<ResearchNode>();
 
-        if (researchNodeData.Length == 0)
+        if (bluePrints.Length == 0)
             return requiredNodes;
         
-        foreach (var nodeData in researchNodeData)
+        foreach (var bluePrint in bluePrints)
         {
-            var node = GetNodeFromDictionaryOrCreateNewOne(nodeData);
+            var node = GetNodeFromDictionaryOrCreateNewOne(bluePrint);
             
             requiredNodes.Add(node);
             
-            node.GetComponent<ResearchNode>().SetRequiredResearch(
-                BuildResearchTree(nodeData.UnlockRequirements.GetObjectBluePrints()));
+            node.SetRequiredResearchNodes(BuildResearchTree(bluePrint.UnlockRequirements.GetObjectBluePrints()));
         }
 
         return requiredNodes;
     }
 
-    private ResearchNode InstantiateResearchNode(ObjectBluePrint nodeData)
+    private ResearchNode InstantiateResearchNode(ObjectBluePrint bluePrint)
     {
         var instance = Instantiate(prefab, transform);
-        instance.name = nodeData.name;
-        instance.SetData(nodeData);
+        instance.name = bluePrint.name;
+        instance.SetData(bluePrint);
         return instance;
     }
 
-    private ResearchNode GetNodeFromDictionaryOrCreateNewOne(ObjectBluePrint nodeData)
+    private ResearchNode GetNodeFromDictionaryOrCreateNewOne(ObjectBluePrint bluePrint)
     {
-        if(_researchNodes.ContainsKey(nodeData.name))
-            return _researchNodes[nodeData.name];
+        if(_researchNodes.ContainsKey(bluePrint.name))
+            return _researchNodes[bluePrint.name];
 
-        var instance = InstantiateResearchNode(nodeData);
-        _researchNodes.Add(nodeData.name, instance);
+        var instance = InstantiateResearchNode(bluePrint);
+        _researchNodes.Add(bluePrint.name, instance);
         
         return instance;
     }
