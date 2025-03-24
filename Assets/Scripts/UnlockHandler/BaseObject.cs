@@ -6,7 +6,6 @@ public abstract class BaseObject : Updatable, IUnlockable, IRequirement
 
     public bool IsUnlocked => _isUnlocked;
     
-    // [SerializeField] protected UnlockRequirements _unlockRequirements;
     [SerializeField] protected ObjectBluePrint _objectBluePrint;
     
     protected bool _isUnlocked;

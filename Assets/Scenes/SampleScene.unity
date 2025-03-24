@@ -392,6 +392,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2047347111190689020, guid: be701ae3531354a4994e4890db7ed2eb, type: 3}
+      propertyPath: DebugObjectType
+      value: 
+      objectReference: {fileID: 11400000, guid: d002fddbd75ba4ee39608137e01e77e3, type: 2}
+    - target: {fileID: 2047347111190689020, guid: be701ae3531354a4994e4890db7ed2eb, type: 3}
+      propertyPath: objects._serializedList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2047347111190689020, guid: be701ae3531354a4994e4890db7ed2eb, type: 3}
+      propertyPath: objects._serializedList.Array.data[0].Key
+      value: 
+      objectReference: {fileID: 11400000, guid: d002fddbd75ba4ee39608137e01e77e3, type: 2}
+    - target: {fileID: 2047347111190689020, guid: be701ae3531354a4994e4890db7ed2eb, type: 3}
+      propertyPath: objects._serializedList.Array.data[1].Key
+      value: 
+      objectReference: {fileID: 11400000, guid: 5460960fe3e3d4552933ddd2c5123685, type: 2}
+    - target: {fileID: 2047347111190689020, guid: be701ae3531354a4994e4890db7ed2eb, type: 3}
+      propertyPath: objects._serializedList.Array.data[0].Value
+      value: 
+      objectReference: {fileID: 738041027374767822, guid: f462d103d8e894254aea3cb0ef12804a, type: 3}
+    - target: {fileID: 2047347111190689020, guid: be701ae3531354a4994e4890db7ed2eb, type: 3}
+      propertyPath: objects._serializedList.Array.data[1].Value
+      value: 
+      objectReference: {fileID: 738041027374767822, guid: 13b3924a0709647ba94fa8905e88df81, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

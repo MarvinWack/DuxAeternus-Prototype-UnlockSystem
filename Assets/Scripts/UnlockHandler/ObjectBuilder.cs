@@ -1,26 +1,32 @@
 using System;
 using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;using UnityEngine;
+using Object = System.Object;
 
 public class ObjectBuilder : MonoBehaviour, IRequirementBuilder, IUnlockableBuilder
 {
+    [InspectorButton("CreateBuildingDebug")]
+    public bool CreateBuildingButton;
+    
+    [Space(20)]
+    
+    [SerializeField] private ObjectBluePrint DebugObjectType;
+    
     public event IRequirementBuilder.RequirementCreated OnRequirementCreated;
     public event IUnlockableBuilder.UnlockableCreated OnUnlockableCreated;
 
-    [SerializeField] private SerializedDictionary<ObjectType, BaseObject> objects = new();
+    [SerializeField] private SerializedDictionary<ObjectBluePrint, BaseObject> objects = new();
     
-    public BaseObject CreateObject(ObjectType objectType) //, (SpecificVariationOfObjectType variationName)
+    public BaseObject CreateObject(ObjectBluePrint objectType)
     {
-        return objectType switch
+        return objectType.ObjectType switch
         {
             ObjectType.Building => CreateBuilding(objectType),
-            //ObjectType.Item => CreateItem(objectType, SpecificVariationOfObjectType variationName)
-            //...
             _ => throw new Exception("Invalid Object Type")
         };
     }
 
-    private Building CreateBuilding(ObjectType objectType) //, (SpecificVariationOfObjectType variationName)
+    private Building CreateBuilding(ObjectBluePrint objectType)
     {
         if (!objects.TryGetValue(objectType, out var objectPrefab))
         {
@@ -37,5 +43,10 @@ public class ObjectBuilder : MonoBehaviour, IRequirementBuilder, IUnlockableBuil
         OnUnlockableCreated?.Invoke(building.GetEventHandler(), building.GetRequirements());
         
         return building;
+    }
+    
+    private void CreateBuildingDebug()
+    {
+        CreateObject(DebugObjectType);
     }
 }

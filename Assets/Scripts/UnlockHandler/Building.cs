@@ -1,5 +1,14 @@
+using UnityEngine;
+
 public class Building : BaseObject
 {
+    [InspectorButton("LevelUpDebug")]
+    public bool LevelUpButton;
+
+    [Space(20)] 
+    
+    [SerializeField] private int numberOfLevels = 1;
+    
     private void LevelUp(int level)
     {   
         RaiseOnRequirementValueUpdatedEvent(level);
@@ -7,6 +16,12 @@ public class Building : BaseObject
 
     protected override void HandleTick()
     {
-        throw new System.NotImplementedException();
+        
     }
+
+    private void LevelUpDebug()
+    {
+        LevelUp(numberOfLevels);
+    }
+    
 }
