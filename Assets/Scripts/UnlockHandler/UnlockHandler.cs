@@ -41,7 +41,7 @@ public class UnlockHandler
         
         foreach (var requirement in unlockRequirements.RequiredLevels)
         {
-           dictionary.Add(requirement.Key, (requirement.Value, false)); 
+           dictionary.Add(requirement.Key.objectType, (requirement.Value, false)); 
         }
         
         return dictionary;

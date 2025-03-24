@@ -1,4 +1,4 @@
-public class BuildingBlueprint : ObjectBlueprint
-{
-    
-}
+// public class BuildingBlueprint : ObjectBlueprint
+// {
+//     
+// }
