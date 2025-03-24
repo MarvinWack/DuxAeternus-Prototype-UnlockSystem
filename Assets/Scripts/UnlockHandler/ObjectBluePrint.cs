@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public enum ObjectType
 {
@@ -10,6 +11,6 @@ public enum ObjectType
 //todo: inherit TechNodeBlueprint and BuildingBlueprint from this class
 public class ObjectBluePrint : ScriptableObject
 {
-    public ObjectType objectType;
-    
+    public ObjectType ObjectType;
+    public UnlockRequirements UnlockRequirements;
 }

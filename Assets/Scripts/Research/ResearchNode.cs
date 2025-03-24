@@ -24,9 +24,9 @@ public class ResearchNode : BaseObject
     private bool _isResearchFinished;
     private ushort _elapsedResearchTime;
     
-    public void SetData(ResearchNodeData nodeData)
+    public void SetData(ObjectBluePrint nodeData)
     {
-        _data = nodeData;
+        _objectBluePrint = nodeData;
     }
     
     public void SetRequiredResearch(List<ResearchNode> requiredResearch)

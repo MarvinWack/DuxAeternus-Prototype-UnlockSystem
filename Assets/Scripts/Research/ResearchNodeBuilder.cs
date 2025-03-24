@@ -1,13 +1,15 @@
-using System;
 using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
 
+/// <summary>
+/// Set up the research tree recursively, starting with the last entreis in the tree.
+/// </summary>
 public class ResearchNodeBuilder : MonoBehaviour
 {
-    [SerializeField] private ResearchNodeData[] lastEntriesInTree;
+    [SerializeField] private ObjectBluePrint[] lastEntriesInTree;
     [SerializeField] private ResearchNode prefab;
-    [SerializeField] private SerializedDictionary<string, ResearchNode> _researchNodes;
+    [SerializeField] private SerializedDictionary<string, ResearchNode> _researchNodes = new();
     
     private ulong _playerID;
 
@@ -17,7 +19,7 @@ public class ResearchNodeBuilder : MonoBehaviour
         BuildResearchTree(lastEntriesInTree);
     }
     
-    private List<ResearchNode> BuildResearchTree(ResearchNodeData[] researchNodeData)
+    private List<ResearchNode> BuildResearchTree(ObjectBluePrint[] researchNodeData)
     {
         var requiredNodes = new List<ResearchNode>();
 
@@ -29,29 +31,23 @@ public class ResearchNodeBuilder : MonoBehaviour
             var node = GetNodeFromDictionaryOrCreateNewOne(nodeData);
             
             requiredNodes.Add(node);
-
-            var requiredNodeDatas = GetRequiredNodes(nodeData);
             
-            node.GetComponent<ResearchNode>().SetRequiredResearch(BuildResearchTree(requiredNodeDatas));
+            node.GetComponent<ResearchNode>().SetRequiredResearch(
+                BuildResearchTree(nodeData.UnlockRequirements.GetObjectBluePrints()));
         }
 
         return requiredNodes;
     }
 
-    private ResearchNodeData[] GetRequiredNodes(ResearchNodeData researchNodeData)
-    {
-        return researchNodeData.RequiredResearch;
-    }
-
-    private ResearchNode InstantiateResearchNode(ResearchNodeData nodeData)
+    private ResearchNode InstantiateResearchNode(ObjectBluePrint nodeData)
     {
         var instance = Instantiate(prefab, transform);
         instance.name = nodeData.name;
-        instance.GetComponent<ResearchNode>().SetData(nodeData);
+        instance.SetData(nodeData);
         return instance;
     }
 
-    private ResearchNode GetNodeFromDictionaryOrCreateNewOne(ResearchNodeData nodeData)
+    private ResearchNode GetNodeFromDictionaryOrCreateNewOne(ObjectBluePrint nodeData)
     {
         if(_researchNodes.ContainsKey(nodeData.name))
             return _researchNodes[nodeData.name];

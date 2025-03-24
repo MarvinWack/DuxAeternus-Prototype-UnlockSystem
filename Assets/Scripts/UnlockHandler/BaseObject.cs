@@ -6,8 +6,8 @@ public abstract class BaseObject : Updatable, IUnlockable, IRequirement
 
     public bool IsUnlocked => _isUnlocked;
     
-    [SerializeField] private UnlockRequirements _unlockRequirements;
-    [SerializeField] private ObjectBluePrint _objectBluePrint;
+    // [SerializeField] protected UnlockRequirements _unlockRequirements;
+    [SerializeField] protected ObjectBluePrint _objectBluePrint;
     
     protected bool _isUnlocked;
 
@@ -18,7 +18,7 @@ public abstract class BaseObject : Updatable, IUnlockable, IRequirement
 
     public UnlockRequirements GetRequirements()
     {
-        return _unlockRequirements;
+        return _objectBluePrint.UnlockRequirements;
     }
 
     protected virtual void HandleRequirementFulfilled()
@@ -28,6 +28,6 @@ public abstract class BaseObject : Updatable, IUnlockable, IRequirement
 
     protected void RaiseOnRequirementValueUpdatedEvent(int value)
     {
-        OnRequirementValueUpdated?.Invoke(_objectBluePrint.objectType, value);
+        OnRequirementValueUpdated?.Invoke(_objectBluePrint.ObjectType, value);
     }
 }
