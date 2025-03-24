@@ -5,6 +5,7 @@ public abstract class BaseObject : Updatable, IUnlockable, IRequirement
     public event IRequirement.RequirementValueUpdated OnRequirementValueUpdated;
 
     public bool IsUnlocked => _isUnlocked;
+    public ObjectBluePrint ObjectBluePrint => _objectBluePrint;
     
     [SerializeField] protected ObjectBluePrint _objectBluePrint;
     

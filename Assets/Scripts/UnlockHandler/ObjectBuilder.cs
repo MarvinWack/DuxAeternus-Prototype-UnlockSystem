@@ -15,38 +15,33 @@ public class ObjectBuilder : MonoBehaviour, IRequirementBuilder, IUnlockableBuil
     public event IRequirementBuilder.RequirementCreated OnRequirementCreated;
     public event IUnlockableBuilder.UnlockableCreated OnUnlockableCreated;
 
-    [SerializeField] private SerializedDictionary<ObjectBluePrint, BaseObject> objects = new();
+    [SerializeField] private SerializedDictionary<ObjectBluePrint, Building> objects = new();
     
-    public BaseObject CreateObject(ObjectBluePrint objectType)
+    public Building CreateObject(BaseObject baseObject)
     {
-        return objectType.ObjectType switch
+        return baseObject.ObjectBluePrint.ObjectType switch
         {
-            ObjectType.Building => CreateBuilding(objectType),
+            ObjectType.Building => CreateBuilding(baseObject),
             _ => throw new Exception("Invalid Object Type")
         };
     }
 
-    private Building CreateBuilding(ObjectBluePrint objectType)
+    private Building CreateBuilding(BaseObject baseObject)
     {
-        if (!objects.TryGetValue(objectType, out var objectPrefab))
+        if (!objects.TryGetValue(baseObject.ObjectBluePrint, out var objectPrefab))
         {
-            throw new KeyNotFoundException($"No prefab found for object type: {objectType}");
+            throw new KeyNotFoundException($"No prefab found for object type: {baseObject}");
         }
 
-        var building = Instantiate(objectPrefab) as Building;
+        var building = Instantiate(objectPrefab);
         if (building == null)
         {
-            throw new InvalidCastException($"Prefab for {objectType} cannot be cast to Building type");
+            throw new InvalidCastException($"Prefab for {baseObject} cannot be cast to Building type");
         }
         
-        OnRequirementCreated?.Invoke(building);
-        OnUnlockableCreated?.Invoke(building.GetEventHandler(), building.GetRequirements());
+        OnRequirementCreated?.Invoke(baseObject);
+        OnUnlockableCreated?.Invoke(baseObject.GetEventHandler(), baseObject.GetRequirements());
         
         return building;
-    }
-    
-    private void CreateBuildingDebug()
-    {
-        CreateObject(DebugObjectType);
     }
 }
