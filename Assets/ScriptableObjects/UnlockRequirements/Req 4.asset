@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RequiredLevels:
     _serializedList:
-    - Key: {fileID: 11400000, guid: 469ed894e953e40ae97a5bd04fe96c19, type: 2}
+    - Key: {fileID: 11400000, guid: 4a06a35d32e944ef7b4eeeca8bc8b871, type: 2}
       Value: 0
-    - Key: {fileID: 11400000, guid: 9575d696fff294ecaad2ddc888dc9c43, type: 2}
+    - Key: {fileID: 11400000, guid: 1082df1853fab42b1951045b3443afc6, type: 2}
       Value: 0
-    - Key: {fileID: 11400000, guid: d002fddbd75ba4ee39608137e01e77e3, type: 2}
+    - Key: {fileID: 11400000, guid: 83ab0bd4f8d1c4b849a830a83576a4ed, type: 2}
       Value: 3
   UnlockTime: 3

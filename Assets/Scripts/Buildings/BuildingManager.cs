@@ -1,26 +1,29 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 
-public abstract class BuildingManager : BaseObject
+public class BuildingManager : BaseObject
 {
     [InspectorButton("CreateBuildingDebug")]
     public bool CreateBuildingButton;
     
+    [FormerlySerializedAs("objectBuilder")]
     [Space(20)]
     
-    [SerializeField] private ObjectBuilder objectBuilder;
+    [SerializeField] private BuildingBuilderIguess buildingBuilderIguess;
     
     [SerializeField] List<Building> Buildings = new();
 
     private void Awake()
     {
-        objectBuilder = FindObjectOfType<ObjectBuilder>();
+        buildingBuilderIguess = FindObjectOfType<BuildingBuilderIguess>();
     }
 
     protected void CreateBuildingDebug()
     {
-        var building = objectBuilder.CreateObject(this);
+        Assert.IsTrue(_isUnlocked);
+        var building = buildingBuilderIguess.CreateObject(_objectBluePrint);
         building.OnLevelUp += HandleLevelUp;
         Buildings.Add(building);
     }

@@ -33,13 +33,11 @@ public class UnlockHandler
     private void HandleRequirementCreated(IRequirement requirement)
     {
         requirement.OnRequirementValueUpdated += HandleRequirementValueUpdated;
-        // Debug.Log("HandleRequirementCreated");
     }
 
     private void HandleUnlockableCreated(IUnlockable.RequirementFulfilledHandler handler, UnlockRequirements unlockRequirements)
     {
         _requirementsFulfilled.Add(Tuple.Create(handler, CreateDictionaryFromUnlockRequirements(unlockRequirements)));
-        // Debug.Log("HandleUnlockableCreated");
     }
 
     private Dictionary<ObjectBluePrint, (int requiredLevel, bool isFulfilled)> CreateDictionaryFromUnlockRequirements(UnlockRequirements unlockRequirements)
@@ -56,14 +54,7 @@ public class UnlockHandler
 
     private void HandleRequirementValueUpdated(ObjectBluePrint objectBluePrint, int value)
     {
-        Debug.Log("HandleRequirementValueUpdated");
-        
-        // switch (objectBluePrint)
-        // {
-        //     case ObjectType:
-                SetRequirementToTrueIfFulfilled(objectBluePrint, value);
-        //         break;
-        // }
+        SetRequirementToTrueIfFulfilled(objectBluePrint, value);
     }
 
     private void SetRequirementToTrueIfFulfilled(ObjectBluePrint objectBluePrint, int value)
