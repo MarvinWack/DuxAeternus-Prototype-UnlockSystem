@@ -172,7 +172,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7933158910788409717, guid: c1a53cb0a3e31419db6a6d6bcd98b66b, type: 3}
       propertyPath: m_Name
-      value: NodeBuilder
+      value: ResearchTree
       objectReference: {fileID: 0}
     - target: {fileID: 8517430659507052172, guid: c1a53cb0a3e31419db6a6d6bcd98b66b, type: 3}
       propertyPath: prefab

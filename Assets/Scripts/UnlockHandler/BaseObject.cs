@@ -4,10 +4,8 @@ using UnityEngine;
 public abstract class BaseObject : Updatable, IUnlockable, IRequirement
 {
     public event IRequirement.RequirementValueUpdated OnRequirementValueUpdated;
-
+    
     [SerializeField] protected ObjectBluePrint _objectBluePrint;
-
-    // private BaseObject[] _unlockRequirementInstances;
     public bool IsUnlocked => _isUnlocked;
     
     public bool _isUnlocked; //todo: make private
@@ -17,27 +15,22 @@ public abstract class BaseObject : Updatable, IUnlockable, IRequirement
         return HandleRequirementFulfilled;
     }
 
-    public UnlockRequirements GetRequirements()
+    public abstract UnlockRequirements GetRequirements();
+
+    public void SetData(ObjectBluePrint blueprint)
     {
-        return _objectBluePrint.UnlockRequirements;
-    }
-    
-    public void SetData(ObjectBluePrint nodeData)
-    {
-        _objectBluePrint = nodeData;
+        _objectBluePrint = blueprint;
     }
     
     public void SetUnlockRequirementInstances(List<BaseObject> requirements)
     {
-        // _unlockRequirementInstances = requirements.ToArray();
-        
         if(requirements.Count == 0)
         {
             _isUnlocked = true;
         }
     }
 
-    protected void HandleRequirementFulfilled()
+    private void HandleRequirementFulfilled()
     {
         _isUnlocked = true;
     }

@@ -14,6 +14,8 @@ public class BuildingManager : BaseObject
     [SerializeField] private BuildingBuilderIguess buildingBuilderIguess;
     
     [SerializeField] List<Building> Buildings = new();
+    
+    private BuildingBlueprint BuildingBlueprint => _objectBluePrint as BuildingBlueprint;
 
     private void Awake()
     {
@@ -23,19 +25,23 @@ public class BuildingManager : BaseObject
     protected void CreateBuildingDebug()
     {
         Assert.IsTrue(_isUnlocked);
-        var building = buildingBuilderIguess.CreateObject(_objectBluePrint);
+        var building = buildingBuilderIguess.CreateObject(BuildingBlueprint);
         building.OnLevelUp += HandleLevelUp;
         Buildings.Add(building);
     }
 
     private void HandleLevelUp(int level)
     { 
-        Debug.Log($"Building is now level {level}");
         RaiseOnRequirementValueUpdatedEvent(level);
     }
 
     protected override void HandleTick()
     {
         
+    }
+
+    public override UnlockRequirements GetRequirements()
+    {
+        return BuildingBlueprint.UnlockRequirements;
     }
 }

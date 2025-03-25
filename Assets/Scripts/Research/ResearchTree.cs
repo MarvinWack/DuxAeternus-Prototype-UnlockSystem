@@ -61,16 +61,15 @@ public class ResearchTree : MonoBehaviour, IRequirementBuilder, IUnlockableBuild
             case ObjectType.Building:
                 instance = Instantiate(managerPrefab, transform);
                 instance.name = bluePrint.name + "Manager";
+                instance.SetData(bluePrint as BuildingBlueprint);
                 break;
             case ObjectType.Research:
                 instance = Instantiate(researchPrefab, transform);
                 instance.name = bluePrint.name;
+                instance.SetData(bluePrint as TechBlueprint);
                 break;
             default: throw new Exception("Invalid Object Type");
         }
-        
-       
-        instance.SetData(bluePrint);
         
         OnRequirementCreated?.Invoke(instance);
         OnUnlockableCreated?.Invoke(instance.GetEventHandler(), instance.GetRequirements());
