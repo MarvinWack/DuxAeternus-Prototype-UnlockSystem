@@ -10,12 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6fb6c7eeddb0a4e24940ab13ea0cf50b, type: 3}
-  m_Name: Req 2
+  m_Name: Large Building Req
   m_EditorClassIdentifier: 
   RequiredLevels:
     _serializedList:
-    - Key: {fileID: 11400000, guid: 16e3b19432eb94d0094092a7204be17f, type: 2}
-      Value: 0
-    - Key: {fileID: 11400000, guid: 55a9baa7ca0d347daa5dec644002295d, type: 2}
-      Value: 1
-  UnlockTime: 3
+    - Key: {fileID: 11400000, guid: adc3b4dfbc7294bae9ef18782e76d26c, type: 2}
+      Value: 2
+  UnlockTime: 0

@@ -6,7 +6,7 @@ public abstract class BaseObject : Updatable, IUnlockable, IRequirement
     public event IRequirement.RequirementValueUpdated OnRequirementValueUpdated;
     
     [SerializeField] protected ObjectBluePrint _objectBluePrint;
-    public bool IsUnlocked => _isUnlocked;
+    protected bool IsUnlocked => _isUnlocked;
     
     public bool _isUnlocked; //todo: make private
 
@@ -17,7 +17,7 @@ public abstract class BaseObject : Updatable, IUnlockable, IRequirement
 
     public abstract UnlockRequirements GetRequirements();
 
-    public void SetData(ObjectBluePrint blueprint)
+    public virtual void SetData(ObjectBluePrint blueprint)
     {
         _objectBluePrint = blueprint;
     }
@@ -37,6 +37,7 @@ public abstract class BaseObject : Updatable, IUnlockable, IRequirement
 
     protected void RaiseOnRequirementValueUpdatedEvent(int value)
     {
+        Debug.Log("RaiseOnRequirementValueUpdatedEvent" + value);
         OnRequirementValueUpdated?.Invoke(_objectBluePrint, value);
     }
 }

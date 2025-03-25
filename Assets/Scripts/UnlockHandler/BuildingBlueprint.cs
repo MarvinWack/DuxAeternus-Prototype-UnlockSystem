@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public enum BuildingType
 {
@@ -11,6 +12,7 @@ public enum BuildingType
 public class BuildingBlueprint : ObjectBluePrint
 {
     public override ObjectType ObjectType => ObjectType.Building;
-    public BuildingType BuildingType;
+    public BuildingType Type;
     public ushort MaxLevel;
+    public ushort UpgradeTime = 3;
 }

@@ -46,4 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelUpButton: 0
   numberOfLevelsToAdd: 1
-  _level: 1
+  _level: 0

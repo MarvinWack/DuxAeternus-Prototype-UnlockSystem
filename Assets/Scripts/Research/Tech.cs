@@ -30,14 +30,11 @@ public class Tech : BaseObject
 
     private void CompleteResearch()
     {
-        _isResearching = false;
-        // _isResearchFinished = true;
-
         Level++;
+        _isResearching = false;
+        _elapsedResearchTime = 0;
         
         RaiseOnRequirementValueUpdatedEvent(Level);
-
-        Debug.Log("Research " + gameObject.name + " is now level " + Level);
     }
 
     protected override void HandleTick()

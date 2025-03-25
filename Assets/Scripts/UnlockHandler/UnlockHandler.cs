@@ -1,23 +1,13 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using AreRequirementsFulfilled = System.Collections.Generic.List<System.Tuple<
     IUnlockable.RequirementFulfilledHandler, 
     System.Collections.Generic.Dictionary<ObjectBluePrint, (int requiredLevel, bool isFulfilled)>>>;
 
 public class UnlockHandler
 {
-    private AreRequirementsFulfilled _requirementsFulfilled;
-    
-    // public UnlockHandler(ObjectBuilder objectBuilder)
-    // {
-    //     objectBuilder.OnRequirementCreated += HandleRequirementCreated;
-    //     objectBuilder.OnUnlockableCreated += HandleUnlockableCreated;
-    // }
-    
-    public UnlockHandler()
-    {
-        _requirementsFulfilled = new AreRequirementsFulfilled();
-    }
+    private AreRequirementsFulfilled _requirementsFulfilled = new();
 
     public void RegisterUnlockableBuilder(IUnlockableBuilder builder)
     {
