@@ -1,5 +1,5 @@
 public interface IRequirement
 {
-    delegate void RequirementValueUpdated(ObjectType objectType, int value);
+    delegate void RequirementValueUpdated(ObjectBluePrint objectType, int value);
     event RequirementValueUpdated OnRequirementValueUpdated;
 }

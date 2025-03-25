@@ -1,27 +1,41 @@
+using System;
 using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
 
 /// <summary>
-/// Set up the research tree recursively, starting with the last entreis in the tree.
+/// Set up the research tree recursively, starting with the last entries in the tree.
 /// </summary>
-public class ResearchNodeBuilder : MonoBehaviour
+public class ResearchNodeBuilder : MonoBehaviour, IRequirementBuilder, IUnlockableBuilder
 {
     [SerializeField] private ObjectBluePrint[] lastEntriesInTree;
-    [SerializeField] private ResearchNode prefab;
-    [SerializeField] private SerializedDictionary<string, ResearchNode> _researchNodes = new();
+    [SerializeField] private BaseObject researchPrefab;
+    [SerializeField] private BaseObject managerPrefab;
+    
+    [SerializeField] private SerializedDictionary<string, BaseObject> _baseObjects = new();
+    
+    public event IRequirementBuilder.RequirementCreated OnRequirementCreated;
+    public event IUnlockableBuilder.UnlockableCreated OnUnlockableCreated;
     
     private ulong _playerID;
+    
+    private UnlockHandler _unlockHandler;
+    
+    private void Awake()
+    {
+        _unlockHandler = new UnlockHandler();
+        _unlockHandler.RegisterUnlockableBuilder(this);
+        _unlockHandler.RegisterRequirementBuilder(this);
+    }
 
     private void OnEnable()
     {
-        _researchNodes = new SerializedDictionary<string, ResearchNode>();
         BuildResearchTree(lastEntriesInTree);
     }
     
-    private List<ResearchNode> BuildResearchTree(ObjectBluePrint[] bluePrints)
+    private List<BaseObject> BuildResearchTree(ObjectBluePrint[] bluePrints)
     {
-        var requiredNodes = new List<ResearchNode>();
+        var requiredNodes = new List<BaseObject>();
 
         if (bluePrints.Length == 0)
             return requiredNodes;
@@ -32,27 +46,43 @@ public class ResearchNodeBuilder : MonoBehaviour
             
             requiredNodes.Add(node);
             
-            node.SetRequiredResearchNodes(BuildResearchTree(bluePrint.UnlockRequirements.GetObjectBluePrints()));
+            node.SetUnlockRequirementInstances(BuildResearchTree(bluePrint.UnlockRequirements.GetObjectBluePrints()));
         }
 
         return requiredNodes;
     }
 
-    private ResearchNode InstantiateResearchNode(ObjectBluePrint bluePrint)
+    private BaseObject Instantiate(ObjectBluePrint bluePrint)
     {
-        var instance = Instantiate(prefab, transform);
+        BaseObject instance;
+        
+        switch (bluePrint.ObjectType)
+        {
+            case ObjectType.Building:
+                instance = Instantiate(managerPrefab, transform);
+                break;
+            case ObjectType.Research:
+                instance = Instantiate(researchPrefab, transform);
+                break;
+            default: throw new Exception("Invalid Object Type");
+        }
+        
         instance.name = bluePrint.name;
         instance.SetData(bluePrint);
+        
+        OnRequirementCreated?.Invoke(instance);
+        OnUnlockableCreated?.Invoke(instance.GetEventHandler(), instance.GetRequirements());
+        
         return instance;
     }
 
-    private ResearchNode GetNodeFromDictionaryOrCreateNewOne(ObjectBluePrint bluePrint)
+    private BaseObject GetNodeFromDictionaryOrCreateNewOne(ObjectBluePrint bluePrint)
     {
-        if(_researchNodes.ContainsKey(bluePrint.name))
-            return _researchNodes[bluePrint.name];
+        if(_baseObjects.ContainsKey(bluePrint.name))
+            return _baseObjects[bluePrint.name];
 
-        var instance = InstantiateResearchNode(bluePrint);
-        _researchNodes.Add(bluePrint.name, instance);
+        var instance = Instantiate(bluePrint);
+        _baseObjects.Add(bluePrint.name, instance);
         
         return instance;
     }

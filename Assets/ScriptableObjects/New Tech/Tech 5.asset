@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fb6c7eeddb0a4e24940ab13ea0cf50b, type: 3}
-  m_Name: BuildingReq 1
+  m_Script: {fileID: 11500000, guid: 3c2a627f02ce54abaa6e0ee7e7737d0f, type: 3}
+  m_Name: Tech 5
   m_EditorClassIdentifier: 
-  RequiredLevels:
-    _serializedList: []
-  UnlockTime: 0
+  ObjectType: 1
+  BuildingType: 0
+  UnlockRequirements: {fileID: 11400000, guid: a5e7880f390df4483836dc2234c60149, type: 2}

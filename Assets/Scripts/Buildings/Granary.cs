@@ -1,4 +1,4 @@
-public class Granary : Building
-{
-
-}
+// public class Granary : Building
+// {
+//
+// }

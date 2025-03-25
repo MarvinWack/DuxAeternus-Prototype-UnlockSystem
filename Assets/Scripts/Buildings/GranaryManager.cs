@@ -1,4 +1,2 @@
-public class GranaryManager : BuildingManager
-{
-}
+public class GranaryManager : BuildingManager { }
 

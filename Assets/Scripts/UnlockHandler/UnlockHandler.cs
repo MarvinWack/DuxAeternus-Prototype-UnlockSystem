@@ -1,18 +1,23 @@
 using System;
 using System.Collections.Generic;
-
+using UnityEngine;
 using AreRequirementsFulfilled = System.Collections.Generic.List<System.Tuple<
     IUnlockable.RequirementFulfilledHandler, 
-    System.Collections.Generic.Dictionary<ObjectType, (int requiredLevel, bool isFulfilled)>>>;
+    System.Collections.Generic.Dictionary<ObjectBluePrint, (int requiredLevel, bool isFulfilled)>>>;
 
 public class UnlockHandler
 {
     private AreRequirementsFulfilled _requirementsFulfilled;
     
-    public UnlockHandler(ObjectBuilder objectBuilder)
+    // public UnlockHandler(ObjectBuilder objectBuilder)
+    // {
+    //     objectBuilder.OnRequirementCreated += HandleRequirementCreated;
+    //     objectBuilder.OnUnlockableCreated += HandleUnlockableCreated;
+    // }
+    
+    public UnlockHandler()
     {
-        objectBuilder.OnRequirementCreated += HandleRequirementCreated;
-        objectBuilder.OnUnlockableCreated += HandleUnlockableCreated;
+        _requirementsFulfilled = new AreRequirementsFulfilled();
     }
 
     public void RegisterUnlockableBuilder(IUnlockableBuilder builder)
@@ -28,44 +33,48 @@ public class UnlockHandler
     private void HandleRequirementCreated(IRequirement requirement)
     {
         requirement.OnRequirementValueUpdated += HandleRequirementValueUpdated;
+        // Debug.Log("HandleRequirementCreated");
     }
 
     private void HandleUnlockableCreated(IUnlockable.RequirementFulfilledHandler handler, UnlockRequirements unlockRequirements)
     {
         _requirementsFulfilled.Add(Tuple.Create(handler, CreateDictionaryFromUnlockRequirements(unlockRequirements)));
+        // Debug.Log("HandleUnlockableCreated");
     }
 
-    private Dictionary<ObjectType, (int requiredLevel, bool isFulfilled)> CreateDictionaryFromUnlockRequirements(UnlockRequirements unlockRequirements)
+    private Dictionary<ObjectBluePrint, (int requiredLevel, bool isFulfilled)> CreateDictionaryFromUnlockRequirements(UnlockRequirements unlockRequirements)
     {
-        var dictionary = new Dictionary<ObjectType, (int requiredLevel, bool isFulfilled)>();
+        var dictionary = new Dictionary<ObjectBluePrint, (int requiredLevel, bool isFulfilled)>();
         
         foreach (var requirement in unlockRequirements.RequiredLevels)
         {
-           dictionary.Add(requirement.Key.ObjectType, (requirement.Value, false)); 
+           dictionary.Add(requirement.Key, (requirement.Value, false)); 
         }
         
         return dictionary;
     }
 
-    private void HandleRequirementValueUpdated(ObjectType objectType, int value)
+    private void HandleRequirementValueUpdated(ObjectBluePrint objectBluePrint, int value)
     {
-        switch (objectType)
-        {
-            case ObjectType.Building:
-                CheckRequiredLevelsForUnlock(objectType, value);
-                break;
-        }
+        Debug.Log("HandleRequirementValueUpdated");
+        
+        // switch (objectBluePrint)
+        // {
+        //     case ObjectType:
+                SetRequirementToTrueIfFulfilled(objectBluePrint, value);
+        //         break;
+        // }
     }
 
-    private void CheckRequiredLevelsForUnlock(ObjectType objectType, int value)
+    private void SetRequirementToTrueIfFulfilled(ObjectBluePrint objectBluePrint, int value)
     {
-        if (!GetUnlockRequirementsByType(objectType, out AreRequirementsFulfilled results)) return;
+        if (!GetUnlockRequirementsByType(objectBluePrint, out AreRequirementsFulfilled results)) return;
         
         foreach (var tuple in results)
         {
-            if(value >= tuple.Item2[objectType].Item1)
+            if(value >= tuple.Item2[objectBluePrint].Item1)
             {
-                tuple.Item2[objectType] = (value, true);
+                tuple.Item2[objectBluePrint] = (value, true);
                 
                 if (CheckIfAllRequirementsAreFulfilled(tuple.Item2))
                     tuple.Item1?.Invoke();
@@ -73,7 +82,7 @@ public class UnlockHandler
         }
     }
 
-    private bool CheckIfAllRequirementsAreFulfilled(Dictionary<ObjectType, (int requiredLevel, bool isFulfilled)> requirements)
+    private bool CheckIfAllRequirementsAreFulfilled(Dictionary<ObjectBluePrint, (int requiredLevel, bool isFulfilled)> requirements)
     {
         foreach (var requirement in requirements)
         {
@@ -83,9 +92,9 @@ public class UnlockHandler
         return true;
     }
 
-    private bool GetUnlockRequirementsByType(ObjectType objectType, out AreRequirementsFulfilled result)
+    private bool GetUnlockRequirementsByType(ObjectBluePrint objectBluePrint, out AreRequirementsFulfilled result)
     {
-        result = _requirementsFulfilled.FindAll(x => x.Item2.ContainsKey(objectType));
+        result = _requirementsFulfilled.FindAll(x => x.Item2.ContainsKey(objectBluePrint));
         
         return result.Count != 0;
     }

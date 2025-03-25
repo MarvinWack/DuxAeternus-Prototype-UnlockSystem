@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &9193892075496450118
+--- !u!1 &1318646086009747541
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1570556514240702823}
-  - component: {fileID: 6849359672682168170}
+  - component: {fileID: 3673630023145652374}
+  - component: {fileID: 2403583315223427428}
   m_Layer: 0
-  m_Name: Granary
+  m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1570556514240702823
+--- !u!4 &3673630023145652374
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9193892075496450118}
+  m_GameObject: {fileID: 1318646086009747541}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -32,17 +32,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6849359672682168170
+--- !u!114 &2403583315223427428
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9193892075496450118}
+  m_GameObject: {fileID: 1318646086009747541}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cddfb059000e8445ea7b46aac45c2220, type: 3}
+  m_Script: {fileID: 11500000, guid: 194fc787058224522988112fbd69fc15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   LevelUpButton: 0
-  numberOfLevels: 1
+  numberOfLevelsToAdd: 1
+  _level: 1

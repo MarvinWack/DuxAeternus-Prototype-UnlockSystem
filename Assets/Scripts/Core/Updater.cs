@@ -5,7 +5,7 @@ public class Updater : MonoBehaviour
 {
     public event Action Tick;
     [SerializeField] private float ticksPerSecond = 1;
-    public int CurrentTick;
+    [SerializeField] private int CurrentTick;
 
     private static Updater _instance;
     public static Updater Instance
@@ -26,7 +26,7 @@ public class Updater : MonoBehaviour
         }
     }
 
-    private float _timer = 0;
+    private float _timer;
 
     private void Update()
     {

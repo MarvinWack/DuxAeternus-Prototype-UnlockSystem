@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6fb6c7eeddb0a4e24940ab13ea0cf50b, type: 3}
-  m_Name: Req 4
+  m_Name: Req 5
   m_EditorClassIdentifier: 
   RequiredLevels:
     _serializedList:
-    - Key: {fileID: 11400000, guid: 469ed894e953e40ae97a5bd04fe96c19, type: 2}
-      Value: 0
-    - Key: {fileID: 11400000, guid: 9575d696fff294ecaad2ddc888dc9c43, type: 2}
-      Value: 0
     - Key: {fileID: 11400000, guid: d002fddbd75ba4ee39608137e01e77e3, type: 2}
-      Value: 3
+      Value: 5
+    - Key: {fileID: 11400000, guid: 4ef9760804359424d9767f132fd1c4fc, type: 2}
+      Value: 0
+    - Key: {fileID: 11400000, guid: 1c55bebb2c62a45e0b66ec0a8ee5f10b, type: 2}
+      Value: 0
   UnlockTime: 3
