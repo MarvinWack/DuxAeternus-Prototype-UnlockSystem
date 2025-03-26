@@ -18,6 +18,4 @@ MonoBehaviour:
       Value: 1
     - Key: {fileID: 11400000, guid: 1082df1853fab42b1951045b3443afc6, type: 2}
       Value: 1
-    - Key: {fileID: 11400000, guid: 83ab0bd4f8d1c4b849a830a83576a4ed, type: 2}
-      Value: 3
   UnlockTime: 3

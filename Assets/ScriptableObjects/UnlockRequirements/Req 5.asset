@@ -13,7 +13,5 @@ MonoBehaviour:
   m_Name: Req 5
   m_EditorClassIdentifier: 
   RequiredLevels:
-    _serializedList:
-    - Key: {fileID: 11400000, guid: 83ab0bd4f8d1c4b849a830a83576a4ed, type: 2}
-      Value: 2
+    _serializedList: []
   UnlockTime: 3

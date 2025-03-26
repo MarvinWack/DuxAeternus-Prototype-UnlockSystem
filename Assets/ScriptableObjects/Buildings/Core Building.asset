@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03b8aeee1d0634b4493980c93785768e, type: 3}
+  m_Script: {fileID: 11500000, guid: a089432715a22422a80bc6dfc9eddf66, type: 3}
   m_Name: Core Building
   m_EditorClassIdentifier: 
   UnlockRequirements: {fileID: 11400000, guid: a49e8a8f2f71747db99c4986a4dc2490, type: 2}
-  Type: 0
-  MaxLevel: 5
-  BuildTime: 3
+  MaxLevel: 3
+  UpgradeTime: 3

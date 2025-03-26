@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RequiredLevels:
     _serializedList:
-    - Key: {fileID: 0}
-      Value: 0
+    - Key: {fileID: 11400000, guid: a2754fb0697744d3180a9e09f54ff97f, type: 2}
+      Value: 2
   UnlockTime: 3

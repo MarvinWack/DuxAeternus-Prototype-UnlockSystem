@@ -1,55 +1,39 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Serialization;
 
-public class BuildingManager : BaseObject
+public abstract class BuildingManager : BaseObject
 {
-    [InspectorButton("CreateBuilding")]
-    public bool CreateBuildingButton;
-    
-    [FormerlySerializedAs("objectBuilder")]
-    [Space(20)]
-    
-    [SerializeField] private BuildingBuilderIguess buildingBuilderIguess;
-    
-    [SerializeField] private List<Building> buildings = new();
-    
-    private BuildingBlueprint Blueprint => _objectBluePrint as BuildingBlueprint;
+    [SerializeField] protected List<Building> buildings = new();
 
-    public override void SetData(ObjectBluePrint blueprint)
-    {
-        base.SetData(blueprint);
-    }
+    protected BuildingBlueprint BuildingBlueprint => _objectBluePrint as BuildingBlueprint;
+    private BuildingBuilderIguess buildingBuilderIguess;
 
     private void Start()
     {
         Setup();
     }
 
-    private void Setup()
+    protected virtual void Setup()
     {
         buildingBuilderIguess = FindObjectOfType<BuildingBuilderIguess>();
-        
-        if(Blueprint.Type == BuildingType.Core)
-            CreateBuilding();
     }
 
-    private void CreateBuilding()
+    protected Building CreateBuilding()
     {
-        if(!CheckIfBuildingIsBuildable())
-            return;
+        // if(!CheckIfBuildingIsBuildable())
+        //     return;
         
-        Assert.IsTrue(_isUnlocked);
-        var building = buildingBuilderIguess.CreateObject(Blueprint);
-        building.transform.SetParent(transform);
-        building.SetBlueprint(Blueprint);
+        // Assert.IsTrue(_isUnlocked);
+        var building = buildingBuilderIguess.CreateObject(BuildingBlueprint);
         building.OnUpgrade += HandleUpgrade;
         buildings.Add(building);
+        building.transform.SetParent(transform);
+        return building;
     }
 
-    private bool CheckIfBuildingIsBuildable()
+    protected virtual bool CheckIfBuildingIsBuildable()
     {
         if (!_isUnlocked)
         {
@@ -57,17 +41,11 @@ public class BuildingManager : BaseObject
             return false;
         }
         
-        if(Blueprint.Type == BuildingType.Core && buildings.Count != 0)
-        {
-            Debug.Log("Can't build more than one core building ");
-            return false;
-        }
-        
-        if(Blueprint.Type == BuildingType.Large && buildings.Count != 0)
-        {
-            Debug.Log("Can't build more than one large building");
-            return false;
-        }
+        // if(BuildingBlueprint.Type == BuildingType.Large && buildings.Count != 0)
+        // {
+        //     Debug.Log("Can't build more than one large building");
+        //     return false;
+        // }
 
         return true;
     }
@@ -87,6 +65,6 @@ public class BuildingManager : BaseObject
 
     public override UnlockRequirements GetRequirements()
     {
-        return Blueprint.UnlockRequirements;
+        return BuildingBlueprint.UnlockRequirements;
     }
 }
