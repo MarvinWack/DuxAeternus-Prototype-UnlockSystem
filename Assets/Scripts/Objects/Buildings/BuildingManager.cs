@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -20,12 +21,19 @@ public class BuildingManager : BaseObject
     public override void SetData(ObjectBluePrint blueprint)
     {
         base.SetData(blueprint);
+    }
+
+    private void Start()
+    {
         Setup();
     }
-    
+
     private void Setup()
     {
         buildingBuilderIguess = FindObjectOfType<BuildingBuilderIguess>();
+        
+        if(Blueprint.Type == BuildingType.Core)
+            CreateBuilding();
     }
 
     private void CreateBuilding()

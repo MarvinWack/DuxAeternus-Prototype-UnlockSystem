@@ -1,3 +1,4 @@
+using System;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
 
@@ -11,10 +12,10 @@ public class UnlockRequirements : ScriptableObject
     {
         if (RequiredLevels == null || RequiredLevels.Count == 0)
         {
-            return new ObjectBluePrint[0];
+            return Array.Empty<ObjectBluePrint>();
         }
 
-        ObjectBluePrint[] blueprints = new ObjectBluePrint[RequiredLevels.Count];
+        var blueprints = new ObjectBluePrint[RequiredLevels.Count];
         RequiredLevels.Keys.CopyTo(blueprints, 0);
         return blueprints;
     }

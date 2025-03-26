@@ -37,7 +37,6 @@ public abstract class BaseObject : Updatable, IUnlockable, IRequirement
 
     protected void RaiseOnRequirementValueUpdatedEvent(int value)
     {
-        Debug.Log("RaiseOnRequirementValueUpdatedEvent" + value);
         OnRequirementValueUpdated?.Invoke(_objectBluePrint, value);
     }
 }

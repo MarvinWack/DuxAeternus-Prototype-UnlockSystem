@@ -16,8 +16,4 @@ MonoBehaviour:
     _serializedList:
     - Key: {fileID: 11400000, guid: 83ab0bd4f8d1c4b849a830a83576a4ed, type: 2}
       Value: 2
-    - Key: {fileID: 0}
-      Value: 0
-    - Key: {fileID: 0}
-      Value: 0
   UnlockTime: 3

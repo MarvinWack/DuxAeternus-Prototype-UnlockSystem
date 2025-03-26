@@ -1,10 +1,14 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using AreRequirementsFulfilled = System.Collections.Generic.List<System.Tuple<
     IUnlockable.RequirementFulfilledHandler, 
     System.Collections.Generic.Dictionary<ObjectBluePrint, (int requiredLevel, bool isFulfilled)>>>;
 
+/// <summary>
+/// Stores the requirements of IRequirements created by ResearchTree. Checks if all
+/// requirements are met when a value is updated.
+/// Invokes RequirementFulfilledHandler on IUnlockables if all requirements are met.
+/// </summary>
 public class UnlockHandler
 {
     private AreRequirementsFulfilled _requirementsFulfilled = new();

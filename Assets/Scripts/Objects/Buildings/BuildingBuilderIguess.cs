@@ -1,6 +1,9 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+/// Remove?
+/// </summary>
 public class BuildingBuilderIguess : MonoBehaviour
 {
     [SerializeField] private Building buildingPrefab;

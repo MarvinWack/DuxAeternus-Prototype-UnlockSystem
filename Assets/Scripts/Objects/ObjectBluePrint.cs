@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public enum ObjectType
@@ -9,7 +8,6 @@ public enum ObjectType
 }
 
 [CreateAssetMenu]
-[Serializable]
 //todo: inherit TechNodeBlueprint and BuildingBlueprint from this class
 public abstract class ObjectBluePrint : ScriptableObject
 {
