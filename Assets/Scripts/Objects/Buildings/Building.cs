@@ -64,6 +64,8 @@ public class Building : MonoBehaviour
 
     public void HandleProductionTick()
     {
+        if(!_isProducing) return;
+        
         OnProduction?.Invoke(resourceType, _level);
     }
 }

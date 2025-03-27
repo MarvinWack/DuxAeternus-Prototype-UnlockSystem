@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Objects.Research
 {
-    public class BaseObjectFactory : MonoBehaviour, ITickReceiverBuilder
+    public class BaseObjectFactory : MonoBehaviour, ITickReceiverBuilder, IRequirementBuilder, IUnlockableBuilder
     {
         [Header("Prefabs")]
         [SerializeField] private Tech techPrefab;
@@ -13,10 +13,17 @@ namespace Objects.Research
         [SerializeField] private LargeBuildingManager largeBuildingManagerPrefab;
         
         public event Action<ITickReceiver> OnUpdatableCreated;
+        public event IRequirementBuilder.RequirementCreated OnRequirementCreated;
+        public event IUnlockableBuilder.UnlockableCreated OnUnlockableCreated;
+
+        private UnlockHandler _unlockHandler = new();
+
 
         private void Awake()
         {
             UpdateSubscriber.RegisterUpdatableBuilder(this);
+            _unlockHandler.RegisterUnlockableBuilder(this);
+            _unlockHandler.RegisterRequirementBuilder(this);
         }
 
         public BaseObject CreateObject(ObjectBluePrint bluePrint, Transform parent)
@@ -24,7 +31,7 @@ namespace Objects.Research
             return bluePrint.ObjectType switch
             {
                 ObjectType.Building => CreateBuildingManager(bluePrint as BuildingBlueprint, parent),
-                ObjectType.Research => CreateTech(bluePrint, parent),
+                ObjectType.Research => CreateTech(bluePrint as TechBlueprint, parent),
                 _ => throw new Exception("Invalid Object Type")
             };
         }
@@ -40,20 +47,26 @@ namespace Objects.Research
             };
             
             instance.name = bluePrint.name + "Manager";
+
+            return Setup(instance, bluePrint);
+        }
+
+        private BaseObject CreateTech(TechBlueprint bluePrint, Transform parent)
+        {
+            Tech instance = Instantiate(techPrefab, parent);
+            
+            instance.name = bluePrint.name;
+            
+            return Setup(instance, bluePrint);
+        }
+
+        private BaseObject Setup(BaseObject instance, ObjectBluePrint bluePrint)
+        {
             instance.SetData(bluePrint);
             
             OnUpdatableCreated?.Invoke(instance);
-            
-            return instance;
-        }
-
-        private BaseObject CreateTech(ObjectBluePrint bluePrint, Transform parent)
-        {
-            var instance = Instantiate(techPrefab, parent);
-            instance.name = bluePrint.name;
-            instance.SetData(bluePrint as TechBlueprint);
-            
-            OnUpdatableCreated?.Invoke(instance);
+            OnRequirementCreated?.Invoke(instance);
+            OnUnlockableCreated?.Invoke(instance.GetEventHandler(), instance.GetRequirements());
             
             return instance;
         }
