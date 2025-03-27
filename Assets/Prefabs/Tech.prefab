@@ -44,4 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2b003c45e1804e0fa3f80668ee99f6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _data: {fileID: 11400000, guid: 5cbbbfb04394e436a834f127235ebde9, type: 2}
+  firstUpdateType: 1
+  secondUpdateType: 0
+  _objectBluePrint: {fileID: 0}
+  _isUnlocked: 0
+  StartResearchButton: 0
+  CompleteResearchButton: 0
+  Level: 0

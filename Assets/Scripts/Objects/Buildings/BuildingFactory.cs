@@ -1,12 +1,11 @@
 using System;
+using Production.Storage;
 using UnityEngine;
 
-/// <summary>
-/// Remove?
-/// </summary>
-public class BuildingBuilderIguess : MonoBehaviour
+public class BuildingFactory : MonoBehaviour
 {
     [SerializeField] private Building buildingPrefab;
+    [SerializeField] private Storage storage;
     
     public Building CreateObject(ObjectBluePrint bluePrint)
     {
@@ -21,6 +20,8 @@ public class BuildingBuilderIguess : MonoBehaviour
     {
         var building = Instantiate(buildingPrefab);
         building.name = bluePrint.name;
+        
+        building.OnProduction += storage.HandleProductionTick;
         
         return building;
     }

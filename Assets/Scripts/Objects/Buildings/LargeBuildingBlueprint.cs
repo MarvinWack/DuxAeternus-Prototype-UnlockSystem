@@ -4,4 +4,5 @@ using UnityEngine;
 public class LargeBuildingBlueprint : BuildingBlueprint
 {
     public override BuildingType Type => BuildingType.Large;
+    public override ProductionType ProductionType => ProductionType.OnDemand;
 }

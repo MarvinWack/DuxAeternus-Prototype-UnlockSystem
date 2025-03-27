@@ -1,14 +1,13 @@
 using System.Collections.Generic;
+using Core;
 using UnityEngine;
-using UnityEngine.Assertions;
-using UnityEngine.Serialization;
 
-public abstract class BuildingManager : BaseObject
+public abstract class BuildingManager : BaseObject, IUpgradeTickReceiver, IProductionTickReceiver
 {
     [SerializeField] protected List<Building> buildings = new();
 
     protected BuildingBlueprint BuildingBlueprint => _objectBluePrint as BuildingBlueprint;
-    private BuildingBuilderIguess buildingBuilderIguess;
+    private BuildingFactory _buildingFactory;
 
     private void Start()
     {
@@ -17,16 +16,12 @@ public abstract class BuildingManager : BaseObject
 
     protected virtual void Setup()
     {
-        buildingBuilderIguess = FindObjectOfType<BuildingBuilderIguess>();
+        _buildingFactory = FindObjectOfType<BuildingFactory>();
     }
 
     protected Building CreateBuilding()
     {
-        // if(!CheckIfBuildingIsBuildable())
-        //     return;
-        
-        // Assert.IsTrue(_isUnlocked);
-        var building = buildingBuilderIguess.CreateObject(BuildingBlueprint);
+        var building = _buildingFactory.CreateObject(BuildingBlueprint);
         building.OnUpgrade += HandleUpgrade;
         buildings.Add(building);
         building.transform.SetParent(transform);
@@ -41,12 +36,6 @@ public abstract class BuildingManager : BaseObject
             return false;
         }
         
-        // if(BuildingBlueprint.Type == BuildingType.Large && buildings.Count != 0)
-        // {
-        //     Debug.Log("Can't build more than one large building");
-        //     return false;
-        // }
-
         return true;
     }
 
@@ -54,17 +43,25 @@ public abstract class BuildingManager : BaseObject
     { 
         RaiseOnRequirementValueUpdatedEvent(level);
     }
-
-    protected override void HandleTick()
-    {
-        foreach (var building in buildings)
-        {
-            building.HandleTick();
-        }
-    }
-
+    
     public override UnlockRequirements GetRequirements()
     {
         return BuildingBlueprint.UnlockRequirements;
+    }
+
+    public void UpgradeTickHandler()
+    {
+        foreach (var building in buildings)
+        {
+            building.HandleUpgradeTick();
+        }
+    }
+
+    public void ProductionTickHandler()
+    {
+        foreach (var building in buildings)
+        {
+            building.HandleProductionTick();
+        }
     }
 }

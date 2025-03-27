@@ -1,16 +1,24 @@
 using System;
+using Core;
 using UnityEngine;
 
 namespace Objects.Research
 {
-    public class BaseObjectFactory : MonoBehaviour
+    public class BaseObjectFactory : MonoBehaviour, ITickReceiverBuilder
     {
         [Header("Prefabs")]
-        [SerializeField] private BaseObject techPrefab;
+        [SerializeField] private Tech techPrefab;
         [SerializeField] private CoreBuildingManager coreBuildingManagerPrefab;
         [SerializeField] private SmallBuildingManager smallBuildingManagerPrefab;
         [SerializeField] private LargeBuildingManager largeBuildingManagerPrefab;
         
+        public event Action<ITickReceiver> OnUpdatableCreated;
+
+        private void Awake()
+        {
+            UpdateSubscriber.RegisterUpdatableBuilder(this);
+        }
+
         public BaseObject CreateObject(ObjectBluePrint bluePrint, Transform parent)
         {
             return bluePrint.ObjectType switch
@@ -23,7 +31,7 @@ namespace Objects.Research
 
         private BaseObject CreateBuildingManager(BuildingBlueprint bluePrint, Transform parent)
         {
-            BaseObject instance = bluePrint.Type switch
+            BuildingManager instance = bluePrint.Type switch
             {
                 BuildingType.Core => Instantiate(coreBuildingManagerPrefab, parent),
                 BuildingType.Small => Instantiate(smallBuildingManagerPrefab, parent),
@@ -33,6 +41,9 @@ namespace Objects.Research
             
             instance.name = bluePrint.name + "Manager";
             instance.SetData(bluePrint);
+            
+            OnUpdatableCreated?.Invoke(instance);
+            
             return instance;
         }
 
@@ -41,6 +52,9 @@ namespace Objects.Research
             var instance = Instantiate(techPrefab, parent);
             instance.name = bluePrint.name;
             instance.SetData(bluePrint as TechBlueprint);
+            
+            OnUpdatableCreated?.Invoke(instance);
+            
             return instance;
         }
     }

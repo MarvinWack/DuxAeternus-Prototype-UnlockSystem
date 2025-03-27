@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseObject : Updatable, IUnlockable, IRequirement
+public abstract class BaseObject : MonoBehaviour, IUnlockable, IRequirement
 {
     public event IRequirement.RequirementValueUpdated OnRequirementValueUpdated;
     

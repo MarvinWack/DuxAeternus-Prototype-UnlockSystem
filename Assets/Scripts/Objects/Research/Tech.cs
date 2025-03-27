@@ -1,9 +1,10 @@
 using System;
+using Core;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 [Serializable]
-public class Tech : BaseObject
+public class Tech : BaseObject, IResearchTickReceiver
 {
     [InspectorButton("StartResearch")]
     public bool StartResearchButton;
@@ -37,7 +38,12 @@ public class Tech : BaseObject
         RaiseOnRequirementValueUpdatedEvent(Level);
     }
 
-    protected override void HandleTick()
+    public override UnlockRequirements GetRequirements()
+    {
+        return TechBlueprint.UnlockRequirements;
+    }
+
+    public void ResearchTickHandler()
     {
         if (!_isResearching) return;
             
@@ -45,10 +51,5 @@ public class Tech : BaseObject
         
         if(_elapsedResearchTime >= TechBlueprint.UnlockRequirements.UnlockTime)
             CompleteResearch();
-    }
-
-    public override UnlockRequirements GetRequirements()
-    {
-        return TechBlueprint.UnlockRequirements;
     }
 }

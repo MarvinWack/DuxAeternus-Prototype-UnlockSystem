@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4527288757008726542}
-  - component: {fileID: 4802665910975400297}
+  - component: {fileID: 4234257335364832850}
   m_Layer: 0
   m_Name: Updater
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4802665910975400297
+--- !u!114 &4234257335364832850
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fe6567a243264b70bd64723aa04e8b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ticksPerSecond: 1
-  CurrentTick: 0
+  researchTicksPerSecond: 1
+  upgradeTicksPerSecond: 1

@@ -1,13 +1,25 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+/// One update method for each game mechanic for easier balancing.
+/// </summary>
 public class Updater : MonoBehaviour
 {
-    public event Action Tick;
-    [SerializeField] private float ticksPerSecond = 1;
-    [SerializeField] private int CurrentTick;
-
+    public event Action ResearchTick;
+    public event Action UpgradeTick;
+    public event Action ProductionTick;
+    
+    [SerializeField] private float researchTicksPerSecond = 1;
+    [SerializeField] private float upgradeTicksPerSecond = 1;
+    [SerializeField] private float productionTicksPerSecond = 1;
+    
     private static Updater _instance;
+    
+    private float _researchTimer;
+    private float _upgradeTimer;
+    private float _productionTimer;
+
     public static Updater Instance
     {
         get
@@ -26,17 +38,27 @@ public class Updater : MonoBehaviour
         }
     }
 
-    private float _timer;
-
     private void Update()
     {
-        _timer += Time.deltaTime;
-        if(_timer >= 1 / ticksPerSecond)
-        {
-            _timer = 0;
-            Tick?.Invoke();
+        ResearchUpdate();
+        UpgradeUpdate();
+        ProductionUpdate();
+    }
 
-            CurrentTick++;
+    private void HandleTickUpdate(ref float timer, float ticksPerSecond, Action tickAction)
+    {
+        timer += Time.deltaTime;
+        
+        if(timer >= 1 / ticksPerSecond)
+        {
+            timer = 0;
+            tickAction?.Invoke();
         }
     }
+
+    private void ResearchUpdate() => HandleTickUpdate(ref _researchTimer, researchTicksPerSecond, ResearchTick);
+        
+    private void UpgradeUpdate() => HandleTickUpdate(ref _upgradeTimer, upgradeTicksPerSecond, UpgradeTick);
+    
+    private void ProductionUpdate() => HandleTickUpdate(ref _productionTimer, productionTicksPerSecond, ProductionTick);
 }
