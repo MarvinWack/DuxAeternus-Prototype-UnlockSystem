@@ -5,10 +5,10 @@ namespace Production.Items
     public enum RequiredProductionAmount
     {
         None = 0,
-        Low = 2,
-        Medium = 4,
-        High = 6,
-        VeryHigh = 8
+        Low = 10,
+        Medium = 20,
+        High = 30,
+        VeryHigh = 40
     }
     public abstract class ProductBlueprint : ScriptableObject
     {

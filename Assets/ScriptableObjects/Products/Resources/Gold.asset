@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e71ba2c43da4db6a06306f0bcb158dc, type: 3}
   m_Name: Gold
   m_EditorClassIdentifier: 
-  RequiredProductionAmount: 4
+  RequiredProductionAmount: 20
   ResourceType: 1

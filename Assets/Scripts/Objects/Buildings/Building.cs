@@ -13,8 +13,6 @@ public class Building : MonoBehaviour
     public Action<int> OnUpgrade;
     public Action<ResourceType, int> OnProduction;
 
-    public int Level => _level;
-
     public int _level;
 
     private BuildingBlueprint _blueprint;
@@ -22,7 +20,8 @@ public class Building : MonoBehaviour
     private bool _isUpgrading;
     private ushort _elapsedUpgradingTime;
     
-    private bool _isProducing;
+    public bool _isProducing;
+    public int _currentlyAccumulatedProduction;
     
     public void HandleUpgradeTick()
     {
@@ -48,7 +47,7 @@ public class Building : MonoBehaviour
 
     private void UpgradeDebug()
     {
-        Assert.IsTrue(Level < _blueprint.MaxLevel);
+        Assert.IsTrue(_level < _blueprint.MaxLevel);
         _isUpgrading = true;
     }
 
@@ -64,8 +63,24 @@ public class Building : MonoBehaviour
     {
         if(!_isProducing) return;
         
-        OnProduction?.Invoke(_blueprint.ResourceBlueprint.ResourceType, _level);
+        OnProduction?.Invoke(_blueprint.ResourceBlueprint.ResourceType, CalculateProductionAmount());
+    }
+
+    private int CalculateProductionAmount() //todo: in storage auslagern, falls Blueprint als Key dort Sinn macht
+    {
+        int buildingProduction = (int)_blueprint.ProductionAmount;
         
-        Debug.Log("Producing " + _blueprint.ResourceBlueprint.ResourceType );
+        int requiredProduction = (int)_blueprint.ResourceBlueprint.RequiredProductionAmount;
+        
+        _currentlyAccumulatedProduction += buildingProduction * _level;
+        Debug.Log(buildingProduction);
+        Debug.Log(_level);
+        Debug.Log(_currentlyAccumulatedProduction);
+
+        int completeUnits = _currentlyAccumulatedProduction / requiredProduction;
+        
+        _currentlyAccumulatedProduction -= completeUnits * requiredProduction;
+
+        return completeUnits;
     }
 }

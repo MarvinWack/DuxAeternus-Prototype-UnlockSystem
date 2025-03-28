@@ -341,6 +341,10 @@ PrefabInstance:
       propertyPath: researchTicksPerSecond
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4234257335364832850, guid: f12dbfe05e9174c34a856ee7a8f6ece8, type: 3}
+      propertyPath: productionTicksPerSecond
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4527288757008726542, guid: f12dbfe05e9174c34a856ee7a8f6ece8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
