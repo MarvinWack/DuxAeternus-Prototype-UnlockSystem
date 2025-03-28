@@ -1,17 +1,19 @@
 using System;
+using System.Collections.Generic;
 using Production.Items;
 using Production.Storage;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Serialization;
 
-public class Building : MonoBehaviour
+public class Building : MonoBehaviour, ICustomer
 {
     [InspectorButton("UpgradeDebug")]
     public bool LevelUpButton;
     
     public Action<int> OnUpgrade;
     public Action<ResourceType, int> OnProduction;
+    public event Action<Dictionary<ResourceType, int>, PurchaseArgs> OnTryPurchase;
 
     public int _level;
 
@@ -48,6 +50,13 @@ public class Building : MonoBehaviour
     private void UpgradeDebug()
     {
         Assert.IsTrue(_level < _blueprint.MaxLevel);
+        
+        var PurchaseArgs = new PurchaseArgs();
+        OnTryPurchase?.Invoke(_blueprint.Cost.Amount[_level], PurchaseArgs);
+
+        if (!PurchaseArgs.IsValid)
+            return;
+        
         _isUpgrading = true;
     }
 
@@ -63,19 +72,16 @@ public class Building : MonoBehaviour
     {
         if(!_isProducing) return;
         
-        OnProduction?.Invoke(_blueprint.ResourceBlueprint.ResourceType, CalculateProductionAmount());
+        OnProduction?.Invoke(_blueprint.ProducedResource.ResourceType, CalculateProductionAmount());
     }
 
-    private int CalculateProductionAmount() //todo: in storage auslagern, falls Blueprint als Key dort Sinn macht
+    private int CalculateProductionAmount() //todo: in storage auslagern, sobald Blueprint als Key dort Sinn macht
     {
         int buildingProduction = (int)_blueprint.ProductionAmount;
         
-        int requiredProduction = (int)_blueprint.ResourceBlueprint.RequiredProductionAmount;
+        int requiredProduction = (int)_blueprint.ProducedResource.RequiredProductionAmount;
         
         _currentlyAccumulatedProduction += buildingProduction * _level;
-        Debug.Log(buildingProduction);
-        Debug.Log(_level);
-        Debug.Log(_currentlyAccumulatedProduction);
 
         int completeUnits = _currentlyAccumulatedProduction / requiredProduction;
         

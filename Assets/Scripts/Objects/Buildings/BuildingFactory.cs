@@ -22,6 +22,7 @@ public class BuildingFactory : MonoBehaviour
         building.name = bluePrint.name;
         
         building.OnProduction += storage.HandleProductionTick;
+        building.OnTryPurchase += storage.HandleTryToPurchase;
         
         return building;
     }

@@ -21,9 +21,18 @@ namespace Production.Storage
             resources[type] += value;
         }
 
-        public bool RemoveResources(Dictionary<ResourceType, int> resources)
+        public void HandleTryToPurchase(Dictionary<ResourceType, int> cost, PurchaseArgs purchaseArgs)
         {
-            return false;
+            foreach (var resourceCost in cost)
+            {
+                if (resources[resourceCost.Key] < resourceCost.Value)
+                    return;
+                
+                purchaseArgs.IsValid = true;
+            }
+            
+            foreach (var resource in cost) 
+                resources[resource.Key] -= resource.Value;
         }
     }
 }

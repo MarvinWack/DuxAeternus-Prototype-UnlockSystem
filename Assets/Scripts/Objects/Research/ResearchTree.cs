@@ -4,7 +4,10 @@ using Objects;
 using UnityEngine;
 
 /// <summary>
-/// Set up the research tree recursively, starting with the last entries in the tree.
+/// Set up the research tree recursively, starting with the last entries in
+/// the tree. The tree includes the BuildingManagers as well! Buildings can
+/// be unlocked through research, but they may also be required to unlock
+/// certain research.
 /// </summary>
 public class ResearchTree : MonoBehaviour
 {

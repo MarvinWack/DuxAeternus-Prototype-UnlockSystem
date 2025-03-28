@@ -10,6 +10,7 @@ namespace Production.Items
         High = 30,
         VeryHigh = 40
     }
+    
     public abstract class ProductBlueprint : ScriptableObject
     {
          public RequiredProductionAmount RequiredProductionAmount;
