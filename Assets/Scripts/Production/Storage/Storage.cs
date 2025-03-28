@@ -1,15 +1,12 @@
 using System;
+using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
+using Production.Items;
 using UnityEngine;
 
 namespace Production.Storage
 {
-    public enum ResourceType
-    {
-        Wood,
-        Gold
-    }
-    public class Storage : MonoBehaviour
+    public class Storage : MonoBehaviour //ResourceStorage
     {
         [SerializeField] SerializedDictionary<ResourceType, int> resources = new ();
 
@@ -22,6 +19,11 @@ namespace Production.Storage
         public void HandleProductionTick(ResourceType type, int value)
         {
             resources[type] += value;
+        }
+
+        public bool RemoveResources(Dictionary<ResourceType, int> resources)
+        {
+            return false;
         }
     }
 }

@@ -1,23 +1,21 @@
 using System;
+using Production.Items;
 using Production.Storage;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 
 public class Building : MonoBehaviour
 {
     [InspectorButton("UpgradeDebug")]
     public bool LevelUpButton;
-
-    [Space(20)] 
-    
-    [SerializeField] private ResourceType resourceType;
     
     public Action<int> OnUpgrade;
     public Action<ResourceType, int> OnProduction;
 
     public int Level => _level;
 
-    public int _level; //todo: make private
+    public int _level;
 
     private BuildingBlueprint _blueprint;
 
@@ -66,6 +64,8 @@ public class Building : MonoBehaviour
     {
         if(!_isProducing) return;
         
-        OnProduction?.Invoke(resourceType, _level);
+        OnProduction?.Invoke(_blueprint.ResourceBlueprint.ResourceType, _level);
+        
+        Debug.Log("Producing " + _blueprint.ResourceBlueprint.ResourceType );
     }
 }

@@ -2,7 +2,7 @@ using System;
 using Core;
 using UnityEngine;
 
-namespace Objects.Research
+namespace Objects
 {
     public class BaseObjectFactory : MonoBehaviour, ITickReceiverBuilder, IRequirementBuilder, IUnlockableBuilder
     {
@@ -48,6 +48,8 @@ namespace Objects.Research
             
             instance.name = bluePrint.name + "Manager";
 
+            instance.SetData(bluePrint);
+            
             return Setup(instance, bluePrint);
         }
 
@@ -57,16 +59,18 @@ namespace Objects.Research
             
             instance.name = bluePrint.name;
             
+            instance.SetData(bluePrint);
+            
             return Setup(instance, bluePrint);
         }
 
         private BaseObject Setup(BaseObject instance, ObjectBluePrint bluePrint)
         {
-            instance.SetData(bluePrint);
-            
             OnUpdatableCreated?.Invoke(instance);
             OnRequirementCreated?.Invoke(instance);
             OnUnlockableCreated?.Invoke(instance.GetEventHandler(), instance.GetRequirements());
+            
+            // instance.SetData(bluePrint);
             
             return instance;
         }

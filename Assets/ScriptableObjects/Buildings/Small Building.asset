@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Small Building
   m_EditorClassIdentifier: 
   UnlockRequirements: {fileID: 11400000, guid: 05e091bff76ed4dfb9c1b1911b7c990a, type: 2}
+  ResourceBlueprint: {fileID: 11400000, guid: f0b9bfffb3ddd4fd4a1bb2721a943253, type: 2}
   MaxLevel: 5
   UpgradeTime: 3

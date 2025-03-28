@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
-using Objects.Research;
+using Objects;
 using UnityEngine;
 
 /// <summary>
@@ -12,21 +12,11 @@ public class ResearchTree : MonoBehaviour
     
     [SerializeField] private SerializedDictionary<string, BaseObject> _baseObjects = new();
     
-    // public event IRequirementBuilder.RequirementCreated OnRequirementCreated;
-    // public event IUnlockableBuilder.UnlockableCreated OnUnlockableCreated;
-    
     private ulong _playerID;
     
-    // private UnlockHandler _unlockHandler = new();
     [SerializeField] private BaseObjectFactory _factory;
     
-    // private void Awake()
-    // {
-    //     _unlockHandler.RegisterUnlockableBuilder(this);
-    //     _unlockHandler.RegisterRequirementBuilder(this);
-    // }
-
-    private void OnEnable()
+    private void Start()
     {
         BuildResearchTree(lastEntriesInTree);
     }

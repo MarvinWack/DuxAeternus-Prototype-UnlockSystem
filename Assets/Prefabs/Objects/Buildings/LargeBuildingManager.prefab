@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90c62f10d99e47279fc9cf6573e81c18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _objectBluePrint: {fileID: 11400000, guid: 999684d6b960741ba9e80e440ac708a7, type: 2}
+  _objectBluePrint: {fileID: 0}
   _isUnlocked: 0
   buildings: []
   CreateBuildingButton: 0

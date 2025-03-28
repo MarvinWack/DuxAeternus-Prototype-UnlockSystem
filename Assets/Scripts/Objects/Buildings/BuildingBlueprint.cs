@@ -1,3 +1,4 @@
+using Production.Items;
 using UnityEngine;
 
 public enum BuildingType
@@ -14,12 +15,22 @@ public enum ProductionType
     OnDemand,
     Continuous
 }
+
+public enum ProductionAmount
+{
+    None = 0,
+    Low = 2,
+    Medium = 4,
+    High = 6
+}
 [CreateAssetMenu]
 public abstract class BuildingBlueprint : ObjectBluePrint
 {
     public override ObjectType ObjectType => ObjectType.Building;
     public virtual BuildingType Type => BuildingType.None;
     public virtual ProductionType ProductionType => ProductionType.None;
+    public virtual ProductionAmount ProductionAmount => ProductionAmount.None;
+    public ResourceBlueprint ResourceBlueprint;
     public ushort MaxLevel;
     public ushort UpgradeTime = 3;
 }

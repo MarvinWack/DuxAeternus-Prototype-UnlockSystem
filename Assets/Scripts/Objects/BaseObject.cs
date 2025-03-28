@@ -9,7 +9,7 @@ public abstract class BaseObject : MonoBehaviour, IUnlockable, IRequirement, ITi
     [SerializeField] protected ObjectBluePrint _objectBluePrint;
     protected bool IsUnlocked => _isUnlocked;
     
-    public bool _isUnlocked; //todo: make private
+    public bool _isUnlocked;
 
     public IUnlockable.RequirementFulfilledHandler GetEventHandler()
     {

@@ -46,6 +46,7 @@ public abstract class BuildingManager : BaseObject, IUpgradeTickReceiver, IProdu
     
     public override UnlockRequirements GetRequirements()
     {
+        if(BuildingBlueprint == null ) Debug.LogWarning("No building blueprint found");
         return BuildingBlueprint.UnlockRequirements;
     }
 
