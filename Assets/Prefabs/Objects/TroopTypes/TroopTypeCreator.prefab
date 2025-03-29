@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _CreateTroopType: 0
   troopTypePrefab: {fileID: 1252606945424519166, guid: 379f6a8518b4142a0873b67448a05ce8, type: 3}
-  weapon: {fileID: 0}
-  armour: {fileID: 0}
-  troopTypeName: 
+  weapon: {fileID: 11400000, guid: 0a9a21aed13df4b2795263c4f15c31fe, type: 2}
+  armour: {fileID: 11400000, guid: 0a9a21aed13df4b2795263c4f15c31fe, type: 2}
+  troopTypeName: test
+  troopTypes: []
