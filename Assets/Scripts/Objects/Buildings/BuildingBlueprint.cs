@@ -1,7 +1,6 @@
 using Production.Items;
 using Production.Storage;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public enum BuildingType
 {
@@ -32,7 +31,7 @@ public abstract class BuildingBlueprint : ObjectBluePrint
     public virtual BuildingType Type => BuildingType.None;
     public virtual ProductionType ProductionType => ProductionType.None;
     public virtual ProductionAmount ProductionAmount => ProductionAmount.None;
-    public ResourceBlueprint ProducedResource;
+    public ProductBlueprint ProducedProduct;
     public RequiredResources Cost;
     public ushort MaxLevel;
     public ushort UpgradeTime = 3;

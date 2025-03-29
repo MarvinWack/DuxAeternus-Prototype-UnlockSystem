@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Production.Items;
+using Unity.VisualScripting;
 
 namespace Production.Storage
 {
@@ -11,6 +12,9 @@ namespace Production.Storage
 
     public class PurchaseArgs
     {
+        public PurchaseArgs(int level) => Level = level;
+
         public bool IsValid;
+        public readonly int Level;
     }
 }

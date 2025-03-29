@@ -4,7 +4,6 @@ using Production.Items;
 using Production.Storage;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.Serialization;
 
 public class Building : MonoBehaviour, ICustomer
 {
@@ -12,7 +11,7 @@ public class Building : MonoBehaviour, ICustomer
     public bool LevelUpButton;
     
     public Action<int> OnUpgrade;
-    public Action<ResourceType, int> OnProduction;
+    public Action<ProductBlueprint, int> OnProduction; 
     public event Action<Dictionary<ResourceType, int>, PurchaseArgs> OnTryPurchase;
 
     public int _level;
@@ -51,11 +50,14 @@ public class Building : MonoBehaviour, ICustomer
     {
         Assert.IsTrue(_level < _blueprint.MaxLevel);
         
-        var PurchaseArgs = new PurchaseArgs();
+        var PurchaseArgs = new PurchaseArgs(_level);
         OnTryPurchase?.Invoke(_blueprint.Cost.Amount[_level], PurchaseArgs);
 
         if (!PurchaseArgs.IsValid)
+        {
+            Debug.Log("pirchase not valid");
             return;
+        }
         
         _isUpgrading = true;
     }
@@ -72,14 +74,14 @@ public class Building : MonoBehaviour, ICustomer
     {
         if(!_isProducing) return;
         
-        OnProduction?.Invoke(_blueprint.ProducedResource.ResourceType, CalculateProductionAmount());
+        OnProduction?.Invoke(_blueprint.ProducedProduct, CalculateProductionAmount());
     }
 
     private int CalculateProductionAmount() //todo: in storage auslagern, sobald Blueprint als Key dort Sinn macht
     {
         int buildingProduction = (int)_blueprint.ProductionAmount;
         
-        int requiredProduction = (int)_blueprint.ProducedResource.RequiredProductionAmount;
+        int requiredProduction = (int)_blueprint.ProducedProduct.RequiredProductionAmount;
         
         _currentlyAccumulatedProduction += buildingProduction * _level;
 

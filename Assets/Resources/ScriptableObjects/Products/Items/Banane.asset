@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RequiredProductionAmount: 10
   Cost: {fileID: 0}
-  Damage: 1
+  Damage: 626489
   Defense: 0
