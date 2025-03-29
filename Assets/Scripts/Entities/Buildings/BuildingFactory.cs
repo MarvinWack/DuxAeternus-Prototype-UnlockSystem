@@ -5,8 +5,6 @@ using UnityEngine;
 public class BuildingFactory : MonoBehaviour
 {
     [SerializeField] private Building buildingPrefab;
-    // [SerializeField] private ResourceStorage resourceStorage;
-    // [SerializeField] private ItemStorage itemStorage;
     [SerializeField] private StorageAssigner _storageAssigner;
     
     public Building CreateObject(ObjectBluePrint bluePrint)
@@ -24,9 +22,6 @@ public class BuildingFactory : MonoBehaviour
         building.name = bluePrint.name;
         
         _storageAssigner.AssignBuildingToStorage(building, bluePrint);
-        
-        // building.OnProduction += resourceStorage.HandleProductionTick;
-        // building.OnTryPurchase += resourceStorage.HandleTryToPurchase;
         
         return building;
     }
