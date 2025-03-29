@@ -6,7 +6,7 @@ namespace Production.Items
     [CreateAssetMenu]
     public class ItemBlueprint : ProductBlueprint
     {
-        public RequiredResources Cost;
+        public RequiredProducts Cost;
         public int Damage;
         public int Defense;
     }

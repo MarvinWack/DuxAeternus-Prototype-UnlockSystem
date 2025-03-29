@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Production.Items
@@ -11,6 +12,7 @@ namespace Production.Items
         VeryHigh = 40
     }
     
+    [Serializable]
     public abstract class ProductBlueprint : ScriptableObject
     {
          public RequiredProductionAmount RequiredProductionAmount;

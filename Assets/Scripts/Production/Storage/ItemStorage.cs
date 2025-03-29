@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
 using Production.Items;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Production.Storage
 {
@@ -30,10 +28,7 @@ namespace Production.Storage
         //todo: remove checks once buildings are distuingished by produced product
         public void HandleProductionTick(ProductBlueprint itemType, int value)
         {
-            Debug.Log($"Received production tick for {itemType.name} + amount: {value}");
-            var itemBlueprint = itemType as ItemBlueprint;
-            
-            if (itemBlueprint != null)
+            if (itemType is ItemBlueprint itemBlueprint)
             {
                 Items[itemBlueprint] += value;
             }
@@ -43,18 +38,14 @@ namespace Production.Storage
             }
         }
 
-        public void HandleTryToPurchase(Dictionary<ItemBlueprint, int> cost, PurchaseArgs purchaseArgs)
+        public bool CheckIfEnoughItemsAvailable(ItemBlueprint item, int amount)
         {
-            foreach (var amount in cost)
-            {
-                if (Items[amount.Key] < amount.Value)
-                    return;
-                
-                purchaseArgs.IsValid = true;
-            }
-            
-            foreach (var amount in cost) 
-                Items[amount.Key] -= amount.Value;
+            return Items[item] >= amount;
+        }
+
+        public void RemoveItems(ItemBlueprint item, int amount)
+        {
+            Items[item] -= amount;
         }
     }
 }

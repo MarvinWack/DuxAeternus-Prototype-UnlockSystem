@@ -32,7 +32,7 @@ public abstract class BuildingBlueprint : ObjectBluePrint
     public virtual ProductionType ProductionType => ProductionType.None;
     public virtual ProductionAmount ProductionAmount => ProductionAmount.None;
     public ProductBlueprint ProducedProduct;
-    public RequiredResources Cost;
+    public RequiredProducts Cost;
     public ushort MaxLevel;
     public ushort UpgradeTime = 3;
 }

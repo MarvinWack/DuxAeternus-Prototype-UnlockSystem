@@ -12,7 +12,7 @@ public class Building : MonoBehaviour, ICustomer
     
     public Action<int> OnUpgrade;
     public Action<ProductBlueprint, int> OnProduction; 
-    public event Action<Dictionary<ResourceType, int>, PurchaseArgs> OnTryPurchase;
+    public event Action<Dictionary<ProductBlueprint, int>, PurchaseArgs> OnTryPurchase;
 
     public int _level;
 
@@ -49,13 +49,18 @@ public class Building : MonoBehaviour, ICustomer
     private void UpgradeDebug()
     {
         Assert.IsTrue(_level < _blueprint.MaxLevel);
+        if (_isUpgrading)
+        {
+            Debug.Log("Is already upgrading");
+            return;
+        }
         
-        var PurchaseArgs = new PurchaseArgs(_level);
+        var PurchaseArgs = new PurchaseArgs();
         OnTryPurchase?.Invoke(_blueprint.Cost.Amount[_level], PurchaseArgs);
 
         if (!PurchaseArgs.IsValid)
         {
-            Debug.Log("pirchase not valid");
+            Debug.Log("Purchase not valid");
             return;
         }
         

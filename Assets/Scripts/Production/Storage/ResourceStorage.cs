@@ -19,8 +19,7 @@ namespace Production.Storage
         //todo: remove checks once buildings are distuingished by produced product
         public void HandleProductionTick(ProductBlueprint type, int value)
         {
-            var resourceType = type as ResourceBlueprint;
-            if (resourceType != null)
+            if(type is ResourceBlueprint resourceType)
             {
                 resources[resourceType.ResourceType] += value;
             }
@@ -30,18 +29,14 @@ namespace Production.Storage
             }
         }
 
-        public void HandleTryToPurchase(Dictionary<ResourceType, int> cost, PurchaseArgs purchaseArgs)
+        public bool CheckIfEnoughResourcesAvailable(ResourceBlueprint resource, int amount)
         {
-            foreach (var amount in cost)
-            {
-                if (resources[amount.Key] < amount.Value)
-                    return;
-                
-                purchaseArgs.IsValid = true;
-            }
-            
-            foreach (var amount in cost) 
-                resources[amount.Key] -= amount.Value;
+            return resources[resource.ResourceType] >= amount;
+        }
+
+        public void RemoveResources(ResourceBlueprint resource, int amount)
+        {
+            resources[resource.ResourceType] -= amount;
         }
     }
 }
