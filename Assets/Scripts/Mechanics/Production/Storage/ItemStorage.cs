@@ -20,7 +20,6 @@ namespace Production.Storage
 
             foreach (var blueprint in itemBlueprints)
             {
-                Debug.Log(blueprint.name);
                 Items.Add((ItemBlueprint)blueprint, 0);
             }
         }

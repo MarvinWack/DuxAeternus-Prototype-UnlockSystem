@@ -12,7 +12,7 @@ public class TroopType : MonoBehaviour
     [InspectorButton("RecruitDebug")] 
     public bool _Recruit;
     
-    public  int AmountToRecruit = 5;
+    private int AmountToRecruit = 100;
     
     [SerializeField] private ItemBlueprint weapon;
     [SerializeField] private ItemBlueprint armour;
@@ -22,17 +22,21 @@ public class TroopType : MonoBehaviour
     public int TotalAmount => units.Sum(unit => unit.Amount);
     public ItemBlueprint Weapon => weapon;
     public ItemBlueprint Armour => armour;
-    
+
     public void Setup(ItemBlueprint firstItem, ItemBlueprint secondItem, string troopTypeName)
     {
         name = troopTypeName;
         weapon = firstItem;
         armour = secondItem;
+        
+        CreateUnitDebug();
+        RecruitDebug();
     }
 
     private void CreateUnitDebug()
     {
         var unit = Instantiate(unitPrefab, transform);
+        unit.name = name + " unit";
         unit.Setup(this);
         units.Add(unit);
     }
@@ -47,5 +51,10 @@ public class TroopType : MonoBehaviour
     public void SubstractLossesFromFirstUnit(int amount)
     {
         units[0].RemoveAmount(amount);
+    }
+
+    public bool CheckIfUnitsAvailableToFight()
+    {
+        return units.All(unit => unit.Amount > 0);
     }
 }

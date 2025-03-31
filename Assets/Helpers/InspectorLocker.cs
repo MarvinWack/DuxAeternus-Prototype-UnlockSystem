@@ -1,4 +1,5 @@
 using System.Reflection;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -30,6 +31,10 @@ public static class LockInspector {
             flipLocked?.Invoke(lockTracker, new object[] { });
         }
 #else
+        // if (!(EditorWindow.focusedWindow != null && EditorWindow.focusedWindow.GetType().Name == "InspectorWindow"))
+        //     return;
+
+        
         // Old approach for Unity versions before 2023.2
         ActiveEditorTracker.sharedTracker.isLocked = !ActiveEditorTracker.sharedTracker.isLocked;
 #endif
@@ -38,10 +43,12 @@ public static class LockInspector {
         foreach (var activeEditor in ActiveEditorTracker.sharedTracker.activeEditors) {
             if (activeEditor.target is not Transform target) continue;
             
+            
             var currentValue = (bool) constrainProportions.GetValue(target, null);
             constrainProportions.SetValue(target, !currentValue, null);
         }
         ActiveEditorTracker.sharedTracker.ForceRebuild();
+        
     }
 
     [MenuItem("Edit/Toggle Inspector Lock %e", true)]

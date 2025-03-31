@@ -7,19 +7,22 @@ public class Unit : MonoBehaviour
     
     public int Amount => amount;
     
-    public void Setup(TroopType troopType, int amount = 0)
+    public void Setup(TroopType troopType, int value = 0)
     {
         manager = troopType;
-        this.amount = amount;
+        amount = value;
     }
     
-    public void AddAmount(int amount)
+    public void AddAmount(int value)
     {
-        this.amount += amount;
+        amount += value;
     }
     
-    public void RemoveAmount(int amount)
+    public void RemoveAmount(int value)
     {
-        this.amount -= amount;
+        amount -= value;
+        
+        if(amount < 0)
+            amount = 0;
     }
 }

@@ -9,16 +9,20 @@ public class Updater : MonoBehaviour
     public event Action ResearchTick;
     public event Action UpgradeTick;
     public event Action ProductionTick;
+    public event Action BattleTick;
+    
     
     [SerializeField] private float researchTicksPerSecond = 1;
     [SerializeField] private float upgradeTicksPerSecond = 1;
     [SerializeField] private float productionTicksPerSecond = 1;
+    [SerializeField] private float battleTicksPerSecond = 1f;
     
     private static Updater _instance;
     
     private float _researchTimer;
     private float _upgradeTimer;
     private float _productionTimer;
+    private float _battleTimer;
 
     public static Updater Instance
     {
@@ -43,6 +47,7 @@ public class Updater : MonoBehaviour
         ResearchUpdate();
         UpgradeUpdate();
         ProductionUpdate();
+        BattleUpdate();
     }
 
     private void HandleTickUpdate(ref float timer, float ticksPerSecond, Action tickAction)
@@ -61,4 +66,5 @@ public class Updater : MonoBehaviour
     private void UpgradeUpdate() => HandleTickUpdate(ref _upgradeTimer, upgradeTicksPerSecond, UpgradeTick);
     
     private void ProductionUpdate() => HandleTickUpdate(ref _productionTimer, productionTicksPerSecond, ProductionTick);
+    private void BattleUpdate() => HandleTickUpdate(ref _battleTimer, battleTicksPerSecond, BattleTick);
 }

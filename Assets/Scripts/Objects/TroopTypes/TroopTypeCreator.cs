@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Production.Items;
 using UnityEngine;
 
@@ -16,7 +18,12 @@ namespace Objects.TroopTypes
         [SerializeField] private ItemBlueprint armour;
         [SerializeField] private string troopTypeName;
         [SerializeField] private List<TroopType> troopTypes;
-        
+
+
+        private void Awake()
+        {
+            CreateTroopType();
+        }
 
         private void CreateTroopType()
         {
@@ -24,6 +31,7 @@ namespace Objects.TroopTypes
             instance.name = troopTypeName + " Type";
            
             instance.Setup(weapon, armour, troopTypeName);
+            troopTypes.Add(instance);
         }
         
         public void ApplyTroopLosses(Dictionary<TroopType, int> lossesPerType)
@@ -32,6 +40,11 @@ namespace Objects.TroopTypes
             {
                 troopTypes.Find(t => t == type.Key).SubstractLossesFromFirstUnit(type.Value);
             }
+        }
+
+        public bool CheckIfUnitsAvailableToFight()
+        {
+            return troopTypes.All(type => type.CheckIfUnitsAvailableToFight());
         }
     }
 }
