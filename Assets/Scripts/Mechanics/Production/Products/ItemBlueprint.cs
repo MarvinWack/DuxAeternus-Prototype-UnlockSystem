@@ -1,21 +1,22 @@
+using System.Collections.Generic;
+using Mechanics.Traits;
 using Production.Storage;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Production.Items
 {
-    public enum WeaponType
-    {
-        Melee,
-        Ranged
-    }
+    // public enum WeaponType
+    // {
+    //     Melee,
+    //     Ranged
+    // }
     
-    public enum DualWeilding
-    {
-        Disabled,
-        Enabled,
-        TwoHanded
-    }
+    // public enum DualWeilding
+    // {
+    //     Disabled,
+    //     Enabled,
+    //     TwoHanded
+    // }
     
     [CreateAssetMenu]
     public class ItemBlueprint : ProductBlueprint
@@ -24,7 +25,8 @@ namespace Production.Items
         public int MeleeDamage;
         public int RangedDamage;
         public int Defense;
-        public WeaponType WeaponType;
-        DualWeilding DualWeilding;
+        public List<Trait> Traits;
+        // public WeaponType WeaponType;
+        // DualWeilding DualWeilding;
     }
 }

@@ -9,12 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f0ef7bbec784e60ac583bc44bedf4fa, type: 3}
-  m_Name: Coconut
+  m_Script: {fileID: 11500000, guid: ff85c05aeee44f3394e52c2fc288bd2f, type: 3}
+  m_Name: Amount Related Trait
   m_EditorClassIdentifier: 
-  RequiredProductionAmount: 10
-  Cost: {fileID: 0}
-  MeleeDamage: 3
-  RangedDamage: 2
-  Defense: 40
-  Traits: []
+  modifier: 0.01

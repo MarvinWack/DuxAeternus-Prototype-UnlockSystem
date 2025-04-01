@@ -16,5 +16,6 @@ MonoBehaviour:
   Cost: {fileID: 0}
   MeleeDamage: 3
   RangedDamage: 2
-  Defense: 34
-  WeaponType: 0
+  Defense: 40
+  Traits:
+  - {fileID: 11400000, guid: 1b23872db9d894e30bbfb18af09e8422, type: 2}

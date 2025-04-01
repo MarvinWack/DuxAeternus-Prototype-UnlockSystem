@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mechanics.Traits;
 using Objects.TroopTypes;
-using Unity.Mathematics;
 using UnityEngine;
 
 namespace Mechanics.Battle
@@ -12,6 +11,8 @@ namespace Mechanics.Battle
         [SerializeField] private TroopTypeCreator _creatorPlayerA;
         [SerializeField] private TroopTypeCreator _creatorPlayerB;
         [SerializeField] private bool _isFighting = false;
+
+        private int _tickCounter;
         private void Awake()
         {
             Updater.Instance.BattleTick += BattleTickHandler;
@@ -21,6 +22,8 @@ namespace Mechanics.Battle
         {
             if (!_isFighting || !CheckIfUnitsAvailableToFight())
                 return;
+
+            _tickCounter++;
             
             HandleRangedPhase();
             if (!CheckIfUnitsAvailableToFight())
@@ -41,15 +44,11 @@ namespace Mechanics.Battle
 
         private void HandleRangedPhase()
         {
-            
             Dictionary<TroopType, float> typeSharesA = CalculateTroopTypeShare(_creatorPlayerA.TroopTypes);
             Dictionary<TroopType, float> typeSharesB = CalculateTroopTypeShare(_creatorPlayerB.TroopTypes);
             
-            int damageA = CalculateRangedDamage(_creatorPlayerA.TroopTypes);
-            int damageB = CalculateRangedDamage(_creatorPlayerB.TroopTypes);
-            
-            var lossesPerTypeA = CalculateLossesPerType(typeSharesA, damageB);
-            var lossesPerTypeB = CalculateLossesPerType(typeSharesB, damageA);
+            var lossesPerTypeA = CalculateRangedDamage(_creatorPlayerB.TroopTypes, typeSharesA);
+            var lossesPerTypeB = CalculateRangedDamage(_creatorPlayerA.TroopTypes, typeSharesB);
             
             _creatorPlayerA.ApplyTroopLosses(lossesPerTypeA);
             _creatorPlayerB.ApplyTroopLosses(lossesPerTypeB);
@@ -60,14 +59,65 @@ namespace Mechanics.Battle
             Dictionary<TroopType, float> typeSharesA = CalculateTroopTypeShare(_creatorPlayerA.TroopTypes);
             Dictionary<TroopType, float> typeSharesB = CalculateTroopTypeShare(_creatorPlayerB.TroopTypes);
             
-            int damageA = CalculateMeleeDamage(_creatorPlayerA.TroopTypes);
-            int damageB = CalculateMeleeDamage(_creatorPlayerB.TroopTypes);
-            
-            var lossesPerTypeA = CalculateLossesPerType(typeSharesA, damageB);
-            var lossesPerTypeB = CalculateLossesPerType(typeSharesB, damageA);
+            var lossesPerTypeA = CalculateMeleeDamage(_creatorPlayerB.TroopTypes, typeSharesA);
+            var lossesPerTypeB = CalculateMeleeDamage(_creatorPlayerA.TroopTypes, typeSharesB);
             
             _creatorPlayerA.ApplyTroopLosses(lossesPerTypeA);
             _creatorPlayerB.ApplyTroopLosses(lossesPerTypeB);
+        }
+
+        private Dictionary<TroopType, int> CalculateRangedDamage(List<TroopType> attTroopTypes, Dictionary<TroopType, float> typeShares)
+        {
+            Dictionary<TroopType, int> lossesPerType = new();
+            
+            foreach (var type in attTroopTypes)
+            {
+                int dmg = type.Weapon.RangedDamage * type.TotalAmount;
+
+                foreach (var target in typeShares)
+                {
+                    lossesPerType.Add(target.Key, Mathf.RoundToInt(
+                        dmg * target.Value * GetTraitModifiers(type, target.Key) / target.Key.Armour.Defense));
+                }
+            }
+
+            return lossesPerType;
+        }
+
+        private Dictionary<TroopType, int> CalculateMeleeDamage(List<TroopType> attTroopTypes, Dictionary<TroopType, float> typeShares)
+        {
+            Dictionary<TroopType, int> lossesPerType = new();
+            
+            foreach (var type in attTroopTypes)
+            {
+                int dmg = type.Weapon.MeleeDamage * type.TotalAmount;
+
+                foreach (var target in typeShares)
+                {
+                    lossesPerType.Add(target.Key, Mathf.RoundToInt(
+                        dmg * target.Value * GetTraitModifiers(type, target.Key) / target.Key.Armour.Defense));
+                }
+            }
+
+            return lossesPerType;
+        }
+
+        private float GetTraitModifiers(TroopType attackingType, TroopType target)
+        {
+            float multiplier = 1;
+
+            foreach (var trait in attackingType.Weapon.Traits)
+            {
+                multiplier += trait switch
+                {
+                    AttackTrait attackTrait => attackTrait.Target == target.Armour ? attackTrait.Value : 0,
+                    TickRelatedTrait tickRelatedTrait => tickRelatedTrait.GetModifier(_tickCounter),
+                    AmountRelatedTrait amountRelatedTrait => amountRelatedTrait.GetModifier(attackingType.TotalAmount),
+                    _ => 1
+                };
+            }
+
+            return multiplier;
         }
 
         private Dictionary<TroopType, float> CalculateTroopTypeShare(List<TroopType> troopTypes)
@@ -75,28 +125,6 @@ namespace Mechanics.Battle
             int totalAmount = troopTypes.Sum(type => type.TotalAmount);
 
             return troopTypes.ToDictionary(type => type, type => (float)type.TotalAmount / totalAmount);
-        }
-
-        private int CalculateRangedDamage(List<TroopType> troopTypes)
-        {
-            return troopTypes.Sum(type => type.Weapon.RangedDamage * type.TotalAmount);
-        }
-        
-        private int CalculateMeleeDamage(List<TroopType> troopTypes)
-        {
-            return troopTypes.Sum(type => type.Weapon.MeleeDamage * type.TotalAmount);
-        }
-        
-        private Dictionary<TroopType, int> CalculateLossesPerType(Dictionary<TroopType, float> typeShares, int totalDamage)
-        {
-            Dictionary<TroopType, int> lossesPerType = new();
-        
-            foreach (var type in typeShares)
-            {
-                lossesPerType.Add(type.Key, Mathf.RoundToInt(typeShares[type.Key] * totalDamage / type.Key.Armour.Defense));
-            }
-
-            return lossesPerType;
         }
     }
 }

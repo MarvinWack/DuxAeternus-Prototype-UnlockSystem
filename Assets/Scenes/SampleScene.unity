@@ -231,6 +231,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3185230909964821782, guid: 9179d77fa1cfe4955897dbc1b8733d9b, type: 3}
+      propertyPath: weapon
+      value: 
+      objectReference: {fileID: 11400000, guid: 60d25b53b689542f2a51253e3fe54430, type: 2}
     - target: {fileID: 7465545939465782046, guid: 9179d77fa1cfe4955897dbc1b8733d9b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -515,6 +519,10 @@ PrefabInstance:
       propertyPath: armour
       value: 
       objectReference: {fileID: 11400000, guid: 94dc5e632cc5143ed9a2aa76f7537ae1, type: 2}
+    - target: {fileID: 3185230909964821782, guid: 9179d77fa1cfe4955897dbc1b8733d9b, type: 3}
+      propertyPath: weapon
+      value: 
+      objectReference: {fileID: 11400000, guid: 1ef7d85923c8d46c4876a2a5a95e6063, type: 2}
     - target: {fileID: 7465545939465782046, guid: 9179d77fa1cfe4955897dbc1b8733d9b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
