@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c2c6c1bd505e4cc087063893fd5e42f0, type: 3}
-  m_Name: BananaCost
+  m_Name: CostZeroAtLevelZero
   m_EditorClassIdentifier: 
   Amount:
     _serializedList:

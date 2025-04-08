@@ -7,9 +7,12 @@ public abstract class BaseObject : MonoBehaviour, IUnlockable, IRequirement, ITi
     public event IRequirement.RequirementValueUpdated OnRequirementValueUpdated;
     
     [SerializeField] protected ObjectBluePrint _objectBluePrint;
-    protected bool IsUnlocked => _isUnlocked;
+
+    public string Name => _objectBluePrint.name;
+    public bool IsAvailavle => _isAvailable;
     
-    public bool _isUnlocked;
+    protected bool _isUnlocked;
+    public bool _isAvailable;
 
     public IUnlockable.RequirementFulfilledHandler GetEventHandler()
     {
@@ -28,12 +31,14 @@ public abstract class BaseObject : MonoBehaviour, IUnlockable, IRequirement, ITi
         if(requirements.Count == 0)
         {
             _isUnlocked = true;
+            _isAvailable = true;
         }
     }
 
     private void HandleRequirementFulfilled()
     {
         _isUnlocked = true;
+        _isAvailable = true;
     }
 
     protected void RaiseOnRequirementValueUpdatedEvent(int value)

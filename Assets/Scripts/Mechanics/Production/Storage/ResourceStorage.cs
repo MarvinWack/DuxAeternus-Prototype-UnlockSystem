@@ -10,6 +10,8 @@ namespace Production.Storage
     {
         [SerializeField] SerializedDictionary<ResourceType, int> resources = new ();
 
+        public event Action<Dictionary<ResourceType, int>> OnResourceAmountChanged; 
+        
         private void Awake()
         {
             foreach(var type in Enum.GetValues(typeof(ResourceType)))
@@ -22,6 +24,7 @@ namespace Production.Storage
             if(type is ResourceBlueprint resourceType)
             {
                 resources[resourceType.ResourceType] += value;
+                OnResourceAmountChanged?.Invoke(resources);
             }
             else
             {
@@ -37,6 +40,7 @@ namespace Production.Storage
         public void RemoveResources(ResourceBlueprint resource, int amount)
         {
             resources[resource.ResourceType] -= amount;
+            OnResourceAmountChanged?.Invoke(resources);
         }
     }
 }

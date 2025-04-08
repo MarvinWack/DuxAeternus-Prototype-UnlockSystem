@@ -30,9 +30,9 @@ public abstract class BuildingManager : BaseObject, IUpgradeTickReceiver, IProdu
 
     protected virtual bool CheckIfBuildingIsBuildable()
     {
-        if (!_isUnlocked)
+        if (!_isUnlocked || !_isAvailable)
         {
-            Debug.Log("building not unlocked");
+            Debug.Log("building not unlocked/available");
             return false;
         }
         

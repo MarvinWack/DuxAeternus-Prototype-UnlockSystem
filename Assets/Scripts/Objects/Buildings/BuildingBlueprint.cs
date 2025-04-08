@@ -1,3 +1,4 @@
+using System;
 using Production.Items;
 using Production.Storage;
 using UnityEngine;
@@ -25,6 +26,7 @@ public enum ProductionAmount
     High = 6
 }
 [CreateAssetMenu]
+[Serializable]
 public abstract class BuildingBlueprint : ObjectBluePrint
 {
     public override ObjectType ObjectType => ObjectType.Building;

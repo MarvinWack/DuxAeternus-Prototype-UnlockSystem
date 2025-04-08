@@ -13,6 +13,7 @@ public class ResearchTree : MonoBehaviour
 {
     [SerializeField] private ObjectBluePrint[] lastEntriesInTree;
     
+    //make this a list instead?
     [SerializeField] private SerializedDictionary<string, BaseObject> _baseObjects = new();
     
     private ulong _playerID;
@@ -53,5 +54,20 @@ public class ResearchTree : MonoBehaviour
         _baseObjects.Add(bluePrint.name, instance);
         
         return instance;
+    }
+
+    //ist foreach safe bezogen auf den index?
+    //todo: para für buildingType
+    public Dictionary<BuildingManager, bool> GetBuildingsWithAvailabilityState()
+    {
+        var result = new Dictionary<BuildingManager, bool>();
+        
+        foreach (var obj in _baseObjects.Values)
+        {
+            if (obj is BuildingManager buildingManager)
+                result.Add(buildingManager, buildingManager.IsAvailavle);
+        }
+        
+        return result;
     }
 }

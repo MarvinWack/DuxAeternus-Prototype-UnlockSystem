@@ -14,8 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RequiredProductionAmount: 10
   Cost: {fileID: 0}
-  MeleeDamage: 3
-  RangedDamage: 2
+  MeleeDamage: 1
+  RangedDamage: 0
   Defense: 40
-  Traits:
-  - {fileID: 11400000, guid: 1b23872db9d894e30bbfb18af09e8422, type: 2}
+  Traits: []

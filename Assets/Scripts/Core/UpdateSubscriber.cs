@@ -10,6 +10,7 @@ namespace Core
             builder.OnUpdatableCreated += HandleUpdatableCreated;
         }
 
+        //todo
         private static void HandleUpdatableCreated(ITickReceiver updatable)
         {
             if (updatable is IResearchTickReceiver researchTickReceiver)

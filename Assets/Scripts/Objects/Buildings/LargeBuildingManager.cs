@@ -14,7 +14,8 @@ public class LargeBuildingManager : BuildingManager
         
         CreateBuilding()?.SetBlueprint(BuildingBlueprint);
     }
-
+    
+    //todo: proaktiv wenn gebaut wurde isAvailable in base oder manager setzen
     protected override bool CheckIfBuildingIsBuildable()
     {
         if(!base.CheckIfBuildingIsBuildable())
@@ -23,6 +24,8 @@ public class LargeBuildingManager : BuildingManager
         if(buildings.Count > 0)
         {
             Debug.Log("Can't build more than one large building");
+            _isAvailable = false;
+            
             return false;
         }
 

@@ -18,7 +18,9 @@ public class CoreBuildingManager : BuildingManager
         if (!CheckIfBuildingIsBuildable())
             return;
         
-        CreateBuilding()?.SetBlueprint(BuildingBlueprint);
+        CreateBuilding().SetBlueprint(BuildingBlueprint);
+
+        _isAvailable = CheckIfBuildingIsBuildable();
     }
 
     protected override bool CheckIfBuildingIsBuildable()
@@ -28,7 +30,9 @@ public class CoreBuildingManager : BuildingManager
         
         if(buildings.Count > 0)
         {
-            Debug.Log("Can't build more than one core building");
+            // Debug.Log("Can't build more than one core building");
+            _isAvailable = false;
+            
             return false;
         }
 
