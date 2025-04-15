@@ -19,6 +19,9 @@ public abstract class BuildingManager : BaseObject, IUpgradeTickReceiver, IProdu
         _buildingFactory = FindObjectOfType<BuildingFactory>();
     }
 
+    //todo: params für ui-message wenn nicht buildable
+    public abstract Building TryCreateBuilding();
+    
     protected Building CreateBuilding()
     {
         var building = _buildingFactory.CreateObject(BuildingBlueprint);

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Entities.Buildings;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
@@ -18,8 +19,28 @@ namespace UI
         {
             base.Awake();
             buildingSlot = GetComponentInChildren<Slot>();
-            captionText.text = "Empty Slot";
-            options.Add(new OptionData("Empty Slot"));
+            
+            // onValueChanged.AddListener(buildingSlot.HandleOptionClicked);
+            onValueChanged.AddListener(HandleOptionClicked);
+        }
+
+        protected override void Start()
+        {
+            base.Start();
+
+            SetLabelText("Empty Slot");
+        }
+
+        private void SetLabelText(string message)
+        {
+            var textComponent = GetComponentInChildren(typeof(TMP_Text), false);
+            if(textComponent is TMP_Text tmpText)
+                tmpText.text = message;
+        }
+
+        private void HandleOptionClicked(int index)
+        {
+            SetLabelText("test");
         }
 
         public override void OnPointerClick(PointerEventData eventData)
@@ -27,7 +48,7 @@ namespace UI
             options.Clear();
             indexesToDisable.Clear();
             
-            options.Add(new OptionData("Empty Slot"));
+            options.Add(new OptionData("none"));
 
             int index = 1;
             
@@ -43,7 +64,7 @@ namespace UI
             
             var dropDownList = GetComponentInChildren<Canvas>();
 
-            Assert.IsTrue(dropDownList != null, $"Dropdown dropdown component doesn't exist: {dropDownList}");
+            Assert.IsTrue(dropDownList != null, $"Dropdown component doesn't exist: {dropDownList}");
             var toogles = dropDownList.GetComponentsInChildren<Toggle>(true);
 
             // if(!dropDownList) return;
@@ -52,6 +73,9 @@ namespace UI
             {
                 toogles[i].interactable = !indexesToDisable.Contains(i - 1);
             }
+
+            // value = -1;
+            SetLabelText("test");
         }
 
         private void EnableOption(int index, bool enable) 
@@ -87,5 +111,6 @@ namespace UI
         
             EnableOption(index, enable);
         }
+        
     }
 }

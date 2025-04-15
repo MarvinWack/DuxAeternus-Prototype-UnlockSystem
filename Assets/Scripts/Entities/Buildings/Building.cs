@@ -67,7 +67,7 @@ public class Building : MonoBehaviour, ICustomer
         _isUpgrading = true;
     }
 
-    private void Upgrade()
+    public void Upgrade()
     {   
         _level++;
         _isUpgrading = false;

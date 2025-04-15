@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UI;
 using UnityEngine;
 
 namespace Entities.Buildings
@@ -8,13 +7,21 @@ namespace Entities.Buildings
     [Serializable]
     public class Slot : MonoBehaviour
     {
+        public Action<string> BuildingSet;
         [SerializeField] private ResearchTree researchTree;
         [SerializeField] private Building building;
-        // [SerializeField] private DropDownMenu menu;
+        [SerializeField] private List<BuildingManager> buildingManagers = new();
 
         [Header("Building menu options")]
         
-        [SerializeField] private List<string> menuOptions;
+        private List<MenuOptionFunc> menuOptionsList = new();
+        private delegate bool MenuOptionFunc();
+        
+
+        private void Awake()
+        {
+            menuOptionsList.Add(CallUpgrade);
+        }
 
         public Dictionary<string, bool> GetDropDownOptions()
         {
@@ -24,12 +31,15 @@ namespace Entities.Buildings
         private Dictionary<string, bool> GetBuildableOptions()
         {
             var results = new Dictionary<string, bool>();
-            var options = researchTree.GetBuildingsWithAvailabilityState();
+            buildingManagers = researchTree.GetBuildingManagersOfType(typeof(BuildingManager));
 
-            foreach (var option in options)
+            foreach (var option in buildingManagers)
             {
-                results.Add(option.Key.Name, option.Value);
+                results.Add(option.name, option.IsAvailable);
             }
+
+            // buildableOptions.Clear();
+            // buildableOptions.AddRange(results);
             
             return results;
         }
@@ -38,33 +48,47 @@ namespace Entities.Buildings
         {
             var options = new Dictionary<string, bool>();
             
-            //wo definieren?
-
-            for (int i = 0; i < options.Count; i++)
-            {
-                options.Add(menuOptions[i], true);
-            }
+            options.Add("Upgrade", true);
             
             return options;
         }
 
-        public void HandleOptionClicked(int index)
+        public bool HandleOptionClicked(int index)
         {
             if (building)
-                CallBuildingMethod(index);
-
-            else
-                CallManagerMethod(index);
+                return CallBuildingMethod(index);
+            
+            return CallManagerMethod(index);
         }
 
-        private void CallManagerMethod(int index)
+        //todo: safe bezüglich index?
+        private bool CallManagerMethod(int index)
         {
-            //create and set building
+            building = buildingManagers[index].TryCreateBuilding();
+            
+            if (building == null)
+            {
+                Debug.Log("Building could not be built");
+                return false;
+            }
+            
+            BuildingSet?.Invoke(building.name);
+            return true;
         }
 
-        private void CallBuildingMethod(int index)
+        private bool CallBuildingMethod(int index)
         {
-            //level up
+            if(index == -1)
+                Debug.Log("index is -1");
+            
+            menuOptionsList[index].Invoke();
+            return false;
+        }
+
+        private bool CallUpgrade()
+        {
+            building.Upgrade();
+            return false;
         }
 
         public void Setup(ResearchTree tree)

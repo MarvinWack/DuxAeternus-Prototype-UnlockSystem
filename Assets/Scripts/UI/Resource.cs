@@ -1,27 +1,23 @@
-using System;
-using System.Collections.Generic;
-using Production.Items;
-using Production.Storage;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI
 {
     public class Resource : MonoBehaviour
     {
-        [SerializeField] private Texture2D _resourceIcon;
-        [SerializeField] private TextMeshProUGUI _amountText;
-        [SerializeField] private ResourceStorage _resourceStorage;
-        [SerializeField] private ResourceType _resourceType;
+        [SerializeField] private Image resourceIcon;
+        [SerializeField] private TextMeshProUGUI amountText;
 
-        private void Awake()
+        public void Setup(Sprite icon, int amount)
         {
-            _resourceStorage.OnResourceAmountChanged += UpdateUI;
+            resourceIcon.sprite = icon;
+            amountText.text = amount.ToString();
         }
         
-        private void UpdateUI(Dictionary<ResourceType, int> resources)
+        public void UpdateUI(int amount)
         {
-            _amountText.text = resources[_resourceType].ToString();
+            amountText.text = amount.ToString();
         }
     }
 }

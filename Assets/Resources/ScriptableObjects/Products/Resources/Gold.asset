@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Gold
   m_EditorClassIdentifier: 
   RequiredProductionAmount: 20
+  Icon: {fileID: 21300000, guid: c862a1aee71ed49dfb385c4de2dc035b, type: 3}
   ResourceType: 1

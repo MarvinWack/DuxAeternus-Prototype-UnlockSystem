@@ -13,7 +13,5 @@ MonoBehaviour:
   m_Name: Small Building Req
   m_EditorClassIdentifier: 
   RequiredLevels:
-    _serializedList:
-    - Key: {fileID: 11400000, guid: 16e3b19432eb94d0094092a7204be17f, type: 2}
-      Value: 1
+    _serializedList: []
   UnlockTime: 0

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu]
+[CreateAssetMenu(menuName = "Buildings/LargeBuilding")]
 public class LargeBuildingBlueprint : BuildingBlueprint
 {
     public override BuildingType Type => BuildingType.Large;

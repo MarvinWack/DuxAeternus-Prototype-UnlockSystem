@@ -2,12 +2,13 @@ using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
 using Production.Items;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Production.Storage
 {
     public class ItemStorage : MonoBehaviour
     {
-        [SerializeField] SerializedDictionary<ItemBlueprint, int> Items = new ();
+        [SerializeField] SerializedDictionary<ItemBlueprint, int> items = new ();
 
         private void Awake()
         {
@@ -20,7 +21,7 @@ namespace Production.Storage
 
             foreach (var blueprint in itemBlueprints)
             {
-                Items.Add((ItemBlueprint)blueprint, 0);
+                items.Add((ItemBlueprint)blueprint, 0);
             }
         }
 
@@ -29,7 +30,7 @@ namespace Production.Storage
         {
             if (itemType is ItemBlueprint itemBlueprint)
             {
-                Items[itemBlueprint] += value;
+                items[itemBlueprint] += value;
             }
             else
             {
@@ -39,12 +40,12 @@ namespace Production.Storage
 
         public bool CheckIfEnoughItemsAvailable(ItemBlueprint item, int amount)
         {
-            return Items[item] >= amount;
+            return items[item] >= amount;
         }
 
         public void RemoveItems(ItemBlueprint item, int amount)
         {
-            Items[item] -= amount;
+            items[item] -= amount;
         }
     }
 }

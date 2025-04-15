@@ -1,4 +1,8 @@
+// using System;
+
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using AYellowpaper.SerializedCollections;
 using Objects;
 using UnityEngine;
@@ -57,17 +61,10 @@ public class ResearchTree : MonoBehaviour
     }
 
     //ist foreach safe bezogen auf den index?
-    //todo: para für buildingType
-    public Dictionary<BuildingManager, bool> GetBuildingsWithAvailabilityState()
+    public List<BuildingManager> GetBuildingManagersOfType(Type type)
     {
-        var result = new Dictionary<BuildingManager, bool>();
-        
-        foreach (var obj in _baseObjects.Values)
-        {
-            if (obj is BuildingManager buildingManager)
-                result.Add(buildingManager, buildingManager.IsAvailavle);
-        }
-        
-        return result;
+        return _baseObjects.Where(x => x.Value is BuildingManager)// && x.Value.GetType() == type)
+            .Select(x => (BuildingManager)x.Value)
+            .ToList();
     }
 }

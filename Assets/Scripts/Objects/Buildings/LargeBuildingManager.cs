@@ -7,12 +7,15 @@ public class LargeBuildingManager : BuildingManager
 
     private LargeBuildingBlueprint Blueprint => BuildingBlueprint as LargeBuildingBlueprint;
 
-    private void TryCreateBuilding()
+    public override Building TryCreateBuilding()
     {
         if (!CheckIfBuildingIsBuildable())
-            return;
-        
-        CreateBuilding()?.SetBlueprint(BuildingBlueprint);
+            return null;
+
+        var building = CreateBuilding();
+        building.SetBlueprint(BuildingBlueprint);
+
+        return building;
     }
     
     //todo: proaktiv wenn gebaut wurde isAvailable in base oder manager setzen

@@ -9,13 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f0ef7bbec784e60ac583bc44bedf4fa, type: 3}
-  m_Name: Banane
+  m_Script: {fileID: 11500000, guid: 8d7a7199872b454987b01da40f1eb8eb, type: 3}
+  m_Name: Food Building
   m_EditorClassIdentifier: 
-  RequiredProductionAmount: 10
-  Icon: {fileID: 0}
+  UnlockRequirements: {fileID: 11400000, guid: 05e091bff76ed4dfb9c1b1911b7c990a, type: 2}
+  ProducedProduct: {fileID: 11400000, guid: 7103d3af9dc1141c7bf4aa3b22cf84ba, type: 2}
   Cost: {fileID: 11400000, guid: 2c92955017f7c4b4d849f931db23aaf8, type: 2}
-  MeleeDamage: 1
-  RangedDamage: 0
-  Defense: 40
-  Traits: []
+  MaxLevel: 5
+  UpgradeTime: 3

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using AYellowpaper.SerializedCollections;
 using Production.Items;
 using UnityEngine;
@@ -8,14 +9,23 @@ namespace Production.Storage
 {
     public class ResourceStorage : MonoBehaviour
     {
-        [SerializeField] SerializedDictionary<ResourceType, int> resources = new ();
+        [SerializeField] SerializedDictionary<ResourceBlueprint, int> resources = new ();
 
-        public event Action<Dictionary<ResourceType, int>> OnResourceAmountChanged; 
-        
+        public event Action<Dictionary<ResourceBlueprint, int>> OnResourceAmountChanged;
+
         private void Awake()
         {
-            foreach(var type in Enum.GetValues(typeof(ResourceType)))
-                resources.Add((ResourceType)type, 0);
+            LoadResourceBlueprints();
+        }
+
+        private void LoadResourceBlueprints()
+        {
+            var resourceBlueprints = Resources.LoadAll("ScriptableObjects/Products/Resources", typeof(ResourceBlueprint));
+
+            foreach (var blueprint in resourceBlueprints)
+            {
+                resources.Add((ResourceBlueprint)blueprint, 0);
+            }
         }
 
         //todo: remove checks once buildings are distuingished by produced product
@@ -23,7 +33,7 @@ namespace Production.Storage
         {
             if(type is ResourceBlueprint resourceType)
             {
-                resources[resourceType.ResourceType] += value;
+                resources[resourceType] += value;
                 OnResourceAmountChanged?.Invoke(resources);
             }
             else
@@ -34,13 +44,18 @@ namespace Production.Storage
 
         public bool CheckIfEnoughResourcesAvailable(ResourceBlueprint resource, int amount)
         {
-            return resources[resource.ResourceType] >= amount;
+            return resources[resource] >= amount;
         }
 
         public void RemoveResources(ResourceBlueprint resource, int amount)
         {
-            resources[resource.ResourceType] -= amount;
+            resources[resource] -= amount;
             OnResourceAmountChanged?.Invoke(resources);
+        }
+
+        public List<ResourceBlueprint> GetResourceTypes()
+        {
+            return resources.Keys.ToList();
         }
     }
 }

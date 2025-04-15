@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Production.Items
 {
@@ -16,5 +17,6 @@ namespace Production.Items
     public abstract class ProductBlueprint : ScriptableObject
     {
          public RequiredProductionAmount RequiredProductionAmount;
+         public Sprite Icon;
     }
 }

@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0e71ba2c43da4db6a06306f0bcb158dc, type: 3}
-  m_Name: Wood
+  m_Name: Food
   m_EditorClassIdentifier: 
   RequiredProductionAmount: 10
-  Icon: {fileID: 21300000, guid: 168d928dbccd34c3aa626a7feec5983b, type: 3}
+  Icon: {fileID: 21300000, guid: 10d12e8398f124d2dabdec02f982a618, type: 3}
   ResourceType: 0

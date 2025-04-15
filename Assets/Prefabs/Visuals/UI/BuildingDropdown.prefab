@@ -1121,6 +1121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   researchTree: {fileID: 0}
   building: {fileID: 0}
+  buildingManagers: []
   menuOptions: []
 --- !u!1 &4567578434477918694
 GameObject:

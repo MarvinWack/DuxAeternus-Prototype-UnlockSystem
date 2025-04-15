@@ -9,9 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e71ba2c43da4db6a06306f0bcb158dc, type: 3}
-  m_Name: Wood
+  m_Script: {fileID: 11500000, guid: 3f0ef7bbec784e60ac583bc44bedf4fa, type: 3}
+  m_Name: Bow
   m_EditorClassIdentifier: 
-  RequiredProductionAmount: 10
-  Icon: {fileID: 21300000, guid: 168d928dbccd34c3aa626a7feec5983b, type: 3}
-  ResourceType: 0
+  RequiredProductionAmount: 30
+  Icon: {fileID: 2800000, guid: 516305e2469a54288980ad2d24520510, type: 3}
+  Cost: {fileID: 0}
+  MeleeDamage: 0
+  RangedDamage: 0
+  Defense: 0
+  Traits: []

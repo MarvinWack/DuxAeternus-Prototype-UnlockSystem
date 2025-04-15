@@ -4,12 +4,19 @@ public class SmallBuildingManager : BuildingManager
     public bool CreateBuildingButton;
     
     private SmallBuildingBlueprint Blueprint => BuildingBlueprint as SmallBuildingBlueprint;
-
-    private void TryCreateBuilding()
+    
+    public override Building TryCreateBuilding()
     {
         if (!CheckIfBuildingIsBuildable())
-            return;
-        
-        CreateBuilding()?.SetBlueprint(BuildingBlueprint);
+            return null;
+    
+        var building = CreateBuilding();
+        building.SetBlueprint(BuildingBlueprint);
+    
+        return building;
     }
+}
+
+public class Bulding
+{
 }

@@ -13,14 +13,17 @@ public class CoreBuildingManager : BuildingManager
         TryCreateBuilding();
     }
 
-    private void TryCreateBuilding()
+    public override Building TryCreateBuilding()
     {
         if (!CheckIfBuildingIsBuildable())
-            return;
+            return null;
         
-        CreateBuilding().SetBlueprint(BuildingBlueprint);
-
+        var building = CreateBuilding();
+        building.SetBlueprint(BuildingBlueprint);
+        
         _isAvailable = CheckIfBuildingIsBuildable();
+
+        return building;
     }
 
     protected override bool CheckIfBuildingIsBuildable()

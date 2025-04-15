@@ -9,9 +9,9 @@ public abstract class BaseObject : MonoBehaviour, IUnlockable, IRequirement, ITi
     [SerializeField] protected ObjectBluePrint _objectBluePrint;
 
     public string Name => _objectBluePrint.name;
-    public bool IsAvailavle => _isAvailable;
+    public bool IsAvailable => _isAvailable;
     
-    protected bool _isUnlocked;
+    public bool _isUnlocked;
     public bool _isAvailable;
 
     public IUnlockable.RequirementFulfilledHandler GetEventHandler()
@@ -21,7 +21,7 @@ public abstract class BaseObject : MonoBehaviour, IUnlockable, IRequirement, ITi
 
     public abstract UnlockRequirements GetRequirements();
 
-    public virtual void SetData(ObjectBluePrint blueprint)
+    public void SetData(ObjectBluePrint blueprint)
     {
         _objectBluePrint = blueprint;
     }

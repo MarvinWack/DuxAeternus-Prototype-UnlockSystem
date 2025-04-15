@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu]
+[CreateAssetMenu(menuName = "Buildings/CoreBuilding")]
 public class CoreBuildingBlueprint : BuildingBlueprint
 {
     public override BuildingType Type => BuildingType.Core;

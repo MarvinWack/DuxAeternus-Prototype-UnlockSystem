@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu]
+[CreateAssetMenu(menuName = "Buildings/SmallBuilding")]
 public class SmallBuildingBlueprint : BuildingBlueprint
 {
     public override BuildingType Type => BuildingType.Small;
