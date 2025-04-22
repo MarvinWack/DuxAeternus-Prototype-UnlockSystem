@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
 using Objects;
+using Objects.Research;
 using UnityEngine;
 
 /// <summary>
@@ -63,8 +64,21 @@ public class ResearchTree : MonoBehaviour
     //ist foreach safe bezogen auf den index?
     public List<BuildingManager> GetBuildingManagersOfType(Type type)
     {
-        return _baseObjects.Where(x => x.Value is BuildingManager)// && x.Value.GetType() == type)
+        return _baseObjects.Where(x => x.Value is BuildingManager && x.Value.GetType() == type)
             .Select(x => (BuildingManager)x.Value)
             .ToList();
+    }
+
+    public List<Tech> GetItemTechs()
+    {
+        var techs =  _baseObjects.Where(x => x.Value is Tech)
+            .Select(x => x.Value as Tech).ToList();
+        return techs.Where(x => x.TechBlueprint is ItemTechBlueprint).ToList();
+    }
+    
+    public List<Tech> GetAllTechs()
+    {
+        return _baseObjects.Where(x => x.Value is Tech)
+            .Select(x => x.Value as Tech).ToList();
     }
 }

@@ -1,116 +1,48 @@
-using System;
-using System.Collections.Generic;
 using Entities.Buildings;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Assertions;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
+using UnityEngine.Serialization;
 
 namespace UI
 {
-    public class DropDownMenu : TMP_Dropdown
+    public class DropDownMenu : PopUp
     {
-        [SerializeField] private Slot buildingSlot;
-        [SerializeField] private List<int> indexesToDisable = new();
+        [SerializeField] private DropDownContent content;
 
-        protected override void Awake()
+        private IDropdownCaller slot;
+
+        protected override void Setup()
         {
-            base.Awake();
-            buildingSlot = GetComponentInChildren<Slot>();
+            base.Setup();
+            content.OnButtonClicked += HandleOptionClicked;
+        }
+        
+        public override void Show(int index, Vector3 position, PopUpCaller caller)
+        {
+            base.Show(index, position, caller);
             
-            // onValueChanged.AddListener(buildingSlot.HandleOptionClicked);
-            onValueChanged.AddListener(HandleOptionClicked);
+            if(caller is IDropdownCaller dropdownCaller)
+            {
+                slot = dropdownCaller;
+                content.Show(dropdownCaller.GetDropDownOptions());
+            }
+            
+            else
+                Debug.LogError("Caller is not a dropdown caller");
         }
-
-        protected override void Start()
+        
+        public override void Hide()
         {
-            base.Start();
-
-            SetLabelText("Empty Slot");
-        }
-
-        private void SetLabelText(string message)
-        {
-            var textComponent = GetComponentInChildren(typeof(TMP_Text), false);
-            if(textComponent is TMP_Text tmpText)
-                tmpText.text = message;
+            base.Hide();
+            content.Hide();
         }
 
         private void HandleOptionClicked(int index)
         {
-            SetLabelText("test");
-        }
-
-        public override void OnPointerClick(PointerEventData eventData)
-        {
-            options.Clear();
-            indexesToDisable.Clear();
-            
-            options.Add(new OptionData("none"));
-
-            int index = 1;
-            
-            foreach (var option in buildingSlot.GetDropDownOptions())
+            if(slot.HandleOptionClicked(index))
             {
-                options.Add(new OptionData(option.Key));
-                if(option.Value == false)
-                    indexesToDisable.Add(index);
-                index++;
+                Hide();
+                blocker.gameObject.SetActive(false);
             }
-            
-            base.OnPointerClick(eventData);
-            
-            var dropDownList = GetComponentInChildren<Canvas>();
-
-            Assert.IsTrue(dropDownList != null, $"Dropdown component doesn't exist: {dropDownList}");
-            var toogles = dropDownList.GetComponentsInChildren<Toggle>(true);
-
-            // if(!dropDownList) return;
-
-            for(var i = 0; i < toogles.Length; i++) 
-            {
-                toogles[i].interactable = !indexesToDisable.Contains(i - 1);
-            }
-
-            // value = -1;
-            SetLabelText("test");
         }
-
-        private void EnableOption(int index, bool enable) 
-        {
-            if(enable) 
-            {
-                if(indexesToDisable.Contains(index)) 
-                {
-                    indexesToDisable.Remove(index);
-                }
-            }
-            
-            else 
-            {
-                if(!indexesToDisable.Contains(index)) 
-                {
-                    indexesToDisable.Add(index);
-                }
-            }
-
-            var dropDownList = GetComponentInChildren<Canvas>();
-
-            // If this returns null than the Dropdown was closed
-            if(!dropDownList) return;
-            
-            var toogles = dropDownList.GetComponentsInChildren<Toggle>(true);
-            toogles[index].interactable = enable;
-        }
-        
-        public void EnableOption(string label, bool enable) 
-        {
-            var index = options.FindIndex(o => string.Equals(o.text, label));
-        
-            EnableOption(index, enable);
-        }
-        
     }
 }

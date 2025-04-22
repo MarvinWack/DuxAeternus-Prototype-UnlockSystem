@@ -4,11 +4,11 @@ using UnityEngine.EventSystems;
 
 public class Blocker : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField] private NewDropDown dropdown;
+    [SerializeField] private DropDownMenu dropdown;
     
     public void OnPointerClick(PointerEventData eventData)
     {
-        dropdown.HideDropDownContent();
+        dropdown.Hide();
         gameObject.SetActive(false);
     }
 }

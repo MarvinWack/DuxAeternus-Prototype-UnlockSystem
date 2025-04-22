@@ -24,7 +24,7 @@ namespace Production.Items
         public RequiredProducts Cost;
         public int MeleeDamage;
         public int RangedDamage;
-        public int Defense;
+        public int Defense = 1;
         public List<Trait> Traits;
         // public WeaponType WeaponType;
         // DualWeilding DualWeilding;

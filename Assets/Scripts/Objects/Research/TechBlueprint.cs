@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu]
+[CreateAssetMenu(menuName = "Tech/TechBlueprint")]
 public class TechBlueprint : ObjectBluePrint
 {
     public override ObjectType ObjectType => ObjectType.Research;

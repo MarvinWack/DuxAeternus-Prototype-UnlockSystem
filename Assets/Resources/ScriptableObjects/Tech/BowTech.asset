@@ -9,13 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f0ef7bbec784e60ac583bc44bedf4fa, type: 3}
-  m_Name: NullDmgItem
+  m_Script: {fileID: 11500000, guid: 3992b8ae7c53436c9f8f65844bd5004f, type: 3}
+  m_Name: BowTech
   m_EditorClassIdentifier: 
-  RequiredProductionAmount: 0
-  Icon: {fileID: 0}
-  Cost: {fileID: 0}
-  MeleeDamage: 0
-  RangedDamage: 0
-  Defense: 1
-  Traits: []
+  UnlockRequirements: {fileID: 11400000, guid: 1dec1704b9a794822b550916709918cd, type: 2}
+  MaxLevel: 5
+  Item: {fileID: 11400000, guid: e4279c168baf44cedba67a5c308f2759, type: 2}

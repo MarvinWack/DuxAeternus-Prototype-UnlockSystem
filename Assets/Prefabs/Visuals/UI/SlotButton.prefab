@@ -123,6 +123,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   index: 0
+  buttonImage: {fileID: 0}
 --- !u!1 &5107654944076737117
 GameObject:
   m_ObjectHideFlags: 0
@@ -267,6 +268,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4033828816099099333}
   - component: {fileID: 3453056311886778351}
+  - component: {fileID: 1565919326321312303}
   m_Layer: 0
   m_Name: Slot
   m_TagString: Untagged
@@ -304,3 +306,17 @@ MonoBehaviour:
   researchTree: {fileID: 0}
   building: {fileID: 0}
   buildingManagers: []
+--- !u!114 &1565919326321312303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9131599864509246711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 210fdf40c6db4d818a5b98022d2d3828, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _selectedItem: {fileID: 0}
+  _techs: []

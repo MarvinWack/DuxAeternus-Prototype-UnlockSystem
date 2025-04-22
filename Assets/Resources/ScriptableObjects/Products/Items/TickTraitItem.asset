@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: TickTraitItem
   m_EditorClassIdentifier: 
   RequiredProductionAmount: 0
+  Icon: {fileID: 0}
   Cost: {fileID: 0}
   MeleeDamage: 1
   RangedDamage: 0
-  Defense: 0
+  Defense: 1
   Traits:
   - {fileID: 11400000, guid: c357e3bf48acb4c6b8f68a18b3518286, type: 2}

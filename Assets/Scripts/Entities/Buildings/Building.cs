@@ -2,20 +2,24 @@ using System;
 using System.Collections.Generic;
 using Production.Items;
 using Production.Storage;
+using UI;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class Building : MonoBehaviour, ICustomer
+public class Building : MonoBehaviour, ICustomer, IProgressSender
 {
     [InspectorButton("UpgradeDebug")]
     public bool LevelUpButton;
     
-    public Action<int> OnUpgrade;
-    public Action<ProductBlueprint, int> OnProduction; 
+    public event Action<int> OnUpgrade;
+    public event Action<float> OnUpgradeProgress;
+    public Action<ProductBlueprint, int> OnProduction;
     public event Action<Dictionary<ProductBlueprint, int>, PurchaseArgs> OnTryPurchase;
 
+    public int Level => _level;
     public int _level;
-
+    public bool IsUpgradeable => _level < _blueprint.MaxLevel;
+    
     private BuildingBlueprint _blueprint;
 
     private bool _isUpgrading;
@@ -29,6 +33,7 @@ public class Building : MonoBehaviour, ICustomer
         if (!_isUpgrading) return;
             
         _elapsedUpgradingTime++;
+        OnUpgradeProgress?.Invoke((float)_elapsedUpgradingTime / _blueprint.UpgradeTime);
         
         if(_elapsedUpgradingTime >= _blueprint.UpgradeTime)
             Upgrade();
@@ -46,7 +51,7 @@ public class Building : MonoBehaviour, ICustomer
         };
     }
 
-    private void UpgradeDebug()
+    public void UpgradeDebug()
     {
         Assert.IsTrue(_level < _blueprint.MaxLevel);
         if (_isUpgrading)
@@ -67,7 +72,7 @@ public class Building : MonoBehaviour, ICustomer
         _isUpgrading = true;
     }
 
-    public void Upgrade()
+    private void Upgrade()
     {   
         _level++;
         _isUpgrading = false;

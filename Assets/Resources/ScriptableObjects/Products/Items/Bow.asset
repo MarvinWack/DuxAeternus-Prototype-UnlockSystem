@@ -15,7 +15,7 @@ MonoBehaviour:
   RequiredProductionAmount: 30
   Icon: {fileID: 2800000, guid: 516305e2469a54288980ad2d24520510, type: 3}
   Cost: {fileID: 0}
-  MeleeDamage: 0
-  RangedDamage: 0
-  Defense: 0
+  MeleeDamage: 1
+  RangedDamage: 5
+  Defense: 1
   Traits: []

@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: AmountTraitItem
   m_EditorClassIdentifier: 
   RequiredProductionAmount: 0
+  Icon: {fileID: 0}
   Cost: {fileID: 0}
   MeleeDamage: 1
   RangedDamage: 0
-  Defense: 0
+  Defense: 1
   Traits:
   - {fileID: 11400000, guid: 1b23872db9d894e30bbfb18af09e8422, type: 2}

@@ -1,10 +1,10 @@
 using System;
 using Core;
+using UI;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 [Serializable]
-public class Tech : BaseObject, IResearchTickReceiver
+public class Tech : BaseObject, IResearchTickReceiver, IProgressSender
 {
     [InspectorButton("StartResearch")]
     public bool StartResearchButton;
@@ -12,21 +12,40 @@ public class Tech : BaseObject, IResearchTickReceiver
     [InspectorButton("CompleteResearch")]
     public bool CompleteResearchButton;
     
+    public event Action<int> OnUpgrade;
+    public event Action<float> OnUpgradeProgress;
+    
     public bool IsResearchFinished => _isResearchFinished;
     public ushort Level = 0;
 
-    private TechBlueprint TechBlueprint => _objectBluePrint as TechBlueprint;
+    public TechBlueprint TechBlueprint => _objectBluePrint as TechBlueprint;
     
     private bool _isResearching;
     protected bool _isResearchFinished; //todo: lock interaction when research is at MaxLevel
     private ushort _elapsedResearchTime;
 
-    private void StartResearch()
+    public bool StartResearch()
     {
-        Assert.IsTrue(_isUnlocked);
-        Assert.IsFalse(_isResearchFinished);
-        Assert.IsTrue(Level < TechBlueprint.MaxLevel);
+        if (!_isUnlocked)
+        {
+            Debug.LogError("Tech is not unlocked");
+            return false;
+        }
+        
+        if (_isResearchFinished)
+        {
+            Debug.LogError("Research is already finished");
+            return false;
+        }
+        
+        if (Level >= TechBlueprint.MaxLevel)
+        {
+            Debug.LogError("Tech is already at max level");
+            return false;
+        }
+        
         _isResearching = true;
+        return true;
     }
 
     private void CompleteResearch()
@@ -34,6 +53,8 @@ public class Tech : BaseObject, IResearchTickReceiver
         Level++;
         _isResearching = false;
         _elapsedResearchTime = 0;
+        
+        OnUpgrade?.Invoke(Level);
         
         RaiseOnRequirementValueUpdatedEvent(Level);
     }
@@ -48,6 +69,8 @@ public class Tech : BaseObject, IResearchTickReceiver
         if (!_isResearching) return;
             
         _elapsedResearchTime++;
+        OnUpgradeProgress?.Invoke((float) _elapsedResearchTime / TechBlueprint.UnlockRequirements.UnlockTime);
+        Debug.Log($"Research progress: {(float) _elapsedResearchTime / TechBlueprint.UnlockRequirements.UnlockTime}");
         
         if(_elapsedResearchTime >= TechBlueprint.UnlockRequirements.UnlockTime)
             CompleteResearch();

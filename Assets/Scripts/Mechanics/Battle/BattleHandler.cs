@@ -72,12 +72,17 @@ namespace Mechanics.Battle
             
             foreach (var type in attTroopTypes)
             {
-                int dmg = type.Weapon.RangedDamage * type.TotalAmount;
+                int totalDamage = type.Weapon.RangedDamage * type.TotalAmount;
 
                 foreach (var target in typeShares)
                 {
-                    lossesPerType.Add(target.Key, Mathf.RoundToInt(
-                        dmg * target.Value * GetTraitModifiers(type, target.Key) / target.Key.Armour.Defense));
+                    int damageShare = Mathf.RoundToInt(
+                        totalDamage * target.Value * GetTraitModifiers(type, target.Key) / target.Key.Armour.Defense);
+
+                    if (!lossesPerType.TryAdd(target.Key, damageShare))
+                    {
+                        lossesPerType[target.Key] += damageShare;
+                    }
                 }
             }
 
@@ -90,12 +95,17 @@ namespace Mechanics.Battle
             
             foreach (var type in attTroopTypes)
             {
-                int dmg = type.Weapon.MeleeDamage * type.TotalAmount;
+                int totalDamage = type.Weapon.MeleeDamage * type.TotalAmount;
 
                 foreach (var target in typeShares)
                 {
-                    lossesPerType.Add(target.Key, Mathf.RoundToInt(
-                        dmg * target.Value * GetTraitModifiers(type, target.Key) / target.Key.Armour.Defense));
+                    int damageShare = Mathf.RoundToInt(
+                        totalDamage * target.Value * GetTraitModifiers(type, target.Key) / target.Key.Armour.Defense);
+                    
+                    if (!lossesPerType.TryAdd(target.Key, damageShare))
+                    {
+                        lossesPerType[target.Key] += damageShare;
+                    }
                 }
             }
 

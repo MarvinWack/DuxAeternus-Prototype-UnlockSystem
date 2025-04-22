@@ -1,56 +1,27 @@
 using System;
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 
 namespace Entities.Buildings
 {
     [Serializable]
-    public class Slot : MonoBehaviour
-    {
-        public Action<string> BuildingSet;
+    public class BuildingSlot : MonoBehaviour, IDropdownCaller, IProgressVisualiser
+    { 
+        public event IDropdownCaller.OptionSetHandler OptionSet;
+        public event Action<float> OnUpgradeProgress;
+        
         [SerializeField] private ResearchTree researchTree;
         [SerializeField] private Building building;
         [SerializeField] private List<BuildingManager> buildingManagers = new();
-
-        [Header("Building menu options")]
+        private BuildingType _buildingType;
         
         private List<MenuOptionFunc> menuOptionsList = new();
         private delegate bool MenuOptionFunc();
-        
-
-        private void Awake()
-        {
-            menuOptionsList.Add(CallUpgrade);
-        }
 
         public Dictionary<string, bool> GetDropDownOptions()
         {
             return building ? GetBuildingMenuOptions() : GetBuildableOptions();
-        }
-
-        private Dictionary<string, bool> GetBuildableOptions()
-        {
-            var results = new Dictionary<string, bool>();
-            buildingManagers = researchTree.GetBuildingManagersOfType(typeof(BuildingManager));
-
-            foreach (var option in buildingManagers)
-            {
-                results.Add(option.name, option.IsAvailable);
-            }
-
-            // buildableOptions.Clear();
-            // buildableOptions.AddRange(results);
-            
-            return results;
-        }
-
-        private Dictionary<string, bool> GetBuildingMenuOptions()
-        {
-            var options = new Dictionary<string, bool>();
-            
-            options.Add("Upgrade", true);
-            
-            return options;
         }
 
         public bool HandleOptionClicked(int index)
@@ -61,7 +32,47 @@ namespace Entities.Buildings
             return CallManagerMethod(index);
         }
 
+        public void Setup(ResearchTree tree, BuildingType buildingType)
+        {
+            menuOptionsList.Add(CallUpgrade);
+            researchTree = tree;
+            _buildingType = buildingType;
+        }
+
+        private Dictionary<string, bool> GetBuildableOptions()
+        {
+            var results = new Dictionary<string, bool>();
+
+            switch (_buildingType)
+            {
+                case BuildingType.Small: buildingManagers = researchTree.GetBuildingManagersOfType(typeof(SmallBuildingManager));
+                    break;
+                case BuildingType.Core: buildingManagers = researchTree.GetBuildingManagersOfType(typeof(CoreBuildingManager));
+                    break;
+                case BuildingType.Large: buildingManagers = researchTree.GetBuildingManagersOfType(typeof(LargeBuildingManager));
+                    break;
+                default: throw new Exception($"Unsupported building type: {_buildingType}");
+            }
+
+            foreach (var option in buildingManagers)
+            {
+                results.Add(option.name, option.IsAvailable);
+            }
+            
+            return results;
+        }
+
+        private Dictionary<string, bool> GetBuildingMenuOptions()
+        {
+            var options = new Dictionary<string, bool>();
+            
+            options.Add("Level " + building.Level, building.IsUpgradeable);
+            
+            return options;
+        }
+
         //todo: safe bezüglich index?
+
         private bool CallManagerMethod(int index)
         {
             building = buildingManagers[index].TryCreateBuilding();
@@ -72,7 +83,9 @@ namespace Entities.Buildings
                 return false;
             }
             
-            BuildingSet?.Invoke(building.name);
+            building.OnUpgradeProgress += OnUpgradeProgress;
+            
+            OptionSet?.Invoke(building.name);
             return true;
         }
 
@@ -87,13 +100,8 @@ namespace Entities.Buildings
 
         private bool CallUpgrade()
         {
-            building.Upgrade();
+            building.UpgradeDebug();
             return false;
-        }
-
-        public void Setup(ResearchTree tree)
-        {
-            researchTree = tree;
         }
     }
 }
