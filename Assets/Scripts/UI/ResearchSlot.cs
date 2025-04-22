@@ -33,12 +33,12 @@ namespace UI
 
         public void HandleSlotClicked()
         {
-            _tech.StartResearch();
+            _tech.StartUpgrade();
         }
 
         public string GetInfo()
         {
-            return "Research Slot: " + _tech.name + "techinfo bliblablu dideldum und dideldei";
+            return _tech.name + ": " + _tech.TechBlueprint.Description;
         }
     }
 }

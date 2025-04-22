@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Objects;
 using Production.Items;
 using UnityEngine;
 
-public class TroopType : MonoBehaviour
+public class TroopType : MonoBehaviour, ISlotItem
 {
     [InspectorButton("CreateUnitDebug")] 
     public bool _CreateUnit;

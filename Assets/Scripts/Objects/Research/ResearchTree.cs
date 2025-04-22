@@ -14,7 +14,7 @@ using UnityEngine;
 /// be unlocked through research, but they may also be required to unlock
 /// certain research.
 /// </summary>
-public class ResearchTree : MonoBehaviour
+public class ResearchTree : MonoBehaviour, ISlotItemSource
 {
     [SerializeField] private ObjectBluePrint[] lastEntriesInTree;
     
@@ -60,8 +60,7 @@ public class ResearchTree : MonoBehaviour
         
         return instance;
     }
-
-    //ist foreach safe bezogen auf den index?
+    
     public List<BuildingManager> GetBuildingManagersOfType(Type type)
     {
         return _baseObjects.Where(x => x.Value is BuildingManager && x.Value.GetType() == type)
@@ -69,6 +68,7 @@ public class ResearchTree : MonoBehaviour
             .ToList();
     }
 
+    //todo: durch GetSlotItems ersetzen sobald Tech-Types ihre eigenen subclasses haben
     public List<Tech> GetItemTechs()
     {
         var techs =  _baseObjects.Where(x => x.Value is Tech)
@@ -80,5 +80,10 @@ public class ResearchTree : MonoBehaviour
     {
         return _baseObjects.Where(x => x.Value is Tech)
             .Select(x => x.Value as Tech).ToList();
+    }
+
+    public List<ISlotItem> GetSlotItems(Type type)
+    {
+        return _baseObjects.Where(x => x.Value.GetType() == type).Select(x => (ISlotItem)x.Value).ToList();
     }
 }

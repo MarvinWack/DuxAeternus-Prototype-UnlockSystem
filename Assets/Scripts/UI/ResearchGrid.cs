@@ -7,6 +7,7 @@ namespace UI
     {
         protected override async void SetupButtonGrid()
         {
+            //todo: bootstrapper
             await Task.Delay(500);
             
             var techs = researchTree.GetAllTechs();

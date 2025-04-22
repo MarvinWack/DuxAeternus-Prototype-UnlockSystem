@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Objects;
 using UI;
 using UnityEngine;
 
@@ -12,8 +13,10 @@ namespace Entities.Buildings
         public event Action<float> OnUpgradeProgress;
         
         [SerializeField] private ResearchTree researchTree;
+        [SerializeField] private ISlotItemSource researchTreeNEW;
         [SerializeField] private Building building;
         [SerializeField] private List<BuildingManager> buildingManagers = new();
+        [SerializeField] private List<ISlotItem> buildingManagersNEW = new();
         private BuildingType _buildingType;
         
         private List<MenuOptionFunc> menuOptionsList = new();
@@ -100,7 +103,7 @@ namespace Entities.Buildings
 
         private bool CallUpgrade()
         {
-            building.UpgradeDebug();
+            building.StartUpgrade();
             return false;
         }
     }

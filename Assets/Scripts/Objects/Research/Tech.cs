@@ -1,10 +1,11 @@
 using System;
 using Core;
+using Objects;
 using UI;
 using UnityEngine;
 
 [Serializable]
-public class Tech : BaseObject, IResearchTickReceiver, IProgressSender
+public class Tech : BaseObject, IProgressSender, IResearchTickReceiver, IUpgradable
 {
     [InspectorButton("StartResearch")]
     public bool StartResearchButton;
@@ -14,33 +15,34 @@ public class Tech : BaseObject, IResearchTickReceiver, IProgressSender
     
     public event Action<int> OnUpgrade;
     public event Action<float> OnUpgradeProgress;
-    
-    public bool IsResearchFinished => _isResearchFinished;
+
     public ushort Level = 0;
 
     public TechBlueprint TechBlueprint => _objectBluePrint as TechBlueprint;
-    
+
     private bool _isResearching;
+
     protected bool _isResearchFinished; //todo: lock interaction when research is at MaxLevel
+
     private ushort _elapsedResearchTime;
 
-    public bool StartResearch()
+    public bool StartUpgrade()
     {
         if (!_isUnlocked)
         {
-            Debug.LogError("Tech is not unlocked");
+            Debug.Log("Tech is not unlocked");
             return false;
         }
         
         if (_isResearchFinished)
         {
-            Debug.LogError("Research is already finished");
+            Debug.Log("Research is already finished");
             return false;
         }
         
         if (Level >= TechBlueprint.MaxLevel)
         {
-            Debug.LogError("Tech is already at max level");
+            Debug.Log("Tech is already at max level");
             return false;
         }
         
