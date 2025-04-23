@@ -14,7 +14,7 @@ using UnityEngine;
 /// be unlocked through research, but they may also be required to unlock
 /// certain research.
 /// </summary>
-public class ResearchTree : MonoBehaviour, ISlotItemSource
+public class ResearchTree : MonoBehaviour, ISlotContentSource
 {
     [SerializeField] private ObjectBluePrint[] lastEntriesInTree;
     
@@ -82,8 +82,8 @@ public class ResearchTree : MonoBehaviour, ISlotItemSource
             .Select(x => x.Value as Tech).ToList();
     }
 
-    public List<ISlotItem> GetSlotItems(Type type)
+    public List<ISlotContent> GetSlotItems(Type type)
     {
-        return _baseObjects.Where(x => x.Value.GetType() == type).Select(x => (ISlotItem)x.Value).ToList();
+        return _baseObjects.Where(x => x.Value.GetType() == type).Select(x => (ISlotContent)x.Value).ToList();
     }
 }

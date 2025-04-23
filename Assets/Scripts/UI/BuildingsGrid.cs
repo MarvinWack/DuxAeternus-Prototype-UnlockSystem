@@ -1,5 +1,6 @@
 using System;
 using Entities.Buildings;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace UI
@@ -23,14 +24,14 @@ namespace UI
                 InstantiateButton(i);
             }
         }
-
-        //(abstract) factory wegen versch. parameter wie buildingtype?
+        
         private void InstantiateButton(int i)
         {
-            var slotButton = Instantiate(slotButtonPrefab, transform);
-            slotButton.GetComponentInChildren<BuildingSlot>().Setup(researchTree, buildingType);
-            slotButton.GetComponent<SlotButton>().Setup(i, dropDownMenu, slotButton.GetComponentInChildren<BuildingSlot>());
-            SetLabelText("Empty Slot " + i, slotButton);
+            var instance = Instantiate(slotButtonPrefab, transform);
+            var buildingSlot = instance.transform.GetChild(0).AddComponent<BuildingSlot>();
+            buildingSlot.Setup(IslotContentSource, buildingType);
+            instance.GetComponent<SlotButton>().Setup(i, dropDownMenu, buildingSlot);
+            SetLabelText("Empty Slot " + i, instance);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Objects.TroopTypes;
 using Production.Items;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -51,11 +52,12 @@ namespace UI
 
         private void InstantiateButton(int i, string name)
         {
-            var slotButton = Instantiate(slotButtonPrefab, transform);
-            slotButton.GetComponentInChildren<TroopCreatorSlot>().Setup(researchTree, _troopTypeCreator, i);
-            slotButton.GetComponentInChildren<TroopCreatorSlot>().ItemSelected += HandleItemSelected;
-            slotButton.GetComponent<SlotButton>().Setup(i, dropDownMenu, slotButton.GetComponentInChildren<TroopCreatorSlot>());
-            SetLabelText(name, slotButton);
+            var instance = Instantiate(slotButtonPrefab, transform);
+            var troopCreatorSlot = instance.transform.GetChild(0).AddComponent<TroopCreatorSlot>();
+            troopCreatorSlot.Setup(IslotContentSource, _troopTypeCreator, i);
+            troopCreatorSlot.ItemSelected += HandleItemSelected;
+            instance.GetComponent<SlotButton>().Setup(i, dropDownMenu, instance.GetComponentInChildren<TroopCreatorSlot>());
+            SetLabelText(name, instance);
         }
 
         private void HandleItemSelected(ItemBlueprint item, int index)

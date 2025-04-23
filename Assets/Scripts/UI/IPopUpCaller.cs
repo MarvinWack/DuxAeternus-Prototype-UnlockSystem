@@ -1,6 +1,6 @@
 namespace UI
 {
-    public interface PopUpCaller
+    public interface IPopUpCaller
     {
         
     }

@@ -1,13 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
 using Production.Items;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Objects.TroopTypes
 {
-    public class TroopTypeCreator : MonoBehaviour
+    public class TroopTypeCreator : MonoBehaviour, ISlotContentSource
     {
         [InspectorButton("CreateTroopType")]
         public bool _CreateTroopType;
@@ -68,6 +68,11 @@ namespace Objects.TroopTypes
         public bool CheckIfUnitsAvailableToFight()
         {
             return troopTypes.All(type => type.CheckIfUnitsAvailableToFight());
+        }
+
+        public List<ISlotContent> GetSlotItems(Type type)
+        {
+            return troopTypes.Cast<ISlotContent>().ToList();
         }
     }
 }

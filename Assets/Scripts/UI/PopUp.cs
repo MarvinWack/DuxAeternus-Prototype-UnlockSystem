@@ -18,7 +18,7 @@ namespace UI
             Hide();
         }
 
-        public virtual void Show(int index, Vector3 position, PopUpCaller caller = null)
+        public virtual void Show(int index, Vector3 position, IPopUpCaller caller = null)
         {
             blocker.gameObject.SetActive(true);
             gameObject.SetActive(true);

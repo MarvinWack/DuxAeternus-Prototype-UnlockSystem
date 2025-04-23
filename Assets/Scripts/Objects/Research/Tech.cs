@@ -66,6 +66,11 @@ public class Tech : BaseObject, IProgressSender, IResearchTickReceiver, IUpgrada
         return TechBlueprint.UnlockRequirements;
     }
 
+    public override bool CallSlotAction()
+    {
+        return StartUpgrade();
+    }
+
     public void ResearchTickHandler()
     {
         if (!_isResearching) return;

@@ -1,6 +1,6 @@
 namespace UI
 {
-    public interface InfoWindowCaller : PopUpCaller
+    public interface InfoWindowCaller : IPopUpCaller
     {
         public string GetInfo();
     }

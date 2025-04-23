@@ -68,4 +68,12 @@ public abstract class BuildingManager : BaseObject, IUpgradeTickReceiver, IProdu
             building.HandleProductionTick();
         }
     }
+    
+    public override bool CallSlotAction()
+    {
+        if (TryCreateBuilding() == null)
+            return false;
+
+        return true;
+    }
 }

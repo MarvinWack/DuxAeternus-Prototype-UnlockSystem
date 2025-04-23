@@ -3,13 +3,14 @@ using Core;
 using Objects;
 using UnityEngine;
 
-public abstract class BaseObject : MonoBehaviour, IUnlockable, IRequirement, ITickReceiver, ISlotItem
+public abstract class BaseObject : MonoBehaviour, IUnlockable, IRequirement, ITickReceiver, ISlotContent
 {
     public event IRequirement.RequirementValueUpdated OnRequirementValueUpdated;
     
     [SerializeField] protected ObjectBluePrint _objectBluePrint;
 
     public string Name => _objectBluePrint.name;
+    //todo: remove?
     public bool IsAvailable => _isAvailable;
     
     public bool _isUnlocked;
@@ -45,5 +46,17 @@ public abstract class BaseObject : MonoBehaviour, IUnlockable, IRequirement, ITi
     protected void RaiseOnRequirementValueUpdatedEvent(int value)
     {
         OnRequirementValueUpdated?.Invoke(_objectBluePrint, value);
+    }
+
+    public abstract bool CallSlotAction();
+
+    public string GetName()
+    {
+        return gameObject.name;
+    }
+
+    bool ISlotContent.IsAvailable()
+    {
+        return _isAvailable;
     }
 }

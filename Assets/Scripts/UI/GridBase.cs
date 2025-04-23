@@ -1,15 +1,18 @@
+using AYellowpaper;
+using Objects;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 
 namespace UI
 {
-    public abstract class GridBase : MonoBehaviour
+    public abstract class GridBase : SerializedMonoBehaviour
     {
         [SerializeField] protected GameSettings gameSettings;
         [SerializeField] protected GameObject slotButtonPrefab;
         [SerializeField] protected DropDownMenu dropDownMenu;
         [SerializeField] protected InfoWindow infoWindow;
-        [SerializeField] protected ResearchTree researchTree;
+        [SerializeField] protected ISlotContentSource IslotContentSource;
 
         private void Awake()
         {

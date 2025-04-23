@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
 
@@ -10,7 +11,7 @@ namespace UI
             //todo: bootstrapper
             await Task.Delay(500);
             
-            var techs = researchTree.GetAllTechs();
+            var techs = IslotContentSource.GetSlotItems(typeof(Tech)).Cast<Tech>().ToList();
             
             for (int i = 0; i < techs.Count; i++)
             {
@@ -20,11 +21,11 @@ namespace UI
 
         private void InstantiateButton(int i, Tech tech)
         {
-            var slotButton = Instantiate(slotButtonPrefab, transform);
-            var researchSlot = slotButton.transform.GetChild(0).AddComponent<ResearchSlot>();
+            var instance = Instantiate(slotButtonPrefab, transform);
+            var researchSlot = instance.transform.GetChild(0).AddComponent<ResearchSlot>();
             researchSlot.Setup(tech, i);
-            slotButton.GetComponent<SlotButton>().Setup(i, infoWindow, researchSlot);
-            SetLabelText(tech.name, slotButton);
+            instance.GetComponent<SlotButton>().Setup(i, infoWindow, researchSlot);
+            SetLabelText(tech.name, instance);
         }
     }
 }

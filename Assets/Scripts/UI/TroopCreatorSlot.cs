@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
 using Entities.Buildings;
+using Objects;
 using Objects.Research;
 using Objects.TroopTypes;
 using Production.Items;
@@ -19,7 +20,7 @@ namespace UI
         [SerializeField] private ItemBlueprint _selectedItem;
         [SerializeField] private List<Tech> _techs = new();
 
-        private ResearchTree _researchTree;
+        private ISlotContentSource _researchTree;
         private TroopTypeCreator _troopTypeCreator;
         private int _index;
 
@@ -28,17 +29,18 @@ namespace UI
             throw new NotImplementedException();
         }
 
-        public void Setup(ResearchTree tree, TroopTypeCreator troopTypeCreator, int index)
+        public void Setup(ISlotContentSource source, TroopTypeCreator troopTypeCreator, int index)
         {
-            _researchTree = tree;
+            _researchTree = source;
             _troopTypeCreator = troopTypeCreator;
             _index = index;
         }
 
         public Dictionary<string, bool> GetDropDownOptions()
         {
-            _techs = _researchTree.GetItemTechs();
-
+            _techs = _researchTree.GetSlotItems(typeof(Tech)).Cast<Tech>().
+                Where(x => x.TechBlueprint is ItemTechBlueprint).ToList();
+                            
             return _techs.ToDictionary(tech => tech.name, tech => tech.IsAvailable);
         }
 

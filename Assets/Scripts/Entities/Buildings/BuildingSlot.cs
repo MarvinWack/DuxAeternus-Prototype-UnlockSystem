@@ -12,11 +12,10 @@ namespace Entities.Buildings
         public event IDropdownCaller.OptionSetHandler OptionSet;
         public event Action<float> OnUpgradeProgress;
         
-        [SerializeField] private ResearchTree researchTree;
-        [SerializeField] private ISlotItemSource researchTreeNEW;
+        // [SerializeField] private ResearchTree researchTree;
+        private ISlotContentSource researchTreeNEW;
         [SerializeField] private Building building;
-        [SerializeField] private List<BuildingManager> buildingManagers = new();
-        [SerializeField] private List<ISlotItem> buildingManagersNEW = new();
+        [SerializeField] private List<ISlotContent> buildingManagers = new();
         private BuildingType _buildingType;
         
         private List<MenuOptionFunc> menuOptionsList = new();
@@ -35,11 +34,13 @@ namespace Entities.Buildings
             return CallManagerMethod(index);
         }
 
-        public void Setup(ResearchTree tree, BuildingType buildingType)
+        public void Setup(ISlotContentSource source, BuildingType buildingType)
         {
             menuOptionsList.Add(CallUpgrade);
-            researchTree = tree;
+            researchTreeNEW = source;
             _buildingType = buildingType;
+            //todo: GET ODIN
+            // researchTreeNEW = researchTree;
         }
 
         private Dictionary<string, bool> GetBuildableOptions()
@@ -48,18 +49,18 @@ namespace Entities.Buildings
 
             switch (_buildingType)
             {
-                case BuildingType.Small: buildingManagers = researchTree.GetBuildingManagersOfType(typeof(SmallBuildingManager));
+                case BuildingType.Small: buildingManagers = researchTreeNEW.GetSlotItems(typeof(SmallBuildingManager));
                     break;
-                case BuildingType.Core: buildingManagers = researchTree.GetBuildingManagersOfType(typeof(CoreBuildingManager));
+                case BuildingType.Core: buildingManagers = researchTreeNEW.GetSlotItems(typeof(CoreBuildingManager));
                     break;
-                case BuildingType.Large: buildingManagers = researchTree.GetBuildingManagersOfType(typeof(LargeBuildingManager));
+                case BuildingType.Large: buildingManagers = researchTreeNEW.GetSlotItems(typeof(LargeBuildingManager));
                     break;
                 default: throw new Exception($"Unsupported building type: {_buildingType}");
             }
 
             foreach (var option in buildingManagers)
             {
-                results.Add(option.name, option.IsAvailable);
+                results.Add(option.GetName(), option.IsAvailable());
             }
             
             return results;
@@ -78,7 +79,8 @@ namespace Entities.Buildings
 
         private bool CallManagerMethod(int index)
         {
-            building = buildingManagers[index].TryCreateBuilding();
+
+            building = ((BuildingManager)buildingManagers[index]).TryCreateBuilding();
             
             if (building == null)
             {

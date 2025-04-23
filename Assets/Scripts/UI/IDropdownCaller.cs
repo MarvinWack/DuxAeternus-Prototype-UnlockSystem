@@ -3,7 +3,7 @@ using UI;
 
 namespace Entities.Buildings
 {
-    public interface IDropdownCaller : PopUpCaller
+    public interface IDropdownCaller : IPopUpCaller
     {
         public delegate void OptionSetHandler(string option);
         event OptionSetHandler OptionSet;

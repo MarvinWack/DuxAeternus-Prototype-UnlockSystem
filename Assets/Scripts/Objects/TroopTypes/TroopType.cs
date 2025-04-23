@@ -5,16 +5,17 @@ using Objects;
 using Production.Items;
 using UnityEngine;
 
-public class TroopType : MonoBehaviour, ISlotItem
+public class TroopType : MonoBehaviour, ISlotContent, IUpgradable
 {
     [InspectorButton("CreateUnitDebug")] 
     public bool _CreateUnit;
 
     [InspectorButton("RecruitDebug")] 
     public bool _Recruit;
-    
-    private int AmountToRecruit = 100;
-    
+
+    public event Action<int> OnUpgrade;
+    public event Action<float> OnUpgradeProgress;
+
     [SerializeField] private ItemBlueprint weapon;
     [SerializeField] private ItemBlueprint armour;
     [SerializeField] private Unit unitPrefab;
@@ -23,6 +24,8 @@ public class TroopType : MonoBehaviour, ISlotItem
     public int TotalAmount => units.Sum(unit => unit.Amount);
     public ItemBlueprint Weapon => weapon;
     public ItemBlueprint Armour => armour;
+
+    private int AmountToRecruit = 100;
 
     public void Setup(ItemBlueprint firstItem, ItemBlueprint secondItem, string troopTypeName)
     {
@@ -46,16 +49,40 @@ public class TroopType : MonoBehaviour, ISlotItem
     private void RecruitDebug()
     {
         units[0].AddAmount(AmountToRecruit);
+        OnUpgrade?.Invoke(units[0].Amount);
     }
 
     //todo: !!!
     public void SubstractLossesFromFirstUnit(int amount)
     {
         units[0].RemoveAmount(amount);
+        OnUpgrade?.Invoke(units[0].Amount);
     }
 
     public bool CheckIfUnitsAvailableToFight()
     {
         return units.All(unit => unit.Amount > 0);
+    }
+
+    public bool CallSlotAction()
+    {
+        RecruitDebug();
+        
+        return true;
+    }
+
+    public string GetName()
+    {
+        return gameObject.name;
+    }
+
+    public bool IsAvailable()
+    {
+        return CheckIfUnitsAvailableToFight(); //&& CheckIfUnitsAvailableToRecruit();
+    }
+    
+    public bool StartUpgrade()
+    {
+        throw new NotImplementedException();
     }
 }

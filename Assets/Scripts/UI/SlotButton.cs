@@ -13,7 +13,7 @@ namespace UI
         [SerializeField] private Image buttonImage;
         
         private Action<int, Vector3, IDropdownCaller> OnClick;
-        private event Action<int, Vector3, PopUpCaller> OnHoverStart;
+        private event Action<int, Vector3, IPopUpCaller> OnHoverStart;
         private event Action OnHoverEnd;
         private Action OnClickNoParams;
         
@@ -47,7 +47,7 @@ namespace UI
             }
             else
             {
-                Debug.LogError("Slot is not an InfoWindow caller");
+                Debug.Log("Slot is not an InfoWindow caller");
             }
             
             SetupProgressVisualiser(slot);
