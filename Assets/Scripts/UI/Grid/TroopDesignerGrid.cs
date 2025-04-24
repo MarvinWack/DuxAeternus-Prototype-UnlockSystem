@@ -56,7 +56,7 @@ namespace UI
             var troopCreatorSlot = instance.transform.GetChild(0).AddComponent<TroopCreatorSlot>();
             troopCreatorSlot.Setup(IslotContentSource, _troopTypeCreator, i);
             troopCreatorSlot.ItemSelected += HandleItemSelected;
-            instance.GetComponent<SlotButton>().Setup(i, dropDownMenu, instance.GetComponentInChildren<TroopCreatorSlot>());
+            instance.GetComponentInChildren<SlotButton>().Setup(i, dropDownMenu, instance.GetComponentInChildren<TroopCreatorSlot>());
             SetLabelText(name, instance);
         }
 

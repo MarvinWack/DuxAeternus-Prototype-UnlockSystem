@@ -24,7 +24,7 @@ namespace UI
             var instance = Instantiate(slotButtonPrefab, transform);
             var researchSlot = instance.transform.GetChild(0).AddComponent<ResearchSlot>();
             researchSlot.Setup(tech, i);
-            instance.GetComponent<SlotButton>().Setup(i, infoWindow, researchSlot);
+            instance.GetComponentInChildren<SlotButton>().Setup(i, infoWindow, researchSlot);
             SetLabelText(tech.name, instance);
         }
     }

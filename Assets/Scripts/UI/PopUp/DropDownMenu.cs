@@ -16,9 +16,9 @@ namespace UI
             content.OnButtonClicked += HandleOptionClicked;
         }
         
-        public override void Show(int index, Vector3 position, IPopUpCaller caller)
+        public override void Show(Vector3 position, IPopUpCaller caller)
         {
-            base.Show(index, position, caller);
+            base.Show(position, caller);
             
             if(caller is IDropdownCaller dropdownCaller)
             {

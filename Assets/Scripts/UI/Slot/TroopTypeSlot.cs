@@ -8,7 +8,7 @@ namespace UI
     public class TroopTypeSlot : MonoBehaviour, IDirectCaller, IProgressVisualiser
     {
         public event Action<string> OnLabelChanged;
-        public event Action<float> OnUpgradeProgress;
+        public event Action<float> OnProgress;
 
         private ISlotContent _troopType;
 

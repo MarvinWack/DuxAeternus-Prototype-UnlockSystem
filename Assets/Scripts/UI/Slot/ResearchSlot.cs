@@ -6,7 +6,7 @@ namespace UI
 {
     public class ResearchSlot : MonoBehaviour, IDirectCaller, IProgressVisualiser, InfoWindowCaller
     {
-        public event Action<float> OnUpgradeProgress;
+        public event Action<float> OnProgress;
         public event Action<string> OnLabelChanged;
         
         private Tech _tech;
@@ -14,7 +14,7 @@ namespace UI
         public void Setup(Tech tech, int i)
         {
             _tech = tech;
-            _tech.OnUpgradeProgress += OnUpgradeProgress;
+            _tech.OnUpgradeProgress += OnProgress;
             _tech.OnUpgradeProgress += HandleDebug;
 
             _tech.OnUpgrade += HandleUpgrade;

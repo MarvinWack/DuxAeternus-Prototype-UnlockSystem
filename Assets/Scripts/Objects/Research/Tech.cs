@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using Core;
 using Objects;
 using UI;
+using UI.Slot;
 using UnityEngine;
 
 [Serializable]

@@ -30,7 +30,7 @@ namespace UI
             var instance = Instantiate(slotButtonPrefab, transform);
             var buildingSlot = instance.transform.GetChild(0).AddComponent<BuildingSlot>();
             buildingSlot.Setup(IslotContentSource, buildingType);
-            instance.GetComponent<SlotButton>().Setup(i, dropDownMenu, buildingSlot);
+            instance.GetComponentInChildren<SlotButton>().Setup(i, dropDownMenu, buildingSlot);
             SetLabelText("Empty Slot " + i, instance);
         }
     }

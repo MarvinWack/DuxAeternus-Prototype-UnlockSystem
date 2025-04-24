@@ -1,10 +1,6 @@
-using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Objects;
-using Objects.TroopTypes;
 using Unity.VisualScripting;
-using UnityEngine;
 
 namespace UI
 {
@@ -27,7 +23,7 @@ namespace UI
             var instance = Instantiate(slotButtonPrefab, transform);
             var troopTypeSlot = instance.transform.GetChild(0).AddComponent<TroopTypeSlot>();
             troopTypeSlot.Setup(type);
-            instance.GetComponent<SlotButton>().Setup(index, infoWindow, troopTypeSlot);
+            instance.GetComponentInChildren<SlotButton>().Setup(index, infoWindow, troopTypeSlot);
             SetLabelText(type.GetName(), instance);
         }
     }

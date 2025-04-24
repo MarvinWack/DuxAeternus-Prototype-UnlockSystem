@@ -10,9 +10,8 @@ namespace Entities.Buildings
     public class BuildingSlot : MonoBehaviour, IDropdownCaller, IProgressVisualiser
     { 
         public event IDropdownCaller.OptionSetHandler OptionSet;
-        public event Action<float> OnUpgradeProgress;
+        public event Action<float> OnProgress;
         
-        // [SerializeField] private ResearchTree researchTree;
         private ISlotContentSource researchTreeNEW;
         [SerializeField] private Building building;
         [SerializeField] private List<ISlotContent> buildingManagers = new();
@@ -39,8 +38,6 @@ namespace Entities.Buildings
             menuOptionsList.Add(CallUpgrade);
             researchTreeNEW = source;
             _buildingType = buildingType;
-            //todo: GET ODIN
-            // researchTreeNEW = researchTree;
         }
 
         private Dictionary<string, bool> GetBuildableOptions()
@@ -88,7 +85,7 @@ namespace Entities.Buildings
                 return false;
             }
             
-            building.OnUpgradeProgress += OnUpgradeProgress;
+            building.OnUpgradeProgress += OnProgress;
             
             OptionSet?.Invoke(building.name);
             return true;
