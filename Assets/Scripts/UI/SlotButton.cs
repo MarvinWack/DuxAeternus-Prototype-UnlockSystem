@@ -1,100 +1,86 @@
 using System;
 using Entities.Buildings;
-using TMPro;
-using Unity.VisualScripting;
+using UI.Slot;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace UI
 {
-    public class SlotButton : Button
+    public class SlotButton : MonoBehaviour
     {
-        [SerializeField] private Image buttonImage;
+        [SerializeField] private ExtendedButton button;
         
-        private Action<int, Vector3, IDropdownCaller> OnClick;
-        private event Action<int, Vector3, IPopUpCaller> OnHoverStart;
+        private event Action<Vector3, IDropdownCaller> OnClick;
+        private event Action<Vector3, IPopUpCaller> OnHoverStart;
         private event Action OnHoverEnd;
-        private Action OnClickNoParams;
+        private event Action OnClickNoParams;
         
         private IDropdownCaller _dropdownCaller;
         private InfoWindowCaller _infoWindowCaller;
-        private int _index;
 
-        public void Setup(int index, DropDownMenu dropDownMenu, IDropdownCaller slot)
+        public void Setup(DropDownMenu dropDownMenu, IDropdownCaller slot)
         {
-            _index = index;
             OnClick += dropDownMenu.Show;
 
-            slot.OptionSet += SetSlotName;
+            slot.OptionSet += button.SetText;
             _dropdownCaller = slot;
             
-            SetupProgressVisualiser(slot);
+            SetupEvents(slot);
         }
 
-        public void Setup(int index, InfoWindow infoWindow, IDirectCaller slot)
+        public void Setup(InfoWindow infoWindow, IDirectCaller slot)
         {
-            _index = index;
             OnClickNoParams += slot.HandleSlotClicked;
             
-            slot.OnLabelChanged += SetSlotName;
+            slot.OnLabelChanged += button.SetText;
+
+            if (slot is not InfoWindowCaller infoWindowCaller) return;
             
-            if(slot is InfoWindowCaller infoWindowCaller)
-            {
-                _infoWindowCaller = infoWindowCaller;
-                OnHoverStart += infoWindow.Show;
-                OnHoverEnd += infoWindow.Hide;
-            }
-            else
-            {
-                Debug.Log("Slot is not an InfoWindow caller");
-            }
+            _infoWindowCaller = infoWindowCaller;
             
+            OnHoverStart += infoWindow.Show;
+            OnHoverEnd += infoWindow.Hide;
+            
+            SetupEvents(infoWindowCaller);
+        }
+
+        private void SetupEvents(IPopUpCaller slot)
+        {
             SetupProgressVisualiser(slot);
+
+            button.OnClick += HandleClick;
+            button.OnHoverStart += HandleHoverStart;
+            button.OnHoverEnd += HandleHoverEnd;
         }
 
-        public override void OnPointerEnter(PointerEventData eventData)
-        {
-            base.OnPointerEnter(eventData);
-            OnHoverStart?.Invoke(_index, eventData.position, _infoWindowCaller);
-        }
-        
-        public override void OnPointerExit(PointerEventData eventData)
-        {
-            base.OnPointerExit(eventData);
-            OnHoverEnd?.Invoke();
-        }
-
-        private void SetupProgressVisualiser<T>(T slot)
+        private void SetupProgressVisualiser(IPopUpCaller slot)
         {
             Debug.Log("SetupProgressVisualiser");
             if (slot is not IProgressVisualiser progressVisualiser) return;
             Debug.Log(progressVisualiser.GetType().Name);
-            progressVisualiser.OnUpgradeProgress += SetFillAmount;
-
-            buttonImage = GetComponent<Image>();
-            buttonImage.type = Image.Type.Filled;
-            buttonImage.fillMethod = Image.FillMethod.Horizontal;
+            progressVisualiser.OnUpgradeProgress += button.SetFillAmount;
         }
 
-        private void SetFillAmount(float fillAmount)
+        private void HandleClick(Vector3 position, bool callDropDown, int index)
         {
-            Debug.Log("setFillAmount");
-            buttonImage.fillAmount = fillAmount;
+            if(callDropDown)
+                OnClick?.Invoke(position, _dropdownCaller);
+            
+            else
+                OnClickNoParams?.Invoke();
         }
 
-        public override void OnPointerClick(PointerEventData eventData)
+        private void HandleHoverStart(Vector3 position, bool callInfoWindow)
         {
-            base.OnPointerClick(eventData);
-            OnClick?.Invoke(_index, transform.position, _dropdownCaller);
-            OnClickNoParams?.Invoke();
+            if (callInfoWindow)
+            {
+                OnHoverStart?.Invoke(position, _infoWindowCaller);
+            }
         }
 
-        private void SetSlotName(string buildingName)
+        private void HandleHoverEnd()
         {
-            var textComponent = GetComponentInChildren(typeof(TMP_Text), false);
-            if(textComponent is TMP_Text tmpText)
-                tmpText.text = buildingName;
+            //todo: check ob infoWindow überhaupt aufgerufen wurde nötig?
+            OnHoverEnd?.Invoke();
         }
     }
 }

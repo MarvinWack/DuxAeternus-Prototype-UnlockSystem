@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
+using Entities.Buildings;
 using Objects;
-using UI;
 using UnityEngine;
 
-namespace Entities.Buildings
+namespace UI
 {
     [Serializable]
     public class BuildingSlot : MonoBehaviour, IDropdownCaller, IProgressVisualiser
@@ -39,8 +39,6 @@ namespace Entities.Buildings
             menuOptionsList.Add(CallUpgrade);
             researchTreeNEW = source;
             _buildingType = buildingType;
-            //todo: GET ODIN
-            // researchTreeNEW = researchTree;
         }
 
         private Dictionary<string, bool> GetBuildableOptions()
@@ -79,7 +77,6 @@ namespace Entities.Buildings
 
         private bool CallManagerMethod(int index)
         {
-
             building = ((BuildingManager)buildingManagers[index]).TryCreateBuilding();
             
             if (building == null)

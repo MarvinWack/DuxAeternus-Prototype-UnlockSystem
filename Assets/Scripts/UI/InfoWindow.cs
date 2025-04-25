@@ -10,18 +10,18 @@ namespace UI
 
         private bool _isFadingIn;
         
-        public override async void Show(int index, Vector3 position, IPopUpCaller caller)
+        public override async void Show(Vector3 position, IPopUpCaller caller)
         {
             if (_isFadingIn)
                 return;
             
             _isFadingIn = true;
             
-            await Task.Delay(1800);
+            await Task.Delay(1200);
 
             _isFadingIn = false;
             
-            base.Show(index, position, caller);
+            base.Show(position, caller);
             
             if(caller is InfoWindowCaller infoWindowCaller)
             {

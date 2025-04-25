@@ -12,7 +12,7 @@ namespace UI
         [SerializeField] protected GameObject slotButtonPrefab;
         [SerializeField] protected DropDownMenu dropDownMenu;
         [SerializeField] protected InfoWindow infoWindow;
-        [SerializeField] protected ISlotContentSource IslotContentSource;
+        [SerializeField] protected ISlotContentSource islotContentSource;
 
         private void Awake()
         {

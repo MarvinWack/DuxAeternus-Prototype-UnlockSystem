@@ -15,19 +15,12 @@ namespace UI
         {
             _tech = tech;
             _tech.OnUpgradeProgress += OnUpgradeProgress;
-            _tech.OnUpgradeProgress += HandleDebug;
-
             _tech.OnUpgrade += HandleUpgrade;
         }
 
         private void HandleUpgrade(int level)
         {
             OnLabelChanged?.Invoke(_tech.name + " " + level);
-        }
-
-        private void HandleDebug(float obj)
-        {
-            Debug.Log($"Research Slot: {obj}");
         }
 
         public void HandleSlotClicked()

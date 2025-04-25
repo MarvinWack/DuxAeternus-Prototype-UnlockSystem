@@ -14,7 +14,7 @@ namespace UI
         { 
             await Task.Delay(500);
             
-            var troopTypes = IslotContentSource.GetSlotItems(typeof(TroopType));
+            var troopTypes = islotContentSource.GetSlotItems(typeof(TroopType));
 
             for (int i = 0; i < troopTypes.Count; i++)
             {
@@ -27,7 +27,7 @@ namespace UI
             var instance = Instantiate(slotButtonPrefab, transform);
             var troopTypeSlot = instance.transform.GetChild(0).AddComponent<TroopTypeSlot>();
             troopTypeSlot.Setup(type);
-            instance.GetComponent<SlotButton>().Setup(index, infoWindow, troopTypeSlot);
+            instance.GetComponent<SlotButton>().Setup(infoWindow, troopTypeSlot);
             SetLabelText(type.GetName(), instance);
         }
     }

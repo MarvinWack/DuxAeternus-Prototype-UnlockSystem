@@ -786,7 +786,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: IslotContentSource
+    - Name: islotContentSource
       Entry: 10
       Data: 0
   gameSettings: {fileID: 11400000, guid: 467d44174b6a34978a2f6b00b0c3661b, type: 2}
@@ -2225,7 +2225,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: IslotContentSource
+    - Name: islotContentSource
       Entry: 10
       Data: 0
   gameSettings: {fileID: 11400000, guid: 467d44174b6a34978a2f6b00b0c3661b, type: 2}
@@ -2744,7 +2744,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1703806045556362149, guid: 299ccb03ad15343f8bd2be20a28228ca, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 117.11009
+      value: 117.00004
       objectReference: {fileID: 0}
     - target: {fileID: 3911905538709362757, guid: 299ccb03ad15343f8bd2be20a28228ca, type: 3}
       propertyPath: blocker
@@ -3022,7 +3022,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: IslotContentSource
+    - Name: islotContentSource
       Entry: 10
       Data: 0
   gameSettings: {fileID: 11400000, guid: 467d44174b6a34978a2f6b00b0c3661b, type: 2}
@@ -3459,7 +3459,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: IslotContentSource
+    - Name: islotContentSource
       Entry: 10
       Data: 0
   gameSettings: {fileID: 11400000, guid: 467d44174b6a34978a2f6b00b0c3661b, type: 2}
@@ -3752,7 +3752,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: IslotContentSource
+    - Name: islotContentSource
       Entry: 10
       Data: 0
   gameSettings: {fileID: 11400000, guid: 467d44174b6a34978a2f6b00b0c3661b, type: 2}

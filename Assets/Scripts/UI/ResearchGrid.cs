@@ -11,7 +11,7 @@ namespace UI
             //todo: bootstrapper
             await Task.Delay(500);
             
-            var techs = IslotContentSource.GetSlotItems(typeof(Tech)).Cast<Tech>().ToList();
+            var techs = islotContentSource.GetSlotItems(typeof(Tech)).Cast<Tech>().ToList();
             
             for (int i = 0; i < techs.Count; i++)
             {
@@ -24,7 +24,7 @@ namespace UI
             var instance = Instantiate(slotButtonPrefab, transform);
             var researchSlot = instance.transform.GetChild(0).AddComponent<ResearchSlot>();
             researchSlot.Setup(tech, i);
-            instance.GetComponent<SlotButton>().Setup(i, infoWindow, researchSlot);
+            instance.GetComponent<SlotButton>().Setup(infoWindow, researchSlot);
             SetLabelText(tech.name, instance);
         }
     }
