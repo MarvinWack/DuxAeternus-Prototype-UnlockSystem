@@ -793,6 +793,8 @@ MonoBehaviour:
   slotButtonPrefab: {fileID: 1720050987079072542, guid: 659b8082c56744f43949fed585dd0628, type: 3}
   dropDownMenu: {fileID: 1339663197}
   infoWindow: {fileID: 367121972}
+  NumberOfItems: 0
+  slotFactory: {fileID: 1187453834}
   slotNames: []
   selectedItems: []
   _troopTypeCreator: {fileID: 1107728385}
@@ -833,6 +835,7 @@ RectTransform:
   - {fileID: 1075139006}
   - {fileID: 367121975}
   - {fileID: 1339663196}
+  - {fileID: 1187453833}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2233,6 +2236,7 @@ MonoBehaviour:
   dropDownMenu: {fileID: 1339663197}
   infoWindow: {fileID: 367121972}
   buildingType: 2
+  slotFactory: {fileID: 1187453834}
 --- !u!1 &1033836411
 GameObject:
   m_ObjectHideFlags: 0
@@ -2623,6 +2627,62 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &1187453832
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1187453833}
+  - component: {fileID: 1187453834}
+  m_Layer: 0
+  m_Name: SlotFactory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1187453833
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1187453832}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 320247990}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1187453834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1187453832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f4fef1e68ce4e5b90de1f1c0b762618, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slotPrefab: {fileID: 3859526281433219166, guid: 63b588ce0945443c2a98a8f2c3da1609, type: 3}
+  buildingSlotPrefab: {fileID: 820463008277250460, guid: d26c43e739a504af393d4868606de774, type: 3}
+  troopTypeSlotPrefab: {fileID: 6584791279574854540, guid: 5549814dcc38547f790b4b5cc0484503, type: 3}
+  dropDownMenu: {fileID: 1339663197}
+  infoWindow: {fileID: 367121972}
+  researchTree: {fileID: 2093582022}
+  troopTypeCreator: {fileID: 1107728385}
+  gameSettings: {fileID: 11400000, guid: 467d44174b6a34978a2f6b00b0c3661b, type: 2}
 --- !u!1 &1229910753
 GameObject:
   m_ObjectHideFlags: 0
@@ -2744,7 +2804,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1703806045556362149, guid: 299ccb03ad15343f8bd2be20a28228ca, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 117.00004
+      value: 117.00011
       objectReference: {fileID: 0}
     - target: {fileID: 3911905538709362757, guid: 299ccb03ad15343f8bd2be20a28228ca, type: 3}
       propertyPath: blocker
@@ -2996,7 +3056,7 @@ MonoBehaviour:
   m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 300, y: 50}
+  m_CellSize: {x: 500, y: 50}
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
@@ -3029,6 +3089,7 @@ MonoBehaviour:
   slotButtonPrefab: {fileID: 1720050987079072542, guid: 659b8082c56744f43949fed585dd0628, type: 3}
   dropDownMenu: {fileID: 1339663197}
   infoWindow: {fileID: 367121972}
+  slotFactory: {fileID: 1187453834}
 --- !u!1 &1391824616
 GameObject:
   m_ObjectHideFlags: 0
@@ -3467,6 +3528,7 @@ MonoBehaviour:
   dropDownMenu: {fileID: 1339663197}
   infoWindow: {fileID: 367121972}
   buildingType: 3
+  slotFactory: {fileID: 1187453834}
 --- !u!1 &1691680640
 GameObject:
   m_ObjectHideFlags: 0
@@ -3759,6 +3821,7 @@ MonoBehaviour:
   slotButtonPrefab: {fileID: 1720050987079072542, guid: 659b8082c56744f43949fed585dd0628, type: 3}
   dropDownMenu: {fileID: 1339663197}
   infoWindow: {fileID: 367121972}
+  slotFactory: {fileID: 1187453834}
 --- !u!114 &1837999216
 MonoBehaviour:
   m_ObjectHideFlags: 0

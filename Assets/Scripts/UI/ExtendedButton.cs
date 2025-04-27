@@ -6,7 +6,10 @@ using UnityEngine.UI;
 
 namespace UI.Slot
 {
-    public class ExtendedButton : MonoBehaviour, IDisplay, IPointerEnterHandler, IPointerExitHandler,
+    /// <summary>
+    /// Button with Hover-events and methods for setting text and fill amount.
+    /// </summary>
+    public class ExtendedButton : MonoBehaviour, IMessageDisplay, IPointerEnterHandler, IPointerExitHandler,
         IPointerClickHandler
     {
         public event Action<Vector3, bool, int> OnClick;
@@ -41,15 +44,19 @@ namespace UI.Slot
             OnHoverEnd?.Invoke();
         }
 
-        public void SetText(string newText)
+        public void DisplayMessage(string newText)
         {
             buttonLabel.text = newText;
         }
 
         public void SetFillAmount(float fillAmount)
         {
-            Debug.Log("setFillAmount");
             buttonImage.fillAmount = fillAmount;
+        }
+        
+        public void SetIndex(int index)
+        {
+            _index = index;
         }
     }
 }

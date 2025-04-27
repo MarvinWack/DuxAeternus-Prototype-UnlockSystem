@@ -1,34 +1,39 @@
-using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Objects;
-using Objects.TroopTypes;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace UI
 {
     public class ArmyGrid : GridBase
     {
+        [SerializeField] private SlotFactory slotFactory;
+        
+        private List<TroopTypeSlot> _troopTypeSlots;
+
         protected async override void SetupButtonGrid()
         { 
             await Task.Delay(500);
             
-            var troopTypes = islotContentSource.GetSlotItems(typeof(TroopType));
+            slotFactory.CreateGrid(this);
+        }
 
-            for (int i = 0; i < troopTypes.Count; i++)
-            {
-                InstantiateButton(i, troopTypes[i]);
-            }
+        public void SetSlots(List<TroopTypeSlot> troopTypeSlots)
+        {
+            _troopTypeSlots = troopTypeSlots;
         }
         
-        private void InstantiateButton(int index, ISlotContent type)
+        public void HandleSlotContentChanged(ISlotContent troopType)
         {
-            var instance = Instantiate(slotButtonPrefab, transform);
-            var troopTypeSlot = instance.transform.GetChild(0).AddComponent<TroopTypeSlot>();
-            troopTypeSlot.Setup(type);
-            instance.GetComponent<SlotButton>().Setup(infoWindow, troopTypeSlot);
-            SetLabelText(type.GetName(), instance);
+            foreach (var slot in _troopTypeSlots)
+            {
+                if (!slot.IsTroopTypeSet)
+                {
+                    var troopTypeSlot = slot.GetComponent<TroopTypeSlot>();
+                    troopTypeSlot.Setup(troopType);
+                    return;
+                }
+            }
         }
     }
 }

@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace UI
 {
+    /// <summary>
+    /// Calls DropDownMenu and/or InfoWindow.
+    /// </summary>
     public class SlotButton : MonoBehaviour
     {
         [SerializeField] private ExtendedButton button;
@@ -17,30 +20,59 @@ namespace UI
         private IDropdownCaller _dropdownCaller;
         private InfoWindowCaller _infoWindowCaller;
 
-        public void Setup(DropDownMenu dropDownMenu, IDropdownCaller slot)
+        public SlotButton Setup(DropDownMenu dropDownMenu, IDropdownCaller slot, int i, string slotName = null)
         {
             OnClick += dropDownMenu.Show;
 
-            slot.OptionSet += button.SetText;
+            slot.OptionSet += button.DisplayMessage;
             _dropdownCaller = slot;
             
+            if(slot is IMessageForwarder forwarder)
+                forwarder.OnMessageForwarded += button.DisplayMessage;
+            
             SetupEvents(slot);
+            
+            button.DisplayMessage("No text chosen " + i);
+            
+            if(slotName != null)
+            {
+                button.DisplayMessage(slotName);
+            }
+            
+            return this;
         }
 
-        public void Setup(InfoWindow infoWindow, IDirectCaller slot)
+        public SlotButton Setup(InfoWindow infoWindow, IDirectCaller slot, string slotName = null)
         {
             OnClickNoParams += slot.HandleSlotClicked;
             
-            slot.OnLabelChanged += button.SetText;
+            slot.OnLabelChanged += button.DisplayMessage;
+            
+            if(slot is IMessageForwarder forwarder)
+                forwarder.OnMessageForwarded += button.DisplayMessage;
 
-            if (slot is not InfoWindowCaller infoWindowCaller) return;
+            if (slot is not InfoWindowCaller infoWindowCaller) return this;
             
             _infoWindowCaller = infoWindowCaller;
             
             OnHoverStart += infoWindow.Show;
             OnHoverEnd += infoWindow.Hide;
             
+            
+            //todo: entfernen?
+            if(slotName != null)
+            {
+                button.DisplayMessage(slotName);
+            }
+            
             SetupEvents(infoWindowCaller);
+            
+            return this;
+        }
+        
+        public void SetFillAmount(float fillAmount)
+        {
+            button.SetFillAmount(fillAmount);
         }
 
         private void SetupEvents(IPopUpCaller slot)
@@ -54,24 +86,20 @@ namespace UI
 
         private void SetupProgressVisualiser(IPopUpCaller slot)
         {
-            Debug.Log("SetupProgressVisualiser");
             if (slot is not IProgressVisualiser progressVisualiser) return;
-            Debug.Log(progressVisualiser.GetType().Name);
+            
             progressVisualiser.OnUpgradeProgress += button.SetFillAmount;
         }
 
         private void HandleClick(Vector3 position, bool callDropDown, int index)
         {
-            if(callDropDown)
-                OnClick?.Invoke(position, _dropdownCaller);
-            
-            else
-                OnClickNoParams?.Invoke();
+            OnClick?.Invoke(position, _dropdownCaller);
+            OnClickNoParams?.Invoke();
         }
 
         private void HandleHoverStart(Vector3 position, bool callInfoWindow)
         {
-            if (callInfoWindow)
+            if (_infoWindowCaller is not null)
             {
                 OnHoverStart?.Invoke(position, _infoWindowCaller);
             }
@@ -79,7 +107,6 @@ namespace UI
 
         private void HandleHoverEnd()
         {
-            //todo: check ob infoWindow überhaupt aufgerufen wurde nötig?
             OnHoverEnd?.Invoke();
         }
     }

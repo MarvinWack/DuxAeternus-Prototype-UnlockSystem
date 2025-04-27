@@ -7,8 +7,10 @@ using UnityEngine;
 
 namespace Objects.TroopTypes
 {
-    public class TroopTypeCreator : MonoBehaviour, ISlotContentSource
+    public class TroopTypeCreator : MonoBehaviour, IDynamicSlotContentSource
     {
+        public event Action<ISlotContent> SlotContentChanged;
+        
         [InspectorButton("CreateTroopType")]
         public bool _CreateTroopType;
         
@@ -43,11 +45,6 @@ namespace Objects.TroopTypes
             troopTypes.Add(instance);
         }
 
-        public List<string> GetItemSlots()
-        {
-            return itemSlots.Keys.ToList();
-        }
-        
         public void CreateTroopType(ItemBlueprint firstItem, ItemBlueprint secondItem, string typeName)
         {
             var instance = Instantiate(troopTypePrefab, transform);
@@ -55,8 +52,15 @@ namespace Objects.TroopTypes
            
             instance.Setup(firstItem, secondItem, typeName);
             troopTypes.Add(instance);
+            
+            SlotContentChanged?.Invoke(instance);
         }
-        
+
+        public List<string> GetItemSlots()
+        {
+            return itemSlots.Keys.ToList();
+        }
+
         public void ApplyTroopLosses(Dictionary<TroopType, int> lossesPerType)
         {
             foreach (var type in lossesPerType)

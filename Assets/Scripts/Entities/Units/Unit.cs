@@ -1,28 +1,43 @@
+using System;
+using UI;
 using UnityEngine;
 
-public class Unit : MonoBehaviour
+namespace Entities.Units
 {
-    [SerializeField] private TroopType manager;
-    [SerializeField] private int amount;
-    
-    public int Amount => amount;
-    
-    public void Setup(TroopType troopType, int value = 0)
+    public class Unit : MonoBehaviour, IMessageSender
     {
-        manager = troopType;
-        amount = value;
-    }
+        public event Action<string> OnMessageSent;
     
-    public void AddAmount(int value)
-    {
-        amount += value;
-    }
+        [SerializeField] private TroopType manager;
+
+        private int amount;
+        public int Amount
+        {
+            get => amount;
+            private set 
+            {
+                amount = value;
+                OnMessageSent?.Invoke(amount.ToString());
+            }
+        }
     
-    public void RemoveAmount(int value)
-    {
-        amount -= value;
+        public void Setup(TroopType troopType, int value = 0)
+        {
+            manager = troopType;
+            Amount = value;
+        }
+    
+        public void AddAmount(int value)
+        {
+            Amount += value;
+        }
+    
+        public void RemoveAmount(int value)
+        {
+            Amount -= value;
         
-        if(amount < 0)
-            amount = 0;
+            if(Amount < 0)
+                Amount = 0;
+        }
     }
 }

@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Entities.Units;
 using Objects;
 using Production.Items;
+using UI;
 using UnityEngine;
 
-public class TroopType : MonoBehaviour, ISlotContent, IUpgradable
+public class TroopType : MonoBehaviour, ISlotContent, IUpgradable, IMessageForwarder
 {
     [InspectorButton("CreateUnitDebug")] 
     public bool _CreateUnit;
@@ -13,6 +15,7 @@ public class TroopType : MonoBehaviour, ISlotContent, IUpgradable
     [InspectorButton("RecruitDebug")] 
     public bool _Recruit;
 
+    public event Action<string> OnMessageForwarded;
     public event Action<int> OnUpgrade;
     public event Action<float> OnUpgradeProgress;
 
@@ -43,6 +46,7 @@ public class TroopType : MonoBehaviour, ISlotContent, IUpgradable
         unit.name = name + " unit";
         unit.Setup(this);
         units.Add(unit);
+        unit.OnMessageSent += OnMessageForwarded;
     }
 
     //todo: !!!
@@ -68,6 +72,12 @@ public class TroopType : MonoBehaviour, ISlotContent, IUpgradable
     {
         RecruitDebug();
         
+        return true;
+    }
+
+    public bool Recruit(int amount)
+    {
+        units[0].AddAmount(amount);
         return true;
     }
 

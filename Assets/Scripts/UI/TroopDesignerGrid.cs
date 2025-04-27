@@ -11,6 +11,10 @@ namespace UI
 {
     public class TroopDesignerGrid : GridBase
     {
+        public int NumberOfItems;
+        
+        [SerializeField] private SlotFactory slotFactory;
+        
         [SerializeField] private List<String> slotNames;
         [SerializeField] private ItemBlueprint[] selectedItems;
         [SerializeField] private TroopTypeCreator _troopTypeCreator;
@@ -28,13 +32,16 @@ namespace UI
         }
         protected override void SetupButtonGrid()
         {
-            slotNames = _troopTypeCreator.GetItemSlots();
-            selectedItems = new ItemBlueprint[slotNames.Count];
+            slotFactory.CreateGrid(this);
             
-            for (int i = 0; i < slotNames.Count; i++)
-            {
-                InstantiateButton(i, slotNames[i]);
-            }
+            selectedItems = new ItemBlueprint[NumberOfItems];
+            
+            
+            // for (int i = 0; i < slotNames.Count; i++)
+            // {
+            //     // InstantiateButton(i, slotNames[i]);
+            //     slotFactory.CreateSlot(this, i, slotNames[i]);
+            // }
             
             createTroopTypeButton.interactable = false;
             createTroopTypeButton.onClick.AddListener(CreateTroopType);
@@ -50,17 +57,17 @@ namespace UI
         }
 
 
-        private void InstantiateButton(int i, string name)
-        {
-            var instance = Instantiate(slotButtonPrefab, transform);
-            var troopCreatorSlot = instance.transform.GetChild(0).AddComponent<TroopCreatorSlot>();
-            troopCreatorSlot.Setup(islotContentSource, _troopTypeCreator, i);
-            troopCreatorSlot.ItemSelected += HandleItemSelected;
-            instance.GetComponent<SlotButton>().Setup(dropDownMenu, instance.GetComponentInChildren<TroopCreatorSlot>());
-            SetLabelText(name, instance);
-        }
+        // private void InstantiateButton(int i, string name)
+        // {
+        //     var instance = Instantiate(slotButtonPrefab, transform);
+        //     var troopCreatorSlot = instance.transform.GetChild(0).AddComponent<TroopCreatorSlot>();
+        //     troopCreatorSlot.Setup(islotContentSource, _troopTypeCreator, i);
+        //     troopCreatorSlot.ItemSelected += HandleItemSelected;
+        //     instance.GetComponent<SlotButton>().Setup(dropDownMenu, instance.GetComponentInChildren<TroopCreatorSlot>(), i);
+        //     SetLabelText(name, instance);
+        // }
 
-        private void HandleItemSelected(ItemBlueprint item, int index)
+        internal void HandleItemSelected(ItemBlueprint item, int index)
         {
             selectedItems[index] = item;
 

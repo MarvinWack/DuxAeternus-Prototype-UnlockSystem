@@ -12,12 +12,12 @@ namespace UI
         public event IDropdownCaller.OptionSetHandler OptionSet;
         public event Action<float> OnUpgradeProgress;
         
-        // [SerializeField] private ResearchTree researchTree;
         private ISlotContentSource researchTreeNEW;
         [SerializeField] private Building building;
         [SerializeField] private List<ISlotContent> buildingManagers = new();
+
+        private SlotButton _slotButton;
         private BuildingType _buildingType;
-        
         private List<MenuOptionFunc> menuOptionsList = new();
         private delegate bool MenuOptionFunc();
 
@@ -34,11 +34,12 @@ namespace UI
             return CallManagerMethod(index);
         }
 
-        public void Setup(ISlotContentSource source, BuildingType buildingType)
+        public void Setup(ISlotContentSource source, BuildingType buildingType, SlotButton slotButton)
         {
             menuOptionsList.Add(CallUpgrade);
             researchTreeNEW = source;
             _buildingType = buildingType;
+            _slotButton = slotButton;
         }
 
         private Dictionary<string, bool> GetBuildableOptions()
@@ -85,7 +86,7 @@ namespace UI
                 return false;
             }
             
-            building.OnUpgradeProgress += OnUpgradeProgress;
+            building.OnUpgradeProgress += _slotButton.SetFillAmount;
             
             OptionSet?.Invoke(building.name);
             return true;

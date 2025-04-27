@@ -6,16 +6,19 @@ namespace UI
 {
     public class ResearchSlot : MonoBehaviour, IDirectCaller, IProgressVisualiser, InfoWindowCaller
     {
+        private SlotButton _slotButton;
         public event Action<float> OnUpgradeProgress;
         public event Action<string> OnLabelChanged;
         
         private Tech _tech;
 
-        public void Setup(Tech tech, int i)
+        public void Setup(Tech tech, int i, SlotButton slotButton)
         {
             _tech = tech;
             _tech.OnUpgradeProgress += OnUpgradeProgress;
             _tech.OnUpgrade += HandleUpgrade;
+            
+            _slotButton = slotButton;
         }
 
         private void HandleUpgrade(int level)

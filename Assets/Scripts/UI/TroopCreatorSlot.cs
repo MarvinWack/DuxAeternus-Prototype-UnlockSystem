@@ -20,6 +20,7 @@ namespace UI
         [SerializeField] private ItemBlueprint _selectedItem;
         [SerializeField] private List<Tech> _techs = new();
 
+        private SlotButton _slotButton;
         private ISlotContentSource _researchTree;
         private TroopTypeCreator _troopTypeCreator;
         private int _index;
@@ -29,11 +30,12 @@ namespace UI
             throw new NotImplementedException();
         }
 
-        public void Setup(ISlotContentSource source, TroopTypeCreator troopTypeCreator, int index)
+        public void Setup(ISlotContentSource source, TroopTypeCreator troopTypeCreator, int index, SlotButton slotButton)
         {
             _researchTree = source;
             _troopTypeCreator = troopTypeCreator;
             _index = index;
+            _slotButton = slotButton;
         }
 
         public Dictionary<string, bool> GetDropDownOptions()

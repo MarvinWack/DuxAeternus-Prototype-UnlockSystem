@@ -77,7 +77,6 @@ public class Tech : BaseObject, IProgressSender, IResearchTickReceiver, IUpgrada
             
         _elapsedResearchTime++;
         OnUpgradeProgress?.Invoke((float) _elapsedResearchTime / TechBlueprint.UnlockRequirements.UnlockTime);
-        Debug.Log($"Research progress: {(float) _elapsedResearchTime / TechBlueprint.UnlockRequirements.UnlockTime}");
         
         if(_elapsedResearchTime >= TechBlueprint.UnlockRequirements.UnlockTime)
             CompleteResearch();

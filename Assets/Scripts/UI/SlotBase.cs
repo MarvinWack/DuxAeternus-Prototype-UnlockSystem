@@ -3,10 +3,15 @@ using UnityEngine;
 
 namespace UI
 {
-    public abstract class SlotBase : MonoBehaviour
+    public class SlotBase : MonoBehaviour
     {
-        private ISlotContentSource source;
-
-        public abstract void Setup();
+        public SlotButton SlotButton => _slotButton;
+        
+        [SerializeField] private SlotButton _slotButton;
+        
+        public void Setup(SlotButton slotButton)
+        {
+            _slotButton = slotButton;
+        }
     }
 }
