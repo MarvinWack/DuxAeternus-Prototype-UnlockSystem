@@ -31,7 +31,7 @@ namespace Objects.TroopTypes
 
         private void Awake()
         {
-            CreateTroopType();
+            // CreateTroopType();
             // itemSlots.Add("weapon", null);
             // itemSlots.Add("armor", null);
         }

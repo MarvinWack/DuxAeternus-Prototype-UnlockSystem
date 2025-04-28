@@ -6,24 +6,25 @@ using UnityEngine;
 
 namespace UI
 {
-    public class TroopTypeSlot : MonoBehaviour, IDirectCaller, IProgressVisualiser
+    public class TroopTypeSlot : MonoBehaviour, IDirectCaller, IProgressVisualiser, IMessageForwarder
     {
         public event Action<string> OnLabelChanged;
         public event Action<float> OnUpgradeProgress;
-        
+        public event Action<string> OnMessageForwarded;
         public bool IsTroopTypeSet => _isIsTroopTypeSet;
-        
+
+
         [Header("References")]
         
         [SerializeField] private ExtendedButton[] recruitButtons = new ExtendedButton[3];
 
         [Header("Settings")] 
         [SerializeField] private int[] recruitAmounts = {1, 3, 10};
-        
-        
+
         [SerializeField] private TroopType _troopType;
         private bool _isIsTroopTypeSet;
-        
+
+
         public void Setup(ISlotContent troopType)
         {
             if (_troopType is not null)
@@ -31,6 +32,8 @@ namespace UI
             
             _troopType = troopType as TroopType;
             _isIsTroopTypeSet = true;
+            
+            _troopType.OnMessageForwarded += OnMessageForwarded;
             
             for(int i = 0; i < recruitAmounts.Length; i++)
             {

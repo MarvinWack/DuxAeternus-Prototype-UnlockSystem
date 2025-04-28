@@ -37,7 +37,7 @@ public class TroopType : MonoBehaviour, ISlotContent, IUpgradable, IMessageForwa
         armour = secondItem;
         
         CreateUnitDebug();
-        RecruitDebug();
+        // RecruitDebug();
     }
 
     private void CreateUnitDebug()
@@ -65,7 +65,7 @@ public class TroopType : MonoBehaviour, ISlotContent, IUpgradable, IMessageForwa
 
     public bool CheckIfUnitsAvailableToFight()
     {
-        return units.All(unit => unit.Amount > 0);
+        return units.All(unit => unit.Amount > 0) && units.Count > 0;
     }
 
     public bool CallSlotAction()
