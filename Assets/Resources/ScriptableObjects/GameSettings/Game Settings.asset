@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Game Settings
   m_EditorClassIdentifier: 
   NumberOfCoreBuildings: 2
-  NumberOfSmallBuildings: 10
+  NumberOfSmallBuildings: 3
   NumberOfLargeBuildings: 2
   NumberOfTroopTypes: 8

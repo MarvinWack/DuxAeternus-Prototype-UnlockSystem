@@ -5,16 +5,13 @@ using UI;
 using UnityEngine;
 
 [Serializable]
-public class Tech : BaseObject, IProgressSender, IResearchTickReceiver, IUpgradable
+public class Tech : BaseObject, IResearchTickReceiver
 {
     [InspectorButton("StartResearch")]
     public bool StartResearchButton;
 
     [InspectorButton("CompleteResearch")]
     public bool CompleteResearchButton;
-    
-    public event Action<int> OnUpgrade;
-    public event Action<float> OnUpgradeProgress;
 
     public ushort Level = 0;
 
@@ -56,8 +53,6 @@ public class Tech : BaseObject, IProgressSender, IResearchTickReceiver, IUpgrada
         _isResearching = false;
         _elapsedResearchTime = 0;
         
-        OnUpgrade?.Invoke(Level);
-        
         RaiseOnRequirementValueUpdatedEvent(Level);
     }
 
@@ -76,7 +71,6 @@ public class Tech : BaseObject, IProgressSender, IResearchTickReceiver, IUpgrada
         if (!_isResearching) return;
             
         _elapsedResearchTime++;
-        OnUpgradeProgress?.Invoke((float) _elapsedResearchTime / TechBlueprint.UnlockRequirements.UnlockTime);
         
         if(_elapsedResearchTime >= TechBlueprint.UnlockRequirements.UnlockTime)
             CompleteResearch();

@@ -7,9 +7,9 @@ using UnityEngine;
 
 namespace Objects.TroopTypes
 {
-    public class TroopTypeCreator : MonoBehaviour, IDynamicSlotContentSource
+    public class TroopTypeCreator : MonoBehaviour//, IDynamicSlotContentSource
     {
-        public event Action<ISlotContent> SlotContentChanged;
+        // public event Action<ISlotContent> SlotContentChanged;
         
         [InspectorButton("CreateTroopType")]
         public bool _CreateTroopType;
@@ -53,7 +53,7 @@ namespace Objects.TroopTypes
             instance.Setup(firstItem, secondItem, typeName);
             troopTypes.Add(instance);
             
-            SlotContentChanged?.Invoke(instance);
+            // SlotContentChanged?.Invoke(instance);
         }
 
         public List<string> GetItemSlots()

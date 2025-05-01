@@ -17,10 +17,12 @@ namespace Production.Storage
                 case ItemBlueprint:
                     building.OnProduction += itemStorage.HandleProductionTick;
                     building.OnTryPurchase += HandleTryPurchase;
+                    building.CheckIfPurchaseValid += CheckIfPurchaseValid;
                     break;
                 case ResourceBlueprint:
                     building.OnProduction += resourceStorage.HandleProductionTick;
                     building.OnTryPurchase += HandleTryPurchase;
+                    building.CheckIfPurchaseValid += CheckIfPurchaseValid;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -34,6 +36,11 @@ namespace Production.Storage
                 
             RemoveResources(price);
             args.IsValid = true;
+        }
+
+        private void CheckIfPurchaseValid(Dictionary<ProductBlueprint, int> price, PurchaseArgs args)
+        {
+            args.IsValid = CheckIfPurchaseValid(price);
         }
 
         private bool CheckIfPurchaseValid(Dictionary<ProductBlueprint, int> price)

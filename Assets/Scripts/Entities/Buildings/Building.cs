@@ -7,46 +7,88 @@ using UI;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class Building : MonoBehaviour, ICustomer, IProgressSender, IUpgradable
+public class Building : MonoBehaviour, ICustomer, IUpgradable, ICallableByUI
 {
     [InspectorButton("StartUpgrade")]
-    public bool LevelUpButton;
-    
-    public event Action<int> OnUpgrade;
-    public event Action<float> OnUpgradeProgress;
+    public bool UpgradeButton;
 
     public Action<ProductBlueprint, int> OnProduction;
 
     public event Action<Dictionary<ProductBlueprint, int>, PurchaseArgs> OnTryPurchase;
+    public event Action<Dictionary<ProductBlueprint, int>, PurchaseArgs> CheckIfPurchaseValid;
 
+    public event Action<int> OnUpgrade;
+    public event Action<float> OnUpgradeProgress;
+    public event Action<bool> OnUpgradableStatusChanged;
+    public event Action<Dictionary<Func<bool>, bool>> OnCallableMethodsChanged;
+    
     public int Level => _level;
-
     public int _level;
-
     public bool IsUpgradeable => _level < _blueprint.MaxLevel;
-
-    private BuildingBlueprint _blueprint;
-
-    private bool _isUpgrading;
-
-    private ushort _elapsedUpgradingTime;
-
     public bool _isProducing;
-
     public int _currentlyAccumulatedProduction;
 
+    private BuildingBlueprint _blueprint;
+    private bool _isUpgrading;
+    private ushort _elapsedUpgradingTime;
+
+    private Dictionary<Func<bool>, bool> _callableMethods = new();
+
+
+    private void Start()
+    {
+        SetupCallableMethods();
+    }
+
+    private void SetupCallableMethods()
+    {
+        _callableMethods.Add(StartUpgrade, CheckIfUpgradePossible(false));
+    }
+
+    //handle tick-methoden in interfaces auslagern?
     public void HandleUpgradeTick()
     {
         if (!_isUpgrading) return;
             
         _elapsedUpgradingTime++;
+        
         OnUpgradeProgress?.Invoke((float)_elapsedUpgradingTime / _blueprint.UpgradeTime);
         
         if(_elapsedUpgradingTime >= _blueprint.UpgradeTime)
             Upgrade();
+
+        CheckIfCallableMethodsChanged();
     }
-    
+
+    public void HandleProductionTick()
+    {
+        if(!_isProducing) return;
+        
+        OnProduction?.Invoke(_blueprint.ProducedProduct, CalculateProductionAmount());
+        
+        CheckIfCallableMethodsChanged();
+    }
+
+    private void CheckIfCallableMethodsChanged()
+    {
+        if(_callableMethods.Count == 0) return;
+        
+        if (_callableMethods[StartUpgrade] != CheckIfUpgradePossible(false))
+        {
+            _callableMethods[StartUpgrade] = CheckIfUpgradePossible(false);
+            OnCallableMethodsChanged?.Invoke(_callableMethods);
+            OnUpgradableStatusChanged?.Invoke(_callableMethods[StartUpgrade]);
+        }
+    }
+
     public bool StartUpgrade()
+    {
+        _isUpgrading = CheckIfUpgradePossible(true);
+
+        return _isUpgrading;
+    }
+
+    private bool CheckIfUpgradePossible(bool tryPurchase)
     {
         if (!IsUpgradeable)
         {
@@ -61,7 +103,13 @@ public class Building : MonoBehaviour, ICustomer, IProgressSender, IUpgradable
         }
         
         var PurchaseArgs = new PurchaseArgs();
-        OnTryPurchase?.Invoke(_blueprint.Cost.Amount[_level], PurchaseArgs);
+        
+        if(tryPurchase)
+            OnTryPurchase?.Invoke(_blueprint.Cost.Amount[_level], PurchaseArgs);
+        
+        else
+            CheckIfPurchaseValid?.Invoke(_blueprint.Cost.Amount[_level], PurchaseArgs);
+        
 
         if (!PurchaseArgs.IsValid)
         {
@@ -69,7 +117,6 @@ public class Building : MonoBehaviour, ICustomer, IProgressSender, IUpgradable
             return false;
         }
         
-        _isUpgrading = true;
         return true;
     }
 
@@ -90,14 +137,6 @@ public class Building : MonoBehaviour, ICustomer, IProgressSender, IUpgradable
         _level++;
         _isUpgrading = false;
         _elapsedUpgradingTime = 0;
-        OnUpgrade?.Invoke(_level);
-    }
-
-    public void HandleProductionTick()
-    {
-        if(!_isProducing) return;
-        
-        OnProduction?.Invoke(_blueprint.ProducedProduct, CalculateProductionAmount());
     }
 
     private int CalculateProductionAmount() //todo: in storage auslagern, sobald Blueprint als Key dort Sinn macht
@@ -114,4 +153,18 @@ public class Building : MonoBehaviour, ICustomer, IProgressSender, IUpgradable
 
         return completeUnits;
     }
+
+    // public List<Func<bool>> GetCallableMethods()
+
+    // {
+
+    //     return new List<Func<bool>>
+
+    //     {
+
+    //         StartUpgrade
+
+    //     };
+
+    // }
 }

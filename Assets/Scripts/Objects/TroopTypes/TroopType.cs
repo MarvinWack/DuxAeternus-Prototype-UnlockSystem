@@ -7,18 +7,14 @@ using Production.Items;
 using UI;
 using UnityEngine;
 
-public class TroopType : MonoBehaviour, ISlotContent, IUpgradable, IMessageForwarder
+public class TroopType : MonoBehaviour
 {
-    [InspectorButton("CreateUnitDebug")] 
+    [InspectorButton("CreateUnit")] 
     public bool _CreateUnit;
 
     [InspectorButton("RecruitDebug")] 
     public bool _Recruit;
-
-    public event Action<string> OnMessageForwarded;
-    public event Action<int> OnUpgrade;
-    public event Action<float> OnUpgradeProgress;
-
+    
     [SerializeField] private ItemBlueprint weapon;
     [SerializeField] private ItemBlueprint armour;
     [SerializeField] private Unit unitPrefab;
@@ -36,31 +32,34 @@ public class TroopType : MonoBehaviour, ISlotContent, IUpgradable, IMessageForwa
         weapon = firstItem;
         armour = secondItem;
         
-        CreateUnitDebug();
+        CreateUnit();
         // RecruitDebug();
     }
 
-    private void CreateUnitDebug()
+    private void CreateUnit()
     {
         var unit = Instantiate(unitPrefab, transform);
         unit.name = name + " unit";
-        unit.Setup(this);
+        unit.Setup();
         units.Add(unit);
-        unit.OnMessageSent += OnMessageForwarded;
     }
 
     //todo: !!!
     private void RecruitDebug()
     {
         units[0].AddAmount(AmountToRecruit);
-        OnUpgrade?.Invoke(units[0].Amount);
     }
 
     //todo: !!!
+    public bool Recruit(int amount)
+    {
+        units[0].AddAmount(amount);
+        return true;
+    }
+
     public void SubstractLossesFromFirstUnit(int amount)
     {
         units[0].RemoveAmount(amount);
-        OnUpgrade?.Invoke(units[0].Amount);
     }
 
     public bool CheckIfUnitsAvailableToFight()
@@ -68,31 +67,13 @@ public class TroopType : MonoBehaviour, ISlotContent, IUpgradable, IMessageForwa
         return units.All(unit => unit.Amount > 0) && units.Count > 0;
     }
 
-    public bool CallSlotAction()
-    {
-        RecruitDebug();
-        
-        return true;
-    }
-
-    public bool Recruit(int amount)
-    {
-        units[0].AddAmount(amount);
-        return true;
-    }
-
-    public string GetName()
-    {
-        return gameObject.name;
-    }
+    // public string GetName()
+    // {
+    //     return gameObject.name;
+    // }
 
     public bool IsAvailable()
     {
         return CheckIfUnitsAvailableToFight(); //&& CheckIfUnitsAvailableToRecruit();
-    }
-    
-    public bool StartUpgrade()
-    {
-        throw new NotImplementedException();
     }
 }

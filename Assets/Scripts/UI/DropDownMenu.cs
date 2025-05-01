@@ -1,6 +1,7 @@
+// using Entities.Buildings;
+
 using Entities.Buildings;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace UI
 {

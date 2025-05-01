@@ -4,12 +4,8 @@ using UnityEngine;
 
 namespace Entities.Units
 {
-    public class Unit : MonoBehaviour, IMessageSender
+    public class Unit : MonoBehaviour
     {
-        public event Action<string> OnMessageSent;
-    
-        [SerializeField] private TroopType manager;
-
         private int amount;
         public int Amount
         {
@@ -17,13 +13,12 @@ namespace Entities.Units
             private set 
             {
                 amount = value;
-                OnMessageSent?.Invoke(amount.ToString());
+                // OnMessageSent?.Invoke(amount.ToString());
             }
         }
     
-        public void Setup(TroopType troopType, int value = 0)
+        public void Setup(int value = 0)
         {
-            manager = troopType;
             Amount = value;
         }
     

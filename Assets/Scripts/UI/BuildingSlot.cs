@@ -1,98 +1,77 @@
 using System;
 using System.Collections.Generic;
-using Entities.Buildings;
-using Objects;
+using System.Linq;
+using UnityEditor.Build;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-namespace UI
+namespace UI.Slot
 {
-    [Serializable]
-    public class BuildingSlot : MonoBehaviour, IDropdownCaller, IProgressVisualiser
-    { 
-        public event IDropdownCaller.OptionSetHandler OptionSet;
-        public event Action<float> OnUpgradeProgress;
+    public class BuildingSlot : TwoBehaviorsSlot
+    {
+        [SerializeField] private Dictionary<Tuple<Func<bool>, bool>, ExtendedButton> _callableMethods;
         
-        private ISlotContentSource researchTreeNEW;
-        [SerializeField] private Building building;
-        [SerializeField] private List<ISlotContent> buildingManagers = new();
+        //todo: delegate für jew. methodentyp in interface base class definieren,
+        //davon dann caller und receiver ableiten
+        //davon wiederum interfaces mit namen für jew. methode (StartUpgrade)
+        // private delegate bool test();
 
-        private SlotButton _slotButton;
+        // [SerializeField] private Dictionary<Func<bool>, ExtendedButton> delegateButtons = new();
+
+        [SerializeField] private ExtendedButton _buildingButton;
+        
         private BuildingType _buildingType;
+        // [SerializeField] private Func<bool> _startUpgrade;
+        private Building _building;
+        private List<BuildingManager> _buildingManagers;
+        
         private List<MenuOptionFunc> menuOptionsList = new();
         private delegate bool MenuOptionFunc();
 
-        public Dictionary<string, bool> GetDropDownOptions()
-        {
-            return building ? GetBuildingMenuOptions() : GetBuildableOptions();
-        }
-
-        public bool HandleOptionClicked(int index)
-        {
-            if (building)
-                return CallBuildingMethod(index);
-            
-            return CallManagerMethod(index);
-        }
-
-        public void Setup(ISlotContentSource source, BuildingType buildingType, SlotButton slotButton)
+        public void Setup(BuildingType buildingType, DropDownMenu dropdown, ResearchTree researchTree)
         {
             menuOptionsList.Add(CallUpgrade);
-            researchTreeNEW = source;
-            _buildingType = buildingType;
-            _slotButton = slotButton;
-        }
-
-        private Dictionary<string, bool> GetBuildableOptions()
-        {
-            var results = new Dictionary<string, bool>();
-
-            switch (_buildingType)
-            {
-                case BuildingType.Small: buildingManagers = researchTreeNEW.GetSlotItems(typeof(SmallBuildingManager));
-                    break;
-                case BuildingType.Core: buildingManagers = researchTreeNEW.GetSlotItems(typeof(CoreBuildingManager));
-                    break;
-                case BuildingType.Large: buildingManagers = researchTreeNEW.GetSlotItems(typeof(LargeBuildingManager));
-                    break;
-                default: throw new Exception($"Unsupported building type: {_buildingType}");
-            }
-
-            foreach (var option in buildingManagers)
-            {
-                results.Add(option.GetName(), option.IsAvailable());
-            }
             
-            return results;
+            _buildingType = buildingType;
+            dropdownMenu = dropdown;
+            slotContentSource = researchTree;
         }
 
-        private Dictionary<string, bool> GetBuildingMenuOptions()
+        protected override Dictionary<string, bool> GetOptionSetMenu()
         {
             var options = new Dictionary<string, bool>();
             
-            options.Add("Level " + building.Level, building.IsUpgradeable);
+            options.Add("Level " + _building.Level, _building.IsUpgradeable);
             
             return options;
         }
 
-        //todo: safe bezüglich index?
-
-        private bool CallManagerMethod(int index)
+        protected override bool NoOptionSetBehavior(int index)
         {
-            building = ((BuildingManager)buildingManagers[index]).TryCreateBuilding();
+            _building = _buildingManagers[index].TryCreateBuilding();
             
-            if (building == null)
+            if (_building == null)
             {
-                Debug.Log("Building could not be built");
+                Debug.Log("_building could not be built");
                 return false;
             }
             
-            building.OnUpgradeProgress += _slotButton.SetFillAmount;
+            _building.OnUpgradeProgress += _buildingButton.SetFillAmount;
+            _building.OnUpgradableStatusChanged += _buildingButton.SetInteractable;
             
-            OptionSet?.Invoke(building.name);
+            _buildingButton.SetText(_building.name);
+            // OptionSet?.Invoke(_building.name);
+            SetSlot();
             return true;
         }
 
-        private bool CallBuildingMethod(int index)
+        private bool CallUpgrade()
+        {   
+            _building.StartUpgrade();
+            return false;
+        }
+
+        protected override bool OptionSetBehavior(int index)
         {
             if(index == -1)
                 Debug.Log("index is -1");
@@ -101,10 +80,35 @@ namespace UI
             return false;
         }
 
-        private bool CallUpgrade()
+        protected override Dictionary<string, bool> GetOptionNotSetMenu()
         {
-            building.StartUpgrade();
-            return false;
+            var results = new Dictionary<string, bool>();
+            
+            switch (_buildingType)
+            {
+                case BuildingType.Small: _buildingManagers = slotContentSource.GetSlotItems(typeof(SmallBuildingManager)).Cast<BuildingManager>().ToList();
+                    break;
+                case BuildingType.Core: _buildingManagers = slotContentSource.GetSlotItems(typeof(CoreBuildingManager)).Cast<BuildingManager>().ToList();
+                    break;
+                case BuildingType.Large: _buildingManagers = slotContentSource.GetSlotItems(typeof(LargeBuildingManager)).Cast<BuildingManager>().ToList();
+                    break;
+                default: throw new Exception($"Unsupported building type: {_buildingType}");
+            }
+
+            foreach (var option in _buildingManagers)
+            {
+                results.Add(option.GetName(), option.IsAvailable);
+            }
+            
+            return results;
         }
+
+        // protected override void HandleCallableMethodsChanged(Dictionary<Func<bool>, bool> methods)
+        // {
+        //     foreach (var method in methods)
+        //     {
+        //         delegateButtons[method.Key].SetInteractable(method.Value);
+        //     }
+        // }
     }
 }

@@ -9,6 +9,7 @@ namespace Objects
     {
         public event Action<int> OnUpgrade;
         public event Action<float> OnUpgradeProgress;
+        public event Action<bool> OnUpgradableStatusChanged;
         
         public bool StartUpgrade();
     }
