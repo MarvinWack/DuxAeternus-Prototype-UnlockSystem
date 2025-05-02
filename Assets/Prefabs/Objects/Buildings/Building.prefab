@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 194fc787058224522988112fbd69fc15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LevelUpButton: 0
-  numberOfLevelsToAdd: 1
+  UpgradeButton: 0
+  MethodBlueprint: {fileID: 11400000, guid: b66fde997adba41e3b82982c530258ff, type: 2}
   _level: 0
+  _isProducing: 0
+  _currentlyAccumulatedProduction: 0

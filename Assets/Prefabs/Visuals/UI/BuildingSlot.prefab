@@ -26,7 +26,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2574707906517461816, guid: 16e3a115d45dd4b1aa99f5c67e973ba0, type: 3}
       propertyPath: m_Name
-      value: Building Slot
+      value: BuildingSlot
       objectReference: {fileID: 0}
     - target: {fileID: 3648695682681204467, guid: 16e3a115d45dd4b1aa99f5c67e973ba0, type: 3}
       propertyPath: m_AnchorMax.y
@@ -164,7 +164,8 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: b66fde997adba41e3b82982c530258ff, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -173,13 +174,26 @@ MonoBehaviour:
     - Name: slotContentSource
       Entry: 6
       Data: 
-    - Name: _callableMethods
-      Entry: 6
+    - Name: methodList
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[UI.MethodBlueprints.UpgradeMethod,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
   dropdownMenu: {fileID: 0}
   buttons:
   - {fileID: 5051200294284737961}
-  _buildingButton: {fileID: 5456282469630226102, guid: 818dd6f09805f471185326e946eb04d7, type: 3}
+  buildingButton: {fileID: 5051200294284737961}
 --- !u!114 &5051200294284737961 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7624970320488533463, guid: 16e3a115d45dd4b1aa99f5c67e973ba0, type: 3}

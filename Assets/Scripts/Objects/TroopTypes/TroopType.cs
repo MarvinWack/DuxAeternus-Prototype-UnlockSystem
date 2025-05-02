@@ -4,16 +4,21 @@ using System.Linq;
 using Entities.Units;
 using Objects;
 using Production.Items;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UI;
+using UI.MethodBlueprints;
 using UnityEngine;
 
-public class TroopType : MonoBehaviour
+public class TroopType : SerializedMonoBehaviour, ICallReceiver
 {
     [InspectorButton("CreateUnit")] 
     public bool _CreateUnit;
 
     [InspectorButton("RecruitDebug")] 
     public bool _Recruit;
+
+    [OdinSerialize] private List<RecruitMethod> methodsList;
     
     [SerializeField] private ItemBlueprint weapon;
     [SerializeField] private ItemBlueprint armour;
@@ -33,7 +38,11 @@ public class TroopType : MonoBehaviour
         armour = secondItem;
         
         CreateUnit();
-        // RecruitDebug();
+
+        foreach (var method in methodsList)
+        {
+            method.RegisterReceiverHandler(Recruit);
+        }
     }
 
     private void CreateUnit()
@@ -51,10 +60,9 @@ public class TroopType : MonoBehaviour
     }
 
     //todo: !!!
-    public bool Recruit(int amount)
+    private void Recruit(int amount)
     {
         units[0].AddAmount(amount);
-        return true;
     }
 
     public void SubstractLossesFromFirstUnit(int amount)
@@ -66,11 +74,6 @@ public class TroopType : MonoBehaviour
     {
         return units.All(unit => unit.Amount > 0) && units.Count > 0;
     }
-
-    // public string GetName()
-    // {
-    //     return gameObject.name;
-    // }
 
     public bool IsAvailable()
     {

@@ -17,7 +17,7 @@
 //             
 //             _isFadingIn = true;
 //             
-//             await Task.Delay(1200);
+//             //await Task.Delay(1200);
 //
 //             _isFadingIn = false;
 //             

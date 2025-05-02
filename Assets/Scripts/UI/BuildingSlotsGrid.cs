@@ -1,19 +1,21 @@
+using System;
 using System.Threading.Tasks;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UI;
 using UI.Slot;
 using UnityEngine;
 
-public class BuildingSlotsGrid : MonoBehaviour
+public class BuildingSlotsGrid : SerializedMonoBehaviour
 {
-    [SerializeField] private BuildingType _buildingType = BuildingType.Small;
+    [OdinSerialize] private Type _buildingType;
     [SerializeField] private GameObject _slotPrefab;
     [SerializeField] private GameSettings _gameSettings;
     [SerializeField] private DropDownMenu dropdownMenu;
     [SerializeField] private ResearchTree researchTree;
 
-    private async void Start()
+    private void Start()
     {
-        await Task.Delay(1000);
         for(int i = 0; i < _gameSettings.NumberOfSmallBuildings; i++)
         {
             var slot = Instantiate(_slotPrefab, transform);

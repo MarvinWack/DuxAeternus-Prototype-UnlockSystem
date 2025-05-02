@@ -16,7 +16,3 @@ public class SmallBuildingManager : BuildingManager
         return building;
     }
 }
-
-public class Bulding
-{
-}

@@ -9,8 +9,6 @@ namespace Objects.TroopTypes
 {
     public class TroopTypeCreator : MonoBehaviour//, IDynamicSlotContentSource
     {
-        // public event Action<ISlotContent> SlotContentChanged;
-        
         [InspectorButton("CreateTroopType")]
         public bool _CreateTroopType;
         
@@ -19,21 +17,19 @@ namespace Objects.TroopTypes
         [SerializeField] private TroopType troopTypePrefab;
         [SerializeField] private ItemBlueprint weapon;
         [SerializeField] private ItemBlueprint armour;
-        //todo: slots in game settings definieren
+
+        [SerializeField] private string troopTypeName;
+        [SerializeField] private List<TroopType> troopTypes;
+
         private SerializedDictionary<string, ItemBlueprint> itemSlots = new()
         {
             { "weapon", null },
             { "armor", null }
         };
-        [SerializeField] private string troopTypeName;
-        [SerializeField] private List<TroopType> troopTypes;
-
 
         private void Awake()
         {
-            // CreateTroopType();
-            // itemSlots.Add("weapon", null);
-            // itemSlots.Add("armor", null);
+            CreateTroopType();
         }
 
         private void CreateTroopType()
@@ -52,8 +48,6 @@ namespace Objects.TroopTypes
            
             instance.Setup(firstItem, secondItem, typeName);
             troopTypes.Add(instance);
-            
-            // SlotContentChanged?.Invoke(instance);
         }
 
         public List<string> GetItemSlots()

@@ -6,7 +6,7 @@ namespace Entities.Units
 {
     public class Unit : MonoBehaviour
     {
-        private int amount;
+        [SerializeField] private int amount;
         public int Amount
         {
             get => amount;

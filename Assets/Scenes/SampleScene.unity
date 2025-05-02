@@ -1140,7 +1140,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 2065286918}
   m_Father: {fileID: 1075139006}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
@@ -1454,9 +1455,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da492da56125475e8f8cb9ae000d2f61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blocker: {fileID: 242023315}
-  infoText: {fileID: 306982347}
-  _isFadingIn: 0
 --- !u!225 &252253820
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1951,8 +1949,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de0e16afcff64745aaad7d14d6727b80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resourceStorage: {fileID: 1452421593}
-  resourcePrefab: {fileID: 7514648374018387285, guid: 37481ca0212e14f429753111761d41c8, type: 3}
 --- !u!114 &332101003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2298,9 +2294,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da492da56125475e8f8cb9ae000d2f61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blocker: {fileID: 1691680644}
-  infoText: {fileID: 445241447}
-  _isFadingIn: 0
 --- !u!114 &367121973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2727,7 +2720,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a698e0d5c72ff4ba08a4ef1a26228c32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _buildingType: 2
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _buildingType
+      Entry: 7
+      Data: 0|System.RuntimeType, mscorlib
+    - Name: 
+      Entry: 1
+      Data: SmallBuildingManager, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
   _slotPrefab: {fileID: 897081431748107078, guid: db051fbb3081e4637af753511699dd41, type: 3}
   _gameSettings: {fileID: 11400000, guid: 467d44174b6a34978a2f6b00b0c3661b, type: 2}
   dropdownMenu: {fileID: 1339663197}
@@ -2816,25 +2826,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 007359bc851d4ee2bcdf013d79a57319, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: []
-    ReferencedUnityObjects:
-    - {fileID: 2093582022}
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: islotContentSource
-      Entry: 10
-      Data: 0
-  gameSettings: {fileID: 11400000, guid: 467d44174b6a34978a2f6b00b0c3661b, type: 2}
-  slotButtonPrefab: {fileID: 1720050987079072542, guid: 659b8082c56744f43949fed585dd0628, type: 3}
-  dropDownMenu: {fileID: 1102819562}
-  infoWindow: {fileID: 252253819}
-  buildingType: 3
-  slotFactory: {fileID: 1988029839}
 --- !u!114 &596681774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4297,37 +4288,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f4fef1e68ce4e5b90de1f1c0b762618, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: []
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: troopTypes
-      Entry: 7
-      Data: 0|System.Collections.Generic.List`1[[Objects.ISlotContent, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-  slotPrefab: {fileID: 3859526281433219166, guid: 63b588ce0945443c2a98a8f2c3da1609, type: 3}
-  buildingSlotPrefab: {fileID: 820463008277250460, guid: d26c43e739a504af393d4868606de774, type: 3}
-  troopTypeSlotPrefab: {fileID: 6584791279574854540, guid: 5549814dcc38547f790b4b5cc0484503, type: 3}
-  dropDownMenu: {fileID: 1339663197}
-  infoWindow: {fileID: 367121972}
-  researchTree: {fileID: 2093582022}
-  troopTypeCreator: {fileID: 1107728385}
-  gameSettings: {fileID: 11400000, guid: 467d44174b6a34978a2f6b00b0c3661b, type: 2}
-  slots: []
 --- !u!114 &1249587361 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4529134897634199610, guid: 56b6031f1d10841c899ea29a4fc76676, type: 3}
@@ -4598,7 +4558,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1703806045556362149, guid: 299ccb03ad15343f8bd2be20a28228ca, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 117.00095
+      value: 117
       objectReference: {fileID: 0}
     - target: {fileID: 3911905538709362757, guid: 299ccb03ad15343f8bd2be20a28228ca, type: 3}
       propertyPath: blocker
@@ -4638,11 +4598,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6254762006835478881, guid: 299ccb03ad15343f8bd2be20a28228ca, type: 3}
       propertyPath: m_Size
-      value: 0.9999996
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6254762006835478881, guid: 299ccb03ad15343f8bd2be20a28228ca, type: 3}
       propertyPath: m_Value
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6260835048154612456, guid: 299ccb03ad15343f8bd2be20a28228ca, type: 3}
       propertyPath: buttonPrefab
@@ -4650,11 +4610,11 @@ PrefabInstance:
       objectReference: {fileID: 7506940184295804942, guid: 2443e7d970b7746a3b6c4dd6543d0df9, type: 3}
     - target: {fileID: 6811191997378099754, guid: 299ccb03ad15343f8bd2be20a28228ca, type: 3}
       propertyPath: m_Size
-      value: 0.7073767
+      value: 0.7075
       objectReference: {fileID: 0}
     - target: {fileID: 6811191997378099754, guid: 299ccb03ad15343f8bd2be20a28228ca, type: 3}
       propertyPath: m_Value
-      value: -0.000000521668
+      value: -0.000005477514
       objectReference: {fileID: 0}
     - target: {fileID: 6859536987717261661, guid: 299ccb03ad15343f8bd2be20a28228ca, type: 3}
       propertyPath: m_Color.a
@@ -4908,8 +4868,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de0e16afcff64745aaad7d14d6727b80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resourceStorage: {fileID: 1452421593}
-  resourcePrefab: {fileID: 7514648374018387285, guid: 37481ca0212e14f429753111761d41c8, type: 3}
 --- !u!114 &1390167794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5143,25 +5101,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 007359bc851d4ee2bcdf013d79a57319, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: []
-    ReferencedUnityObjects:
-    - {fileID: 2093582022}
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: islotContentSource
-      Entry: 10
-      Data: 0
-  gameSettings: {fileID: 11400000, guid: 467d44174b6a34978a2f6b00b0c3661b, type: 2}
-  slotButtonPrefab: {fileID: 1720050987079072542, guid: 659b8082c56744f43949fed585dd0628, type: 3}
-  dropDownMenu: {fileID: 1102819562}
-  infoWindow: {fileID: 252253819}
-  buildingType: 2
-  slotFactory: {fileID: 1988029839}
 --- !u!114 &1418798171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5694,25 +5633,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52709c86062e4cc1b2ee1119a8926c1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: []
-    ReferencedUnityObjects:
-    - {fileID: 1107728385}
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: islotContentSource
-      Entry: 10
-      Data: 0
-  gameSettings: {fileID: 11400000, guid: 467d44174b6a34978a2f6b00b0c3661b, type: 2}
-  slotButtonPrefab: {fileID: 1720050987079072542, guid: 659b8082c56744f43949fed585dd0628, type: 3}
-  dropDownMenu: {fileID: 1102819562}
-  infoWindow: {fileID: 252253819}
-  slotFactory: {fileID: 1988029839}
-  _troopTypeSlots: []
 --- !u!114 &1527711470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6138,31 +6058,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e99ac550c80c4826a4a0e414d434f503, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: []
-    ReferencedUnityObjects:
-    - {fileID: 2093582022}
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: islotContentSource
-      Entry: 10
-      Data: 0
-  gameSettings: {fileID: 11400000, guid: 467d44174b6a34978a2f6b00b0c3661b, type: 2}
-  slotButtonPrefab: {fileID: 1720050987079072542, guid: 659b8082c56744f43949fed585dd0628, type: 3}
-  dropDownMenu: {fileID: 1102819562}
-  infoWindow: {fileID: 252253819}
-  NumberOfItems: 0
-  slotFactory: {fileID: 1988029839}
-  slotNames: []
-  selectedItems: []
-  _troopTypeCreator: {fileID: 1107728385}
-  createTroopTypeButton: {fileID: 620842339}
-  nameInputField: {fileID: 1483414402}
-  _troopTypeName: 
 --- !u!114 &1741816976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6236,24 +6131,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20d6319b8282434db6a060a855f002aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: []
-    ReferencedUnityObjects:
-    - {fileID: 2093582022}
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: islotContentSource
-      Entry: 10
-      Data: 0
-  gameSettings: {fileID: 11400000, guid: 467d44174b6a34978a2f6b00b0c3661b, type: 2}
-  slotButtonPrefab: {fileID: 1720050987079072542, guid: 659b8082c56744f43949fed585dd0628, type: 3}
-  dropDownMenu: {fileID: 1102819562}
-  infoWindow: {fileID: 252253819}
-  slotFactory: {fileID: 1988029839}
 --- !u!114 &1825103544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6629,37 +6506,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f4fef1e68ce4e5b90de1f1c0b762618, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: []
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: troopTypes
-      Entry: 7
-      Data: 0|System.Collections.Generic.List`1[[Objects.ISlotContent, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-  slotPrefab: {fileID: 3859526281433219166, guid: 63b588ce0945443c2a98a8f2c3da1609, type: 3}
-  buildingSlotPrefab: {fileID: 820463008277250460, guid: d26c43e739a504af393d4868606de774, type: 3}
-  troopTypeSlotPrefab: {fileID: 6584791279574854540, guid: 5549814dcc38547f790b4b5cc0484503, type: 3}
-  dropDownMenu: {fileID: 1102819562}
-  infoWindow: {fileID: 252253819}
-  researchTree: {fileID: 2093582022}
-  troopTypeCreator: {fileID: 1107728385}
-  gameSettings: {fileID: 11400000, guid: 467d44174b6a34978a2f6b00b0c3661b, type: 2}
-  slots: []
 --- !u!1 &1997924675
 GameObject:
   m_ObjectHideFlags: 0
@@ -6912,6 +6758,92 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &2065286917
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2065286918}
+  - component: {fileID: 2065286919}
+  - component: {fileID: 2065286920}
+  m_Layer: 0
+  m_Name: TroopTypeSlotsGrid
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2065286918
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2065286917}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 222164426}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 500}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2065286919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2065286917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 500, y: 100}
+  m_Spacing: {x: 0, y: 0}
+  m_Constraint: 0
+  m_ConstraintCount: 2
+--- !u!114 &2065286920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2065286917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 916517d339864eb6a0f4490f7f3e6b8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  _slotPrefab: {fileID: 7420522300174986956, guid: b220ff0484b0f4b0c8243b05464e1a1c, type: 3}
+  _gameSettings: {fileID: 11400000, guid: 467d44174b6a34978a2f6b00b0c3661b, type: 2}
+  dropdownMenu: {fileID: 1339663197}
+  trooptypeCreator: {fileID: 1107728385}
 --- !u!114 &2093582022 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8517430659507052172, guid: c1a53cb0a3e31419db6a6d6bcd98b66b, type: 3}

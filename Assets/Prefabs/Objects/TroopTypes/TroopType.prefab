@@ -44,7 +44,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ed8d8c1d2c034528904075a8d6420cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 8f39828107d0449a4b2d0cd05d3a27f2, type: 2}
+    - {fileID: 11400000, guid: 389163eb2e5d74d068960c5030a22800, type: 2}
+    - {fileID: 11400000, guid: 2710c1a54c5de4c0caa3d936085649aa, type: 2}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: methodsList
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[UI.MethodBlueprints.RecruitMethod,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   _CreateUnit: 0
+  _Recruit: 0
   weapon: {fileID: 0}
   armour: {fileID: 0}
   unitPrefab: {fileID: 3919459747560519122, guid: e952638207d874dfba57bb4cb8e01e07, type: 3}

@@ -1,5 +1,6 @@
 using System;
 using TMPro;
+using UI.MethodBlueprints;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -15,6 +16,7 @@ namespace UI.Slot
     public class ExtendedButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         IPointerClickHandler
     {
+        public event Action OnClickNoParamsTest;
         public event Action<Vector3> OnClick;
         public event Action<Vector3, bool, int> OnClickIndex;
         public event Action<Vector3, bool> OnHoverStart;
@@ -33,7 +35,7 @@ namespace UI.Slot
         [SerializeField] private TMP_Text buttonLabel;
         
         private int _index;
-        private bool _isInteractable = true;
+        public bool _isInteractable = true;
 
         public void OnPointerClick(PointerEventData eventData)
         {
@@ -41,6 +43,7 @@ namespace UI.Slot
             
             OnClickIndex?.Invoke(transform.position, callDropDown, _index);
             OnClick?.Invoke(eventData.position);
+            OnClickNoParamsTest?.Invoke();
         }
 
         public void OnPointerEnter(PointerEventData eventData)
