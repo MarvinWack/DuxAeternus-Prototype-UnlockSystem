@@ -7,12 +7,14 @@ using UnityEngine;
 
 namespace Objects.TroopTypes
 {
-    public class TroopTypeCreator : MonoBehaviour//, IDynamicSlotContentSource
+    public class TroopTypeCreator : MonoBehaviour, IDynamicSlotContentSource
     {
         [InspectorButton("CreateTroopType")]
         public bool _CreateTroopType;
         
         public List<TroopType> TroopTypes => troopTypes;
+
+        public event Action<ISlotContent> SlotContentAdded;
         
         [SerializeField] private TroopType troopTypePrefab;
         [SerializeField] private ItemBlueprint weapon;
@@ -21,13 +23,14 @@ namespace Objects.TroopTypes
         [SerializeField] private string troopTypeName;
         [SerializeField] private List<TroopType> troopTypes;
 
+
         private SerializedDictionary<string, ItemBlueprint> itemSlots = new()
         {
             { "weapon", null },
             { "armor", null }
         };
 
-        private void Awake()
+        private void Start()
         {
             CreateTroopType();
         }
@@ -39,6 +42,8 @@ namespace Objects.TroopTypes
            
             instance.Setup(weapon, armour, troopTypeName);
             troopTypes.Add(instance);
+            
+            SlotContentAdded?.Invoke(instance);
         }
 
         public void CreateTroopType(ItemBlueprint firstItem, ItemBlueprint secondItem, string typeName)

@@ -1,7 +1,4 @@
-using System;
 using System.Collections.Generic;
-using Sirenix.Serialization;
-using UI.MethodBlueprints;
 using UI.Slot;
 using UnityEngine;
 
@@ -9,26 +6,25 @@ namespace UI
 {
     public class TroopTypeSlot : BaseSlot
     {
-        [OdinSerialize] private List<RecruitMethod> methodList;
-
         [SerializeField] private ExtendedText _nameText;
-        [SerializeField] private ExtendedButton _recruitButton_1;
-        [SerializeField] private ExtendedButton _recruitButton_3;
-        [SerializeField] private ExtendedButton _recruitButton_10;
         
         private TroopType _troopType;
 
-        private void Start()
-        {
-            _recruitButton_1.OnClickNoParamsTest += () => methodList[0].CallMethod(_troopType);
-            _recruitButton_3.OnClickNoParamsTest += () => methodList[1].CallMethod(_troopType);
-            _recruitButton_10.OnClickNoParamsTest += () => methodList[2].CallMethod(_troopType);
-        }
-
-        public void Setup(TroopType troopType, string typeName)
+        public void Setup(TroopType troopType)
         {
             _troopType = troopType;
-            _nameText.SetText(typeName);
+            _nameText.SetText(troopType.name);
+
+            if (_troopType == null)
+            {
+                Debug.LogError($"{name}: Troop type is null");
+                return;
+            }
+            
+            foreach (var method in methodList)
+            {
+                method.InstantiateButton(_troopType).transform.SetParent(transform.GetChild(1), false);
+            }
         }
         
         public override Dictionary<string, bool> GetDropDownOptions()
@@ -36,7 +32,7 @@ namespace UI
             var options = new Dictionary<string, bool>();
             
             foreach (var method in methodList)
-                options.Add(method.name, true);
+                options.Add(method.GetName(), true);
             
             return options;
         }

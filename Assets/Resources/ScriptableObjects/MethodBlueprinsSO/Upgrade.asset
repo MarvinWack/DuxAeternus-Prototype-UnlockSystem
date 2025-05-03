@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5904b8d5444c4083bfc49cbacabebe2f, type: 3}
-  m_Name: RecruitUnits-10
+  m_Script: {fileID: 11500000, guid: 8aff0e3e58b54a1184c1c8f6b538e9d6, type: 3}
+  m_Name: Upgrade
   m_EditorClassIdentifier: 
-  AmountToRecruit: 10
+  buttonPrefab: {fileID: 5456282469630226102, guid: 818dd6f09805f471185326e946eb04d7, type: 3}

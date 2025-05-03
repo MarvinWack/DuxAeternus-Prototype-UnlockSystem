@@ -1,15 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sirenix.Serialization;
-using UI.MethodBlueprints;
 using UnityEngine;
 
 namespace UI.Slot
 {
     public class BuildingSlot : TwoBehaviorsSlot
     {
-        [OdinSerialize] private List<UpgradeMethod> methodList;
+        // [OdinSerialize] private List<UpgradeMethod> methodList;
 
         [SerializeField] private ExtendedButton buildingButton;
         
@@ -29,7 +27,7 @@ namespace UI.Slot
             var options = new Dictionary<string, bool>();
             
             foreach (var method in methodList)
-                options.Add(method.name, _building.IsUpgradeable);
+                options.Add(method.GetName(), _building.IsUpgradeable);
             
             return options;
         }

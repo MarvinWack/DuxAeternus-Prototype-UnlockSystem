@@ -1,5 +1,3 @@
-using System;
-using UI;
 using UnityEngine;
 
 namespace Entities.Units

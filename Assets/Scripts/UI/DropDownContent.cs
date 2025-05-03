@@ -12,6 +12,13 @@ public class DropDownContent : MonoBehaviour
     [SerializeField] private List<DropDownButton> buttons;
     [SerializeField] private GameObject buttonPrefab;
 
+    private void Awake()
+    {
+        //todo: beim beenden des Spiels springt die Pos von Content auf ~117
+        var rectTransform = GetComponent<RectTransform>();
+        rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, 0f);
+    }
+
     public void Show(Dictionary<string, bool> options)
     {
         gameObject.SetActive(true);

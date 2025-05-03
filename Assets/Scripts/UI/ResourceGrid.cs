@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
 using Production.Items;
 using Production.Storage;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace UI
 {

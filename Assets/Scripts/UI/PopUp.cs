@@ -7,7 +7,7 @@ namespace UI
     {
         [SerializeField] protected Blocker blocker;
 
-        private void Awake()
+        protected void Awake()
         {
             Setup();
         }

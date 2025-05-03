@@ -1,6 +1,5 @@
 // MODIFIED FROM https://stackoverflow.com/questions/55297626/disable-an-options-in-a-dropdown-unity
 
-using System.Collections;
 using System.Collections.Generic;
 
 using TMPro;

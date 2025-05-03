@@ -1,5 +1,3 @@
-// using Entities.Buildings;
-
 using Entities.Buildings;
 using UnityEngine;
 
@@ -10,7 +8,7 @@ namespace UI
         [SerializeField] private DropDownContent content;
 
         private IDropdownCaller slot;
-
+        
         protected override void Setup()
         {
             base.Setup();

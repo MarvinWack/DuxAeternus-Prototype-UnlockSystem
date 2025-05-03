@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class CoreBuildingManager : BuildingManager
 {
     [InspectorButton("TryCreateBuilding")]

@@ -1,7 +1,5 @@
 using System;
 using Core;
-using Objects;
-using UI;
 using UnityEngine;
 
 [Serializable]

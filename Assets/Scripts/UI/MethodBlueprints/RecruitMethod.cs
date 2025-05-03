@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using UI.Slot;
 using UnityEngine;
 
 namespace UI.MethodBlueprints
@@ -7,21 +7,8 @@ namespace UI.MethodBlueprints
     [CreateAssetMenu (menuName = "UI/RecruitMethod")]
     public class RecruitMethod : MethodBlueprint<Action<int>>
     {
-        public int AmountToRecruit;
+        [SerializeField] private int amountToRecruit;
         
-        private readonly List<Action<int>> _delegates = new();
-        
-        public override void RegisterReceiverHandler(Action<int> handler)
-        {
-            if (handler == null)
-            {
-                Debug.LogError($"{name}: Registered receiver handler is null");
-                return;
-            }
-            
-            _delegates.Add(handler);
-        }
-
         public override void CallMethod(ICallReceiver receiver)
         {
             if (receiver == null)
@@ -30,13 +17,29 @@ namespace UI.MethodBlueprints
                 return;
             }
 
-            var result = _delegates.Find(x => x.Target == receiver);
+            var result = delegates.Find(x => x.Target == receiver);
             if (result == null)
             {
                 Debug.LogError("Receiver not found");
             }
             
-            _delegates.Find(x => x.Target == receiver).Invoke(AmountToRecruit);
+            delegates.Find(x => x.Target == receiver).Invoke(amountToRecruit);
+        }
+
+        protected override void SubscribeToButtonEvent(ICallReceiver receiver, ExtendedButton button)
+        {
+            button.OnClickNoParamsTest += () => CallMethod(receiver);
+        }
+
+        public override void RegisterReceiverHandler(Action<int> handler)
+        {
+            if (handler == null)
+            {
+                Debug.LogError($"{name}: Registered receiver handler is null");
+                return;
+            }
+            
+            delegates.Add(handler);
         }
     }
 }

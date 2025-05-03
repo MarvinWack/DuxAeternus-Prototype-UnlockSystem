@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using UI.Slot;
 using UnityEngine;
 
 namespace UI.MethodBlueprints
@@ -7,10 +7,11 @@ namespace UI.MethodBlueprints
     [CreateAssetMenu(menuName = "UI/UpgradeMethod")]
     public class UpgradeMethod : MethodBlueprint<Action>
     {
-        // public delegate bool ReturnBoolDelegate();
-        
-        private readonly List<Action> _delegates = new();
-        
+        protected override void SubscribeToButtonEvent(ICallReceiver receiver, ExtendedButton button)
+        {
+            throw new NotImplementedException();
+        }
+
         public override void RegisterReceiverHandler(Action handler)
         {
             if (handler == null)
@@ -19,20 +20,9 @@ namespace UI.MethodBlueprints
                 return;
             }
             
-            _delegates.Add(handler);
+            delegates.Add(handler);
         }
-
-        // public Action RegisterSender(ICallReceiver receiver)
-        // {
-        //     if (receiver == null)
-        //     {
-        //         Debug.LogError($"{name}: {nameof(receiver)} is null");
-        //         return null;
-        //     }
-        //
-        //     return _delegates.Find(x => x.Target == receiver);
-        // }
-
+        
         public override void CallMethod(ICallReceiver receiver)
         {
             if (receiver == null)
@@ -40,15 +30,15 @@ namespace UI.MethodBlueprints
                 Debug.LogError($"{name}: {nameof(receiver)} is null");
                 return;
             }
-
-            var result = _delegates.Find(x => x.Target == receiver);
+        
+            var result = delegates.Find(x => x.Target == receiver);
             if (result == null)
             {
                 Debug.LogError("Receiver not found");
             }
                 
             
-            _delegates.Find(x => x.Target == receiver).Invoke();
+            delegates.Find(x => x.Target == receiver).Invoke();
         }
     }
 }

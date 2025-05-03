@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using Entities.Buildings;
 using Objects;
 using Sirenix.OdinInspector;
-using Sirenix.OdinInspector.Editor;
+using UI.MethodBlueprints;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace UI.Slot
 {
@@ -15,6 +14,8 @@ namespace UI.Slot
         
         [SerializeField] protected ISlotContentSource slotContentSource;
         [SerializeField] protected DropDownMenu dropdownMenu; //in factory auslagern
+        
+        [SerializeField] protected List<IMethod> methodList;
 
         protected bool _isOptionSet;
         protected bool _isOptionLocked;
@@ -48,12 +49,7 @@ namespace UI.Slot
         {
             dropdownMenu.Show(position, this);
         }
-
-        // protected abstract void CallDropDown(Vector3 position, ISlotContentSource source);
-
         public abstract Dictionary<string, bool> GetDropDownOptions();
-
-        // protected abstract void HandleCallableMethodsChanged(Dictionary<Func<bool>, bool> callableMethods);
         public abstract bool HandleOptionClicked(int index);
     }
 }

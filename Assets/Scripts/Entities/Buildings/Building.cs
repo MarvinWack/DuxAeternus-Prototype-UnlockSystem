@@ -6,7 +6,6 @@ using Production.Storage;
 using UI;
 using UI.MethodBlueprints;
 using UnityEngine;
-using UnityEngine.Assertions;
 using UnityEngine.Serialization;
 
 public class Building : MonoBehaviour, ICustomer, IUpgradable, ICallableByUI, ICallReceiver
@@ -15,6 +14,7 @@ public class Building : MonoBehaviour, ICustomer, IUpgradable, ICallableByUI, IC
     public bool UpgradeButton;
 
     public Action<ProductBlueprint, int> OnProduction;
+    
     [FormerlySerializedAs("MethodBlueprint")] public UpgradeMethod upgradeMethod;
     public event Action<Dictionary<ProductBlueprint, int>, PurchaseArgs> OnTryPurchase;
     public event Action<Dictionary<ProductBlueprint, int>, PurchaseArgs> CheckIfPurchaseValid;

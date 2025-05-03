@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5904b8d5444c4083bfc49cbacabebe2f, type: 3}
   m_Name: RecruitUnits-3
   m_EditorClassIdentifier: 
-  AmountToRecruit: 3
+  buttonPrefab: {fileID: 9059893531190325456, guid: fccb1e770bede499a90486423997ceb3, type: 3}
+  amountToRecruit: 3

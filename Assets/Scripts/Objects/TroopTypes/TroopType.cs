@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Entities.Units;
@@ -6,11 +5,10 @@ using Objects;
 using Production.Items;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
-using UI;
 using UI.MethodBlueprints;
 using UnityEngine;
 
-public class TroopType : SerializedMonoBehaviour, ICallReceiver
+public class TroopType : SerializedMonoBehaviour, ICallReceiver, ISlotContent
 {
     [InspectorButton("CreateUnit")] 
     public bool _CreateUnit;

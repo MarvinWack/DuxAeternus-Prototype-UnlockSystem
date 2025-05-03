@@ -1,8 +1,6 @@
-using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
 using Production.Items;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Production.Storage
 {

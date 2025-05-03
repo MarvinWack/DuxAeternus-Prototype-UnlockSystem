@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using Objects;
 using Objects.TroopTypes;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -13,22 +13,37 @@ namespace UI
         [SerializeField] private DropDownMenu dropdownMenu;
         [SerializeField] private TroopTypeCreator trooptypeCreator;
 
-        private void Start()
+        private List<GameObject> slots = new();
+        private int _currentSlotIndex;
+        private void Awake()
         {
-            List<GameObject> slots = new List<GameObject>();
-            
             for (int i = 0; i < _gameSettings.NumberOfTroopTypes; i++)
             {
                 slots.Add(Instantiate(_slotPrefab, transform)); 
             }
+            
+            // int index = 0;
+            // foreach (var type in trooptypeCreator.TroopTypes)
+            // {
+            //     slots[index].name = $"{type} slot {index}";
+            //     slots[index].GetComponent<TroopTypeSlot>().Setup(type);
+            // }
+            
+            //todo: timing?
+            trooptypeCreator.SlotContentAdded += SetupNewSlot;
+        }
 
-            int index = 0;
-            foreach (var type in trooptypeCreator.TroopTypes)
+        private void SetupNewSlot(ISlotContent content)
+        {
+            if (content is not TroopType type)
             {
-                slots[index].name = $"{type} slot {index}";
-                slots[index].GetComponent<TroopTypeSlot>().Setup(type, type.name);
+                Debug.LogError($"{name}: Slot content is not a troop type!");
+                return;
             }
             
+            slots[_currentSlotIndex].name = $"{type} slot {_currentSlotIndex}";
+            slots[_currentSlotIndex].GetComponent<TroopTypeSlot>().Setup(type);
+            _currentSlotIndex++;
         }
     }
 }
