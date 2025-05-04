@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Coconut
   m_EditorClassIdentifier: 
   RequiredProductionAmount: 10
-  Cost: {fileID: 0}
+  Icon: {fileID: 0}
+  Cost: {fileID: 11400000, guid: 4a14bb8af8ff34480b38991cfff7cf84, type: 2}
   MeleeDamage: 3
   RangedDamage: 2
   Defense: 40

@@ -21,7 +21,7 @@ public class BuildingFactory : MonoBehaviour
         var building = Instantiate(buildingPrefab);
         building.name = bluePrint.name;
         
-        _storageAssigner.AssignBuildingToStorage(building, bluePrint);
+        _storageAssigner.AssignToStorage(building, bluePrint);
         
         return building;
     }

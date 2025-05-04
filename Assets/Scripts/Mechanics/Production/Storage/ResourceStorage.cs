@@ -3,19 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
 using Production.Items;
+using UI;
 using UnityEngine;
 
 namespace Production.Storage
 {
-    public class ResourceStorage : MonoBehaviour
+    public class ResourceStorage : MonoBehaviour, IUIBehaviourModifier
     {
-        [SerializeField] SerializedDictionary<ResourceBlueprint, int> resources = new ();
-
+        public event Action OnModifierValueUpdated;
         public event Action<Dictionary<ResourceBlueprint, int>> OnResourceAmountChanged;
+        
+        [SerializeField] SerializedDictionary<ResourceBlueprint, int> resources = new();
 
         private void Awake()
         {
             LoadResourceBlueprints();
+        }
+
+        private void Start()
+        {
+            OnModifierValueUpdated += UIUpdater.UIBehaviourModifiedTick;
         }
 
         private void LoadResourceBlueprints()
@@ -29,17 +36,19 @@ namespace Production.Storage
         }
 
         //todo: remove checks once buildings are distuingished by produced product
-        public void HandleProductionTick(ProductBlueprint type, int value)
+
+        public void AddResources(ProductBlueprint type, int value)
         {
             if(type is ResourceBlueprint resourceType)
             {
                 resources[resourceType] += value;
                 OnResourceAmountChanged?.Invoke(resources);
+                OnModifierValueUpdated?.Invoke();
             }
-            else
-            {
-                Debug.LogWarning($"Received production tick for {type.name} which is not a ResourceBlueprint");
-            }
+            // else
+            // {
+            //     Debug.LogWarning($"Received production tick for {type.name} which is not a ResourceBlueprint");
+            // }
         }
 
         public bool CheckIfEnoughResourcesAvailable(ResourceBlueprint resource, int amount)
@@ -51,6 +60,7 @@ namespace Production.Storage
         {
             resources[resource] -= amount;
             OnResourceAmountChanged?.Invoke(resources);
+            OnModifierValueUpdated?.Invoke();
         }
 
         public List<ResourceBlueprint> GetResourceTypes()

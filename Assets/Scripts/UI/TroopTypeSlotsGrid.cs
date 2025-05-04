@@ -22,13 +22,6 @@ namespace UI
                 slots.Add(Instantiate(_slotPrefab, transform)); 
             }
             
-            // int index = 0;
-            // foreach (var type in trooptypeCreator.TroopTypes)
-            // {
-            //     slots[index].name = $"{type} slot {index}";
-            //     slots[index].GetComponent<TroopTypeSlot>().Setup(type);
-            // }
-            
             //todo: timing?
             trooptypeCreator.SlotContentAdded += SetupNewSlot;
         }

@@ -8,7 +8,7 @@ using UI.MethodBlueprints;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class Building : MonoBehaviour, ICustomer, IUpgradable, ICallableByUI, ICallReceiver
+public class Building : MonoBehaviour, ICustomer, IUpgradable, ICallableByUI, IMethodProvider
 {
     [InspectorButton("StartUpgrade")]
     public bool UpgradeButton;
@@ -40,12 +40,13 @@ public class Building : MonoBehaviour, ICustomer, IUpgradable, ICallableByUI, IC
     private void Start()
     {
         // SetupCallableMethods();
-        upgradeMethod.RegisterReceiverHandler(StartUpgradeNoReturnValue);
+        upgradeMethod.RegisterMethodToCall(StartUpgradeNoReturnValue);
+        // upgradeMethod.RegisterEnableChecker(CheckIfUpgradePossible);
     }
 
     private void SetupCallableMethods()
     {
-        _callableMethods.Add(StartUpgrade, CheckIfUpgradePossible(false));
+        // _callableMethods.Add(StartUpgrade, CheckIfUpgradePossible(false));
     }
 
     //handle tick-methoden in interfaces auslagern?
@@ -74,14 +75,14 @@ public class Building : MonoBehaviour, ICustomer, IUpgradable, ICallableByUI, IC
 
     private void CheckIfCallableMethodsChanged()
     {
-        if(_callableMethods.Count == 0) return;
-        
-        if (_callableMethods[StartUpgrade] != CheckIfUpgradePossible(false))
-        {
-            _callableMethods[StartUpgrade] = CheckIfUpgradePossible(false);
-            OnCallableMethodsChanged?.Invoke(_callableMethods);
-            OnUpgradableStatusChanged?.Invoke(_callableMethods[StartUpgrade]);
-        }
+        // if(_callableMethods.Count == 0) return;
+        //
+        // if (_callableMethods[StartUpgrade] != CheckIfUpgradePossible(false))
+        // {
+        //     _callableMethods[StartUpgrade] = CheckIfUpgradePossible(false);
+        //     OnCallableMethodsChanged?.Invoke(_callableMethods);
+        //     OnUpgradableStatusChanged?.Invoke(_callableMethods[StartUpgrade]);
+        // }
     }
 
     public void StartUpgradeNoReturnValue()
@@ -91,12 +92,12 @@ public class Building : MonoBehaviour, ICustomer, IUpgradable, ICallableByUI, IC
 
     public bool StartUpgrade()
     {
-        _isUpgrading = CheckIfUpgradePossible(true);
+        _isUpgrading = CheckIfUpgradePossible() && TryPurchase();
 
         return _isUpgrading;
     }
 
-    private bool CheckIfUpgradePossible(bool tryPurchase)
+    private bool CheckIfUpgradePossible()
     {
         if (!IsUpgradeable)
         {
@@ -112,13 +113,23 @@ public class Building : MonoBehaviour, ICustomer, IUpgradable, ICallableByUI, IC
         
         var PurchaseArgs = new PurchaseArgs();
         
-        if(tryPurchase)
-            OnTryPurchase?.Invoke(_blueprint.Cost.Amount[_level], PurchaseArgs);
+        CheckIfPurchaseValid?.Invoke(_blueprint.Cost.Amount[_level], PurchaseArgs);
         
-        else
-            CheckIfPurchaseValid?.Invoke(_blueprint.Cost.Amount[_level], PurchaseArgs);
+        if (!PurchaseArgs.IsValid)
+        {
+            Debug.Log("Not enough resources to upgrade");
+            return false;
+        }
         
+        return true;
+    }
 
+    private bool TryPurchase()
+    {
+        var PurchaseArgs = new PurchaseArgs();
+        
+        OnTryPurchase?.Invoke(_blueprint.Cost.Amount[_level], PurchaseArgs);
+        
         if (!PurchaseArgs.IsValid)
         {
             Debug.Log("Not enough resources to upgrade");

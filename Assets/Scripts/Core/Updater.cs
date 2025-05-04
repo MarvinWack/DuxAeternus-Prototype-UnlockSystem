@@ -11,7 +11,6 @@ public class Updater : MonoBehaviour
     public event Action ProductionTick;
     public event Action BattleTick;
     
-    
     [SerializeField] private float researchTicksPerSecond = 1;
     [SerializeField] private float upgradeTicksPerSecond = 1;
     [SerializeField] private float productionTicksPerSecond = 1;

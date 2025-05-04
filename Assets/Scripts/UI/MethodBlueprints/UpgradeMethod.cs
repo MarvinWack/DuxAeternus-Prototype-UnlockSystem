@@ -7,12 +7,17 @@ namespace UI.MethodBlueprints
     [CreateAssetMenu(menuName = "UI/UpgradeMethod")]
     public class UpgradeMethod : MethodBlueprint<Action>
     {
-        protected override void SubscribeToButtonEvent(ICallReceiver receiver, ExtendedButton button)
+        protected override void SubscribeProviderToButtonEvent(IMethodProvider methodProvider, ExtendedButton button)
+        {
+            button.OnClickNoParamsTest += () => GetMethod(methodProvider);
+        }
+
+        protected override void SubscribeButtonToUpdateEvents(IMethodProvider methodProvider, ExtendedButton button)
         {
             throw new NotImplementedException();
         }
 
-        public override void RegisterReceiverHandler(Action handler)
+        public override void RegisterMethodToCall(Action handler)
         {
             if (handler == null)
             {
@@ -20,25 +25,12 @@ namespace UI.MethodBlueprints
                 return;
             }
             
-            delegates.Add(handler);
+            methodsToCall.Add(handler);
         }
         
-        public override void CallMethod(ICallReceiver receiver)
-        {
-            if (receiver == null)
-            {
-                Debug.LogError($"{name}: {nameof(receiver)} is null");
-                return;
-            }
-        
-            var result = delegates.Find(x => x.Target == receiver);
-            if (result == null)
-            {
-                Debug.LogError("Receiver not found");
-            }
-                
-            
-            delegates.Find(x => x.Target == receiver).Invoke();
-        }
+        // public void RegisterEnableChecker(Func<bool> enableChecker)
+        // {
+        //     // UIUpdater.UIBehaviourModifiedTick += () => CallEnableStatusChangedEvent(enableChecker()); 
+        // }
     }
 }

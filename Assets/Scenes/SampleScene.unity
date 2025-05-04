@@ -2134,7 +2134,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &367121972
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2237,6 +2237,10 @@ PrefabInstance:
       propertyPath: weapon
       value: 
       objectReference: {fileID: 11400000, guid: 0a9a21aed13df4b2795263c4f15c31fe, type: 2}
+    - target: {fileID: 3185230909964821782, guid: 9179d77fa1cfe4955897dbc1b8733d9b, type: 3}
+      propertyPath: storageAssigner
+      value: 
+      objectReference: {fileID: 1702063813}
     - target: {fileID: 7465545939465782046, guid: 9179d77fa1cfe4955897dbc1b8733d9b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -4398,7 +4402,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1703806045556362149, guid: 299ccb03ad15343f8bd2be20a28228ca, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 117.03946
+      value: 117.000496
       objectReference: {fileID: 0}
     - target: {fileID: 1703806045556362149, guid: 299ccb03ad15343f8bd2be20a28228ca, type: 3}
       propertyPath: m_ConstrainProportionsScale
@@ -6853,6 +6857,10 @@ PrefabInstance:
       propertyPath: weapon
       value: 
       objectReference: {fileID: 11400000, guid: 9852f52562f9d46e7952d2778c04f091, type: 2}
+    - target: {fileID: 3185230909964821782, guid: 9179d77fa1cfe4955897dbc1b8733d9b, type: 3}
+      propertyPath: storageAssigner
+      value: 
+      objectReference: {fileID: 1702063813}
     - target: {fileID: 7465545939465782046, guid: 9179d77fa1cfe4955897dbc1b8733d9b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

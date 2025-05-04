@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UI.Slot;
 using UnityEngine;
 
@@ -9,37 +10,35 @@ namespace UI.MethodBlueprints
     {
         [SerializeField] private int amountToRecruit;
         
-        public override void CallMethod(ICallReceiver receiver)
+        private readonly List<Func<int,bool>> enableCheckers = new();
+        
+        protected override void SubscribeButtonToUpdateEvents(IMethodProvider methodProvider, ExtendedButton button)
         {
-            if (receiver == null)
-            {
-                Debug.LogError($"{name}: {nameof(receiver)} is null");
-                return;
-            }
-
-            var result = delegates.Find(x => x.Target == receiver);
-            if (result == null)
-            {
-                Debug.LogError("Receiver not found");
-            }
-            
-            delegates.Find(x => x.Target == receiver).Invoke(amountToRecruit);
+            UIUpdater.UIBehaviourModifiedTick += () => 
+                button.SetInteractable(GetEnableChecker(methodProvider).Invoke(amountToRecruit));
         }
 
-        protected override void SubscribeToButtonEvent(ICallReceiver receiver, ExtendedButton button)
+        private Func<int, bool> GetEnableChecker(IMethodProvider methodProvider)
         {
-            button.OnClickNoParamsTest += () => CallMethod(receiver);
+            return enableCheckers.Find(x => x.Target == methodProvider);
         }
 
-        public override void RegisterReceiverHandler(Action<int> handler)
+        protected override void SubscribeProviderToButtonEvent(IMethodProvider methodProvider, ExtendedButton button)
         {
-            if (handler == null)
-            {
-                Debug.LogError($"{name}: Registered receiver handler is null");
-                return;
-            }
-            
-            delegates.Add(handler);
+            button.OnClickNoParamsTest += () => 
+                GetMethod(methodProvider).Invoke(amountToRecruit);
+        }
+
+        public override void RegisterMethodToCall(Action<int> handler)
+        {
+            methodsToCall.Add(handler);
+        }
+
+        public void RegisterMethodEnableChecker(Func<int, bool> enableChecker)
+        {
+            enableCheckers.Add(enableChecker);
+            // UIUpdater.UIBehaviourModifiedTick += () => 
+            //     CallEnableStatusChangedEvent(enableChecker(amountToRecruit)); 
         }
     }
 }

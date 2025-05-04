@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
 using Production.Items;
+using Production.Storage;
 using UnityEngine;
 
 namespace Objects.TroopTypes
@@ -22,8 +23,9 @@ namespace Objects.TroopTypes
 
         [SerializeField] private string troopTypeName;
         [SerializeField] private List<TroopType> troopTypes;
-
-
+        
+        [SerializeField] private StorageAssigner storageAssigner;
+        
         private SerializedDictionary<string, ItemBlueprint> itemSlots = new()
         {
             { "weapon", null },
@@ -44,20 +46,7 @@ namespace Objects.TroopTypes
             troopTypes.Add(instance);
             
             SlotContentAdded?.Invoke(instance);
-        }
-
-        public void CreateTroopType(ItemBlueprint firstItem, ItemBlueprint secondItem, string typeName)
-        {
-            var instance = Instantiate(troopTypePrefab, transform);
-            instance.name = typeName + " Type";
-           
-            instance.Setup(firstItem, secondItem, typeName);
-            troopTypes.Add(instance);
-        }
-
-        public List<string> GetItemSlots()
-        {
-            return itemSlots.Keys.ToList();
+            storageAssigner.AssignToStorage(instance);
         }
 
         public void ApplyTroopLosses(Dictionary<TroopType, int> lossesPerType)

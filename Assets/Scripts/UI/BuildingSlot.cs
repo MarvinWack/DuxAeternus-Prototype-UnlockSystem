@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Sirenix.Serialization;
+using UI.MethodBlueprints;
 using UnityEngine;
 
 namespace UI.Slot
 {
     public class BuildingSlot : TwoBehaviorsSlot
     {
-        // [OdinSerialize] private List<UpgradeMethod> methodList;
-
         [SerializeField] private ExtendedButton buildingButton;
         
         private Type _buildingType;
@@ -42,8 +42,18 @@ namespace UI.Slot
                 return false;
             }
             
+            foreach (var method in methodList)
+            {
+                method.InstantiateButton(_building).transform.SetParent(transform.GetChild(1), false);
+            }
+
+            foreach (var button in buttons)
+            {
+                Destroy(button.transform);
+            }
+            
             _building.OnUpgradeProgress += buildingButton.SetFillAmount;
-            _building.OnUpgradableStatusChanged += buildingButton.SetInteractable;
+            // _building.OnUpgradableStatusChanged += buildingButton.SetInteractable;
             
             buildingButton.SetText(_building.name);
             
@@ -57,7 +67,7 @@ namespace UI.Slot
             if(index == -1)
                 Debug.Log("index is -1");
             
-            methodList[index].CallMethod(_building);
+            // methodList[index].CallMethod(_building);
             return false;
         }
 
@@ -65,6 +75,7 @@ namespace UI.Slot
         {
             var results = new Dictionary<string, bool>();
             
+            //todo: abstracten mit genereic Get-DD-options-class?
             _buildingManagers = slotContentSource.GetSlotItems(_buildingType).Cast<BuildingManager>().ToList();
 
             foreach (var option in _buildingManagers)

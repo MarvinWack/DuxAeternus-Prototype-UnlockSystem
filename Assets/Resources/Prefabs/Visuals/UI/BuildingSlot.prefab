@@ -176,8 +176,8 @@ MonoBehaviour:
       Data: 
     - Name: methodList
       Entry: 7
-      Data: 0|System.Collections.Generic.List`1[[UI.MethodBlueprints.UpgradeMethod,
-        Assembly-CSharp]], mscorlib
+      Data: 0|System.Collections.Generic.List`1[[UI.MethodBlueprints.IMethod, Assembly-CSharp]],
+        mscorlib
     - Name: 
       Entry: 12
       Data: 1

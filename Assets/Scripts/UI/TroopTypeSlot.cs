@@ -42,7 +42,7 @@ namespace UI
             if(index == -1)
                 Debug.Log("index is -1");
             
-            methodList[index].CallMethod(_troopType);
+            // methodList[index].CallMethod(_troopType);
             return false;
         }
     }

@@ -7,25 +7,42 @@ namespace UI.MethodBlueprints
 {
     public abstract class MethodBlueprint<T> : ScriptableObject, IMethod where T : Delegate
     {
-        protected readonly List<T> delegates = new();
+        [Header("Settings")] 
+        [SerializeField] private bool visualiseProgress;
         
         public ExtendedButton buttonPrefab;
         
-        public virtual ExtendedButton InstantiateButton(ICallReceiver receiver = null)
+        protected readonly List<T> methodsToCall = new();
+
+        public virtual ExtendedButton InstantiateButton(IMethodProvider methodProvider = null)
         {
             var button = Instantiate(buttonPrefab);
             button.name = name;
-            //todo: in base extended button Event<T> -> konkrete buttons nur ein event?
+            //todo: in base extended button Action<T> -> konkrete buttons nur ein event?
 
-            if(receiver != null)
-                SubscribeToButtonEvent(receiver, button);
+            // EnableStatusChanged += button.SetInteractable;
+            
+            if(methodProvider != null)
+            {
+                SubscribeProviderToButtonEvent(methodProvider, button);
+                SubscribeButtonToUpdateEvents(methodProvider, button);
+            }
+            
+            // if(visualiseProgress)
+            //     receiver.
             
             return button;
         }
 
-        protected abstract void SubscribeToButtonEvent(ICallReceiver receiver, ExtendedButton button);
+        public virtual void SetupButton(IMethodProvider receiver)
+        {
+            
+        }
 
-        protected T GetDelegate(ICallReceiver receiver)
+        protected abstract void SubscribeProviderToButtonEvent(IMethodProvider methodProvider, ExtendedButton button);
+        protected abstract void SubscribeButtonToUpdateEvents(IMethodProvider methodProvider, ExtendedButton button);
+
+        protected T GetDelegate(IMethodProvider receiver)
         {
             if (receiver == null)
             {
@@ -33,55 +50,39 @@ namespace UI.MethodBlueprints
                 return null;
             }
         
-            return delegates.Find(x => x.Target == receiver);
+            return methodsToCall.Find(x => x.Target == receiver);
         }
-
-        // protected abstract void HandleButtonClick<X>(X args);
         
-        // private void HandleButtonClick(T args)
-
-        // {
-
-        //     if (args == null)
-
-        //     {
-
-        //         Debug.LogError($"{name}: {nameof(args)} is null");
-
-        //         return;
-
-        //     }
-
-        //     
-
-        //     
-
-        // }
-
-        public abstract void RegisterReceiverHandler(T handler);
+        public abstract void RegisterMethodToCall(T handler);
         
-        
-        public abstract void CallMethod(ICallReceiver receiver);
+        protected T GetMethod(IMethodProvider methodProvider)
+        {
+            if (methodProvider == null)
+            {
+                Debug.LogError($"{name}: {nameof(methodProvider)} is null");
+                return null;
+            }
+
+            var result = methodsToCall.Find(x => x.Target == methodProvider);
+            
+            if (result == null)
+            {
+                Debug.LogError("Receiver not found");
+            }
+            
+            return methodsToCall.Find(x => x.Target == methodProvider);
+        }
 
         public string GetName()
         {
             return name;
         }
-
-        // private void OnEnable()
-        // {
-        //     //todo:
-        //     buttonPrefab = (ExtendedButton)Resources.Load("Prefabs/Visuals/UI", typeof(ExtendedButton));
-        // }
-
-        //todo: methoden/params-name?
     }
 
     public interface IMethod
     {
-        public void CallMethod(ICallReceiver receiver);
         public string GetName();
 
-        public ExtendedButton InstantiateButton(ICallReceiver receiver = null);
+        public ExtendedButton InstantiateButton(IMethodProvider methodProvider = null);
     }
 }

@@ -1,20 +1,23 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using AYellowpaper.SerializedCollections;
 using Entities.Units;
 using Objects;
 using Production.Items;
+using Production.Storage;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UI.MethodBlueprints;
 using UnityEngine;
 
-public class TroopType : SerializedMonoBehaviour, ICallReceiver, ISlotContent
+public class TroopType : SerializedMonoBehaviour, IMethodProvider, ISlotContent, ICustomer
 {
     [InspectorButton("CreateUnit")] 
     public bool _CreateUnit;
 
-    [InspectorButton("RecruitDebug")] 
-    public bool _Recruit;
+    public event Action<Dictionary<ProductBlueprint, int>, PurchaseArgs> OnTryPurchase;
+    public event Action<Dictionary<ProductBlueprint, int>, PurchaseArgs> CheckIfPurchaseValid;
 
     [OdinSerialize] private List<RecruitMethod> methodsList;
     
@@ -27,8 +30,6 @@ public class TroopType : SerializedMonoBehaviour, ICallReceiver, ISlotContent
     public ItemBlueprint Weapon => weapon;
     public ItemBlueprint Armour => armour;
 
-    private int AmountToRecruit = 100;
-
     public void Setup(ItemBlueprint firstItem, ItemBlueprint secondItem, string troopTypeName)
     {
         name = troopTypeName;
@@ -39,7 +40,8 @@ public class TroopType : SerializedMonoBehaviour, ICallReceiver, ISlotContent
 
         foreach (var method in methodsList)
         {
-            method.RegisterReceiverHandler(Recruit);
+            method.RegisterMethodToCall(Recruit);
+            method.RegisterMethodEnableChecker(CheckIfRecruitmentPossible);
         }
     }
 
@@ -50,17 +52,51 @@ public class TroopType : SerializedMonoBehaviour, ICallReceiver, ISlotContent
         unit.Setup();
         units.Add(unit);
     }
-
-    //todo: !!!
-    private void RecruitDebug()
-    {
-        units[0].AddAmount(AmountToRecruit);
-    }
-
-    //todo: !!!
+    
     private void Recruit(int amount)
     {
-        units[0].AddAmount(amount);
+        if(TryPurchase(amount))
+            //todo: !!!
+            units[0].AddAmount(amount);
+    }
+    
+    private bool CheckIfRecruitmentPossible(int amount)
+    {
+        var PurchaseArgs = new PurchaseArgs();
+        
+        CheckIfPurchaseValid?.Invoke(MultiplyDictionaryValues(Weapon.Cost.Amount[0], amount), PurchaseArgs);
+        
+        if (!PurchaseArgs.IsValid)
+        {
+            return false;
+        }
+        
+        return true;
+    }
+
+    private bool TryPurchase(int amount)
+    {
+        var PurchaseArgs = new PurchaseArgs();
+        
+        OnTryPurchase?.Invoke(MultiplyDictionaryValues(Weapon.Cost.Amount[0], amount), PurchaseArgs);
+        
+        if (!PurchaseArgs.IsValid)
+        {
+            Debug.Log("Not enough resources to recruit");
+            return false;
+        }
+        
+        return true;
+    }
+    
+    private Dictionary<ProductBlueprint, int> MultiplyDictionaryValues(SerializedDictionary<ProductBlueprint, int> original, int amount)
+    {
+        var result = new Dictionary<ProductBlueprint, int>();
+        foreach (var cost in original)
+        {
+            result[cost.Key] = cost.Value * amount;
+        }
+        return result;
     }
 
     public void SubstractLossesFromFirstUnit(int amount)

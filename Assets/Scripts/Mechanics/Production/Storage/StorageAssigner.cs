@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Production.Items;
+using UI;
 using UnityEngine;
+using UnityEngine.Rendering.VirtualTexturing;
 
 namespace Production.Storage
 {
@@ -9,8 +11,26 @@ namespace Production.Storage
     {
         [SerializeField] private ItemStorage itemStorage;
         [SerializeField] private ResourceStorage resourceStorage;
-        
-        public void AssignBuildingToStorage(Building building, BuildingBlueprint buildingBlueprint)
+
+        public void AssignToStorage(ICustomer customer, ObjectBluePrint bluePrint = null)
+        {
+            switch (customer)
+            {
+                case Building building: AssignBuildingToStorage(building, (BuildingBlueprint)bluePrint);
+                    break;
+                case TroopType troopType: AssignTroopTypeToStorage(troopType);
+                    break;
+                default: throw new NotImplementedException("Customer type not implemented");
+            }
+        }
+
+        private void AssignTroopTypeToStorage(TroopType troopType)
+        {
+            troopType.OnTryPurchase += HandleTryPurchase;
+            troopType.CheckIfPurchaseValid += CheckIfPurchaseValid;
+        }
+
+        private void AssignBuildingToStorage(Building building, BuildingBlueprint buildingBlueprint)
         {
             switch (buildingBlueprint.ProducedProduct)
             {
@@ -20,7 +40,7 @@ namespace Production.Storage
                     building.CheckIfPurchaseValid += CheckIfPurchaseValid;
                     break;
                 case ResourceBlueprint:
-                    building.OnProduction += resourceStorage.HandleProductionTick;
+                    building.OnProduction += resourceStorage.AddResources;
                     building.OnTryPurchase += HandleTryPurchase;
                     building.CheckIfPurchaseValid += CheckIfPurchaseValid;
                     break;
