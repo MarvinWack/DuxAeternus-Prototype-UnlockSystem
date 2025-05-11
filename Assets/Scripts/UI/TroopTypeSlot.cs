@@ -23,7 +23,8 @@ namespace UI
             
             foreach (var method in methodList)
             {
-                method.InstantiateButton(_troopType).transform.SetParent(transform.GetChild(1), false);
+                method.InstantiateButton(troopType).transform.SetParent(transform.GetChild(1), false);
+                // method.SetupButton(troopType);
             }
         }
         

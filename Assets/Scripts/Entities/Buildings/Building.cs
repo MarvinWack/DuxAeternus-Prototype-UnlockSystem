@@ -39,17 +39,10 @@ public class Building : MonoBehaviour, ICustomer, IUpgradable, ICallableByUI, IM
 
     private void Start()
     {
-        // SetupCallableMethods();
-        upgradeMethod.RegisterMethodToCall(StartUpgradeNoReturnValue);
-        // upgradeMethod.RegisterEnableChecker(CheckIfUpgradePossible);
+        upgradeMethod.RegisterMethodToCall(StartUpgradeNoReturnValue, this);
+        upgradeMethod.RegisterEnableChecker(CheckIfUpgradePossible);
     }
-
-    private void SetupCallableMethods()
-    {
-        // _callableMethods.Add(StartUpgrade, CheckIfUpgradePossible(false));
-    }
-
-    //handle tick-methoden in interfaces auslagern?
+    
     public void HandleUpgradeTick()
     {
         if (!_isUpgrading) return;

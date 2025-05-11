@@ -44,7 +44,7 @@ namespace UI.Slot
             
             foreach (var method in methodList)
             {
-                method.InstantiateButton(_building).transform.SetParent(transform.GetChild(1), false);
+                // method.InstantiateButton(_building).transform.SetParent(transform.GetChild(1), false);
             }
 
             foreach (var button in buttons)

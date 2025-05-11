@@ -40,7 +40,7 @@ public class TroopType : SerializedMonoBehaviour, IMethodProvider, ISlotContent,
 
         foreach (var method in methodsList)
         {
-            method.RegisterMethodToCall(Recruit);
+            method.RegisterMethodToCall(Recruit, this);
             method.RegisterMethodEnableChecker(CheckIfRecruitmentPossible);
         }
     }

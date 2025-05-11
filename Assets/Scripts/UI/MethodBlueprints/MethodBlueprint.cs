@@ -1,10 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UI.Slot;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace UI.MethodBlueprints
 {
+    /// <summary>
+    /// Class for mapping methods of gameplay-objects to their corresponding buttons.
+    /// Controls behaviour of buttons and sets up events for communication between buttons
+    /// and method-providers.
+    /// </summary>
     public abstract class MethodBlueprint<T> : ScriptableObject, IMethod where T : Delegate
     {
         [Header("Settings")] 
@@ -12,49 +19,43 @@ namespace UI.MethodBlueprints
         
         public ExtendedButton buttonPrefab;
         
-        protected readonly List<T> methodsToCall = new();
+        protected readonly List<MethodInfo<T>> methodInfos = new();
 
-        public virtual ExtendedButton InstantiateButton(IMethodProvider methodProvider = null)
+        protected abstract void SubscribeProviderToButtonEvent(IMethodProvider methodProvider, ExtendedButton button);
+        protected abstract void SubscribeButtonToUpdateEvents(IMethodProvider methodProvider, ExtendedButton button);
+        
+        public abstract void RegisterMethodToCall(T handler, IMethodProvider methodProvider);
+
+        public virtual ExtendedButton InstantiateButton(IMethodProvider methodProvider)
         {
             var button = Instantiate(buttonPrefab);
             button.name = name;
             //todo: in base extended button Action<T> -> konkrete buttons nur ein event?
-
-            // EnableStatusChanged += button.SetInteractable;
             
-            if(methodProvider != null)
-            {
-                SubscribeProviderToButtonEvent(methodProvider, button);
-                SubscribeButtonToUpdateEvents(methodProvider, button);
-            }
+            methodInfos.Find(x => x.MethodProvider == methodProvider).Button = button;
             
-            // if(visualiseProgress)
-            //     receiver.
+            SubscribeProviderToButtonEvent(methodProvider, button);
+            SubscribeButtonToUpdateEvents(methodProvider, button);
             
             return button;
         }
 
-        public virtual void SetupButton(IMethodProvider receiver)
-        {
-            
-        }
+        // public void SetupButton(IMethodProvider methodProvider)
+        // {
+        //     if (methodProvider == null)
+        //     {
+        //         Debug.LogError("MethodProvider is null");
+        //         return;
+        //     }
+        //
+        //     var methodInfo = methodInfos.Find(x => x.IsProviderSet == false);
+        //     methodInfo.MethodProvider = methodProvider;
+        //     methodInfo.MethodToCall = GetMethod(methodProvider);
+        //     
+        //     SubscribeProviderToButtonEvent(methodProvider, methodInfo.Button);
+        //     SubscribeButtonToUpdateEvents(methodProvider, methodInfo.Button);
+        // }
 
-        protected abstract void SubscribeProviderToButtonEvent(IMethodProvider methodProvider, ExtendedButton button);
-        protected abstract void SubscribeButtonToUpdateEvents(IMethodProvider methodProvider, ExtendedButton button);
-
-        protected T GetDelegate(IMethodProvider receiver)
-        {
-            if (receiver == null)
-            {
-                Debug.LogError($"{name}: {nameof(receiver)} is null");
-                return null;
-            }
-        
-            return methodsToCall.Find(x => x.Target == receiver);
-        }
-        
-        public abstract void RegisterMethodToCall(T handler);
-        
         protected T GetMethod(IMethodProvider methodProvider)
         {
             if (methodProvider == null)
@@ -63,14 +64,14 @@ namespace UI.MethodBlueprints
                 return null;
             }
 
-            var result = methodsToCall.Find(x => x.Target == methodProvider);
+            var result = methodInfos.Find(x => x.MethodToCall.Target == methodProvider);
             
             if (result == null)
             {
                 Debug.LogError("Receiver not found");
             }
             
-            return methodsToCall.Find(x => x.Target == methodProvider);
+            return methodInfos.Find(x => x.MethodToCall.Target == methodProvider).MethodToCall;
         }
 
         public string GetName()
@@ -83,6 +84,15 @@ namespace UI.MethodBlueprints
     {
         public string GetName();
 
-        public ExtendedButton InstantiateButton(IMethodProvider methodProvider = null);
+        public ExtendedButton InstantiateButton(IMethodProvider methodProvider);
+        // public void SetupButton(IMethodProvider methodProvider);
+    }
+
+    public class MethodInfo<T>
+    {
+        public bool IsProviderSet => MethodProvider is not null;
+        public IMethodProvider MethodProvider; //todo: austauschen durch GUID?
+        public T MethodToCall;
+        public ExtendedButton Button;
     }
 }
