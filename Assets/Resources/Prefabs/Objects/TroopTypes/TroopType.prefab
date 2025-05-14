@@ -56,7 +56,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: methodsList
+    - Name: methods
       Entry: 7
       Data: 0|System.Collections.Generic.List`1[[UI.MethodBlueprints.RecruitMethod,
         Assembly-CSharp]], mscorlib
@@ -79,7 +79,6 @@ MonoBehaviour:
       Entry: 8
       Data: 
   _CreateUnit: 0
-  _Recruit: 0
   weapon: {fileID: 0}
   armour: {fileID: 0}
   unitPrefab: {fileID: 3919459747560519122, guid: e952638207d874dfba57bb4cb8e01e07, type: 3}

@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using Entities.Buildings;
+using UI.Slot;
 using UnityEngine;
 
 namespace UI
@@ -15,18 +17,18 @@ namespace UI
             content.OnButtonClicked += HandleOptionClicked;
         }
         
-        public override void Show(Vector3 position, IPopUpCaller caller)
+        public void Show(Vector3 position, List<ExtendedButton> options)
         {
-            base.Show(position, caller);
+            base.Show(position);
             
-            if(caller is IDropdownCaller dropdownCaller)
-            {
-                slot = dropdownCaller;
-                content.Show(dropdownCaller.GetDropDownOptions());
-            }
+            // if(caller is IDropdownCaller dropdownCaller)
+            // {
+            //     slot = dropdownCaller;
+            content.Show(options);
+            // }
             
-            else
-                Debug.LogError("Caller is not a dropdown caller");
+            // else
+            //     Debug.LogError("Caller is not a dropdown caller");
         }
         
         public override void Hide()
@@ -35,13 +37,10 @@ namespace UI
             content.Hide();
         }
 
-        private void HandleOptionClicked(int index)
+        private void HandleOptionClicked()
         {
-            if(slot.HandleOptionClicked(index))
-            {
-                Hide();
-                blocker.gameObject.SetActive(false);
-            }
+            Hide();
+            blocker.gameObject.SetActive(false);
         }
     }
 }

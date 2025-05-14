@@ -1,33 +1,51 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Sirenix.Serialization;
-using UI.MethodBlueprints;
 using UnityEngine;
 
 namespace UI.Slot
 {
     public class BuildingSlot : TwoBehaviorsSlot
     {
-        [SerializeField] private ExtendedButton buildingButton;
+        public event Action<Vector3, Building> DropDownCalled;
+        public bool IsBuildingSet => _building != null;
+        
+        [SerializeField] private ExtendedButton callDropdownButton;
+        [SerializeField] private Building _building;
         
         private Type _buildingType;
-        private Building _building;
         private List<BuildingManager> _buildingManagers;
 
         public void Setup(Type buildingType, DropDownMenu dropdown, ResearchTree researchTree)
         {
             _buildingType = buildingType;
             dropdownMenu = dropdown;
-            slotContentSource = researchTree;
+            // slotContentSource = researchTree;
+            callDropdownButton.OnClick += CallDropDown;
         }
 
+        public void SetBuilding(Building building)
+        {
+            foreach (var method in building.GetMethods())
+            {
+                // Destroy(callDropdownButton.gameObject);
+                // callDropdownButton = method.InstantiateButton(building);
+                // callDropdownButton.transform.SetParent(transform.GetChild(1), false);
+            }
+            callDropdownButton.SetText(building.name);
+            _building = building;
+        }
+
+        private void CallDropDown(Vector3 position)
+        {
+            DropDownCalled?.Invoke(position, _building);
+        }
+        
         protected override Dictionary<string, bool> GetOptionSetMenu()
         {
             var options = new Dictionary<string, bool>();
             
-            foreach (var method in methodList)
-                options.Add(method.GetName(), _building.IsUpgradeable);
+            // foreach (var method in methodList)
+            //     options.Add(method.GetName(), _building.IsUpgradeable);
             
             return options;
         }
@@ -42,20 +60,20 @@ namespace UI.Slot
                 return false;
             }
             
-            foreach (var method in methodList)
-            {
-                // method.InstantiateButton(_building).transform.SetParent(transform.GetChild(1), false);
-            }
-
-            foreach (var button in buttons)
-            {
-                Destroy(button.transform);
-            }
+            // foreach (var method in methodList)
+            // {
+            //     // method.InstantiateButton(_building).transform.SetParent(transform.GetChild(1), false);
+            // }
+            //
+            // foreach (var button in buttons)
+            // {
+            //     Destroy(button.transform);
+            // }
             
-            _building.OnUpgradeProgress += buildingButton.SetFillAmount;
+            // _building.OnUpgradeProgress += buildingButton.SetFillAmount;
             // _building.OnUpgradableStatusChanged += buildingButton.SetInteractable;
             
-            buildingButton.SetText(_building.name);
+            // buildingButton.SetText(_building.name);
             
             SetSlot();
             return true;
@@ -76,7 +94,7 @@ namespace UI.Slot
             var results = new Dictionary<string, bool>();
             
             //todo: abstracten mit genereic Get-DD-options-class?
-            _buildingManagers = slotContentSource.GetSlotItems(_buildingType).Cast<BuildingManager>().ToList();
+            // _buildingManagers = slotContentSource.GetSlotItems(_buildingType).Cast<BuildingManager>().ToList();
 
             foreach (var option in _buildingManagers)
             {

@@ -8,14 +8,14 @@ using UnityEngine;
 
 namespace UI.Slot
 {
-    public abstract class BaseSlot : SerializedMonoBehaviour, IDropdownCaller
+    public abstract class BaseSlot : SerializedMonoBehaviour
     {
-        public event IDropdownCaller.OptionSetHandler OptionSet;
+        // public event IDropdownCaller.OptionSetHandler OptionSet;
         
-        [SerializeField] protected ISlotContentSource slotContentSource;
-        [SerializeField] protected DropDownMenu dropdownMenu; //in factory auslagern
+        // [SerializeField] protected ISlotContentSource slotContentSource;
+        [SerializeField] protected DropDownMenu dropdownMenu; //todo: in factory auslagern
         
-        [SerializeField] protected List<IMethod> methodList;
+        // [SerializeField] protected List<IMethod> methodList;
 
         protected bool _isOptionSet;
         protected bool _isOptionLocked;
@@ -25,7 +25,7 @@ namespace UI.Slot
 
         private void Awake()
         {
-            SetupDropDownButtons();
+            // SetupDropDownButtons();
             // SetupDropDownEvents();
         }
 
@@ -34,20 +34,20 @@ namespace UI.Slot
             throw new NotImplementedException();
         }
 
-        private void SetupDropDownButtons()
-        {
-            foreach (var button in buttons)
-            {
-                if (button.CallDropDown)
-                {
-                    button.OnClick += HandleDropDownCalled;
-                }
-            }
-        }
+        // private void SetupDropDownButtons()
+        // {
+        //     foreach (var button in buttons)
+        //     {
+        //         if (button.CallDropDown)
+        //         {
+        //             button.OnClick += HandleDropDownCalled;
+        //         }
+        //     }
+        // }
 
         private void HandleDropDownCalled(Vector3 position)
         {
-            dropdownMenu.Show(position, this);
+            // dropdownMenu.Show(position, this);
         }
         public abstract Dictionary<string, bool> GetDropDownOptions();
         public abstract bool HandleOptionClicked(int index);

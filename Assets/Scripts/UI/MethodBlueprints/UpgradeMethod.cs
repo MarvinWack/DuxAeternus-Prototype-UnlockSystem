@@ -2,22 +2,16 @@ using System;
 using System.Collections.Generic;
 using UI.Slot;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace UI.MethodBlueprints
 {
     [CreateAssetMenu(menuName = "UI/UpgradeMethod")]
     public class UpgradeMethod : MethodBlueprint<Action>
     {
-        
         private readonly List<Func<bool>> enableCheckers = new();
         public override void RegisterMethodToCall(Action handler, IMethodProvider methodProvider)
         {
-            if (handler == null)
-            {
-                Debug.LogError($"{name}: Registered receiver handler is null");
-                return;
-            }
-            
             methodInfos.Add(new MethodInfo<Action>
             {
                 MethodToCall = handler,
@@ -32,15 +26,20 @@ namespace UI.MethodBlueprints
 
         protected override void SubscribeProviderToButtonEvent(IMethodProvider methodProvider, ExtendedButton button)
         {
-            button.OnClickNoParamsTest += () => GetMethod(methodProvider);
+            button.OnClickNoParamsTest += () => GetMethod(methodProvider).Invoke();
         }
 
         protected override void SubscribeButtonToUpdateEvents(IMethodProvider methodProvider, ExtendedButton button)
         {
-            UIUpdater.UIBehaviourModifiedTick += () => 
+            void UpdateButtonInteractable()
+            {
                 button.SetInteractable(GetEnableChecker(methodProvider).Invoke());
-        }
+            }
 
+            UIUpdater.UIBehaviourModifiedTick += UpdateButtonInteractable;
+            button.OnDestruction += () => UIUpdater.UIBehaviourModifiedTick -= UpdateButtonInteractable;
+        }
+        
         private Func<bool> GetEnableChecker(IMethodProvider methodProvider)
         {
             return enableCheckers.Find(x => x.Target == methodProvider);

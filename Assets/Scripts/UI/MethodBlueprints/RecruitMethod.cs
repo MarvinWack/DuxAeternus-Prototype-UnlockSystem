@@ -32,6 +32,12 @@ namespace UI.MethodBlueprints
                 button.SetInteractable(GetEnableChecker(methodProvider).Invoke(amountToRecruit));
         }
 
+        // protected override void UnsubscribeButtonFromEvents(ExtendedButton button, IMethodProvider methodProvider)
+        // {
+        //     UIUpdater.UIBehaviourModifiedTick -= () => 
+        //         button.SetInteractable(GetEnableChecker(methodProvider).Invoke(amountToRecruit));
+        // }
+
         protected override void SubscribeProviderToButtonEvent(IMethodProvider methodProvider, ExtendedButton button)
         {
             button.OnClickNoParamsTest += () => 

@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 using Core;
+using Sirenix.Serialization;
+using UI.MethodBlueprints;
 using UnityEngine;
 
-public abstract class BuildingManager : BaseObject, IUpgradeTickReceiver, IProductionTickReceiver
+public abstract class BuildingManager : BaseObject, IUpgradeTickReceiver, IProductionTickReceiver, IMethodProvider
 {
     [SerializeField] protected List<Building> buildings = new();
-
+    [OdinSerialize] private CreateBuildingMethod createBuildingMethod;
+    
     protected BuildingBlueprint BuildingBlueprint => _objectBluePrint as BuildingBlueprint;
     private BuildingFactory _buildingFactory;
 
@@ -17,6 +20,9 @@ public abstract class BuildingManager : BaseObject, IUpgradeTickReceiver, IProdu
     protected virtual void Setup()
     {
         _buildingFactory = FindObjectOfType<BuildingFactory>();
+        
+        createBuildingMethod.RegisterMethodToCall(TryCreateBuilding, this);
+        createBuildingMethod.RegisterMethodEnableChecker(CheckIfBuildingIsBuildable);
     }
 
     //todo: params für ui-message wenn nicht buildable
@@ -35,7 +41,7 @@ public abstract class BuildingManager : BaseObject, IUpgradeTickReceiver, IProdu
     {
         if (!_isUnlocked || !_isAvailable)
         {
-            Debug.Log("building not unlocked/available");
+            // Debug.Log("building not unlocked or not available");
             return false;
         }
         
@@ -75,5 +81,10 @@ public abstract class BuildingManager : BaseObject, IUpgradeTickReceiver, IProdu
             return false;
 
         return true;
+    }
+
+    public List<IMethod> GetMethods()
+    {
+        throw new System.NotImplementedException();
     }
 }

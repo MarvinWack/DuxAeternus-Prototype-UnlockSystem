@@ -1,4 +1,5 @@
 using System;
+using UI;
 using UnityEngine;
 
 /// <summary>
@@ -57,6 +58,7 @@ public class Updater : MonoBehaviour
         {
             timer = 0;
             tickAction?.Invoke();
+            UIUpdater.UIBehaviourModifiedTick.Invoke();
         }
     }
 

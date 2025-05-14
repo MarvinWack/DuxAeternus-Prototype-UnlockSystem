@@ -2,6 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UI.Slot
@@ -20,6 +21,8 @@ namespace UI.Slot
         public event Action<Vector3, bool, int> OnClickIndex;
         public event Action<Vector3, bool> OnHoverStart;
         public event Action OnHoverEnd;
+        
+        public event Action OnDestruction;
 
         public bool CallDropDown => callDropDown;
         public bool CallInfoWindow => callInfoWindow;
@@ -27,18 +30,24 @@ namespace UI.Slot
         [Header("Settings")] 
         [SerializeField] private bool callDropDown;
         [SerializeField] private bool callInfoWindow;
+        [SerializeField] private bool isInteractable = true;
+        [SerializeField] private bool useFadeOnInteractableChanged = false;
 
         [Header("References")]
         [SerializeField] private Button button;
         [SerializeField] private Image buttonImage;
         [SerializeField] private TMP_Text buttonLabel;
-        
+
         private int _index;
-        public bool _isInteractable = true;
+
+        private void Awake()
+        {
+            // button.interactable = false;
+        }
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (!_isInteractable) return;
+            if (!isInteractable) return;
             
             OnClickIndex?.Invoke(transform.position, callDropDown, _index);
             OnClick?.Invoke(eventData.position);
@@ -47,14 +56,14 @@ namespace UI.Slot
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (!_isInteractable) return;
+            if (!isInteractable) return;
             
             OnHoverStart?.Invoke(transform.position, callInfoWindow);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            if (!_isInteractable) return;
+            if (!isInteractable) return;
             
             OnHoverEnd?.Invoke();
         }
@@ -76,8 +85,25 @@ namespace UI.Slot
         
         public void SetInteractable(bool interactable)
         {
-            _isInteractable = interactable;
+            isInteractable = interactable;
             button.interactable = interactable;
+        }
+
+        public void UseFadeOnInteractableChanged(bool useFade)
+        {
+            ColorBlock colorBlock = button.colors;
+
+            if (useFade)
+                colorBlock.fadeDuration = 0.15f;
+            else
+                colorBlock.fadeDuration = 0f;
+            
+            button.colors = colorBlock;
+        }
+
+        private void OnDestroy()
+        {
+            OnDestruction?.Invoke();
         }
     }
 }

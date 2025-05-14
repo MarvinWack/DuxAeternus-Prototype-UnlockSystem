@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UI.MethodBlueprints;
 using UI.Slot;
 using UnityEngine;
 
@@ -21,9 +22,9 @@ namespace UI
                 return;
             }
             
-            foreach (var method in methodList)
+            foreach (var method in troopType.GetMethods())
             {
-                method.InstantiateButton(troopType).transform.SetParent(transform.GetChild(1), false);
+                method.InstantiateButton(troopType, "+").transform.SetParent(transform.GetChild(1), false);
                 // method.SetupButton(troopType);
             }
         }
@@ -32,8 +33,8 @@ namespace UI
         {
             var options = new Dictionary<string, bool>();
             
-            foreach (var method in methodList)
-                options.Add(method.GetName(), true);
+            // foreach (var method in methodList)
+            //     options.Add(method.GetName(), true);
             
             return options;
         }

@@ -37,7 +37,7 @@ public class Building : MonoBehaviour, ICustomer, IUpgradable, ICallableByUI, IM
     private Dictionary<Func<bool>, bool> _callableMethods = new();
 
 
-    private void Start()
+    private void Awake()
     {
         upgradeMethod.RegisterMethodToCall(StartUpgradeNoReturnValue, this);
         upgradeMethod.RegisterEnableChecker(CheckIfUpgradePossible);
@@ -165,18 +165,9 @@ public class Building : MonoBehaviour, ICustomer, IUpgradable, ICallableByUI, IM
 
         return completeUnits;
     }
-
-    // public List<Func<bool>> GetCallableMethods()
-
-    // {
-
-    //     return new List<Func<bool>>
-
-    //     {
-
-    //         StartUpgrade
-
-    //     };
-
-    // }
+    
+    public List<IMethod> GetMethods()
+    {
+        return new List<IMethod>{upgradeMethod};
+    }
 }

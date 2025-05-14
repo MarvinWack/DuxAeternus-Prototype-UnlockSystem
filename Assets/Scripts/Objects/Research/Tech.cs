@@ -1,9 +1,10 @@
 using System;
 using Core;
+using UI.MethodBlueprints;
 using UnityEngine;
 
 [Serializable]
-public class Tech : BaseObject, IResearchTickReceiver
+public class Tech : BaseObject, IResearchTickReceiver, IEnableChecker
 {
     [InspectorButton("StartResearch")]
     public bool StartResearchButton;
@@ -23,26 +24,8 @@ public class Tech : BaseObject, IResearchTickReceiver
 
     public bool StartUpgrade()
     {
-        if (!_isUnlocked)
-        {
-            Debug.Log("Tech is not unlocked");
-            return false;
-        }
-        
-        if (_isResearchFinished)
-        {
-            Debug.Log("Research is already finished");
-            return false;
-        }
-        
-        if (Level >= TechBlueprint.MaxLevel)
-        {
-            Debug.Log("Tech is already at max level");
-            return false;
-        }
-        
-        _isResearching = true;
-        return true;
+        _isResearching = CheckIfMethodIsEnabled();
+        return _isResearching;
     }
 
     private void CompleteResearch()
@@ -72,5 +55,28 @@ public class Tech : BaseObject, IResearchTickReceiver
         
         if(_elapsedResearchTime >= TechBlueprint.UnlockRequirements.UnlockTime)
             CompleteResearch();
+    }
+
+    public bool CheckIfMethodIsEnabled()
+    {
+        if (!_isUnlocked)
+        {
+            Debug.Log("Tech is not unlocked");
+            return false;
+        }
+        
+        if (_isResearchFinished)
+        {
+            Debug.Log("Research is already finished");
+            return false;
+        }
+        
+        if (Level >= TechBlueprint.MaxLevel)
+        {
+            Debug.Log("Tech is already at max level");
+            return false;
+        }
+
+        return true;
     }
 }

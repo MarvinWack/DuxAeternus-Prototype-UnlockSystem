@@ -19,7 +19,7 @@ public class TroopType : SerializedMonoBehaviour, IMethodProvider, ISlotContent,
     public event Action<Dictionary<ProductBlueprint, int>, PurchaseArgs> OnTryPurchase;
     public event Action<Dictionary<ProductBlueprint, int>, PurchaseArgs> CheckIfPurchaseValid;
 
-    [OdinSerialize] private List<RecruitMethod> methodsList;
+    [OdinSerialize] private List<RecruitMethod> methods;
     
     [SerializeField] private ItemBlueprint weapon;
     [SerializeField] private ItemBlueprint armour;
@@ -38,7 +38,7 @@ public class TroopType : SerializedMonoBehaviour, IMethodProvider, ISlotContent,
         
         CreateUnit();
 
-        foreach (var method in methodsList)
+        foreach (var method in methods)
         {
             method.RegisterMethodToCall(Recruit, this);
             method.RegisterMethodEnableChecker(CheckIfRecruitmentPossible);
@@ -112,5 +112,10 @@ public class TroopType : SerializedMonoBehaviour, IMethodProvider, ISlotContent,
     public bool IsAvailable()
     {
         return CheckIfUnitsAvailableToFight(); //&& CheckIfUnitsAvailableToRecruit();
+    }
+
+    public List<IMethod> GetMethods()
+    {
+        return methods.Cast<IMethod>().ToList();
     }
 }

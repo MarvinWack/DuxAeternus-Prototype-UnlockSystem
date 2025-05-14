@@ -21,15 +21,16 @@ namespace UI.MethodBlueprints
         
         protected readonly List<MethodInfo<T>> methodInfos = new();
 
+        public abstract void RegisterMethodToCall(T handler, IMethodProvider methodProvider);
         protected abstract void SubscribeProviderToButtonEvent(IMethodProvider methodProvider, ExtendedButton button);
         protected abstract void SubscribeButtonToUpdateEvents(IMethodProvider methodProvider, ExtendedButton button);
-        
-        public abstract void RegisterMethodToCall(T handler, IMethodProvider methodProvider);
 
-        public virtual ExtendedButton InstantiateButton(IMethodProvider methodProvider)
+        public virtual ExtendedButton InstantiateButton(IMethodProvider methodProvider, string buttonText = null)
         {
             var button = Instantiate(buttonPrefab);
-            button.name = name;
+
+            SetButtonText(button, buttonText);
+            
             //todo: in base extended button Action<T> -> konkrete buttons nur ein event?
             
             methodInfos.Find(x => x.MethodProvider == methodProvider).Button = button;
@@ -37,24 +38,38 @@ namespace UI.MethodBlueprints
             SubscribeProviderToButtonEvent(methodProvider, button);
             SubscribeButtonToUpdateEvents(methodProvider, button);
             
+            UIUpdater.UIBehaviourModifiedTick?.Invoke();
+            
+            button.UseFadeOnInteractableChanged(true);
+            
             return button;
         }
 
-        // public void SetupButton(IMethodProvider methodProvider)
-        // {
-        //     if (methodProvider == null)
-        //     {
-        //         Debug.LogError("MethodProvider is null");
-        //         return;
-        //     }
-        //
-        //     var methodInfo = methodInfos.Find(x => x.IsProviderSet == false);
-        //     methodInfo.MethodProvider = methodProvider;
-        //     methodInfo.MethodToCall = GetMethod(methodProvider);
-        //     
-        //     SubscribeProviderToButtonEvent(methodProvider, methodInfo.Button);
-        //     SubscribeButtonToUpdateEvents(methodProvider, methodInfo.Button);
-        // }
+        public ExtendedButton GetButton(IMethodProvider methodProvider)
+        {
+            var button = methodInfos.Find(x=> x.MethodProvider == methodProvider).Button;
+            if(button == null)
+                Debug.LogError("GetButton: MethodProvider not in List");
+            
+            return button;
+        }
+
+        public List<ExtendedButton> GetAllButtons()
+        {
+            var buttons = new List<ExtendedButton>();
+
+            foreach (var method in methodInfos)
+            {
+                buttons.Add(InstantiateButton(method.MethodProvider, method.MethodProvider.GetType().Name));
+            }
+
+            return buttons;
+        }
+
+        public string GetName()
+        {
+            return name;
+        }
 
         protected T GetMethod(IMethodProvider methodProvider)
         {
@@ -74,9 +89,18 @@ namespace UI.MethodBlueprints
             return methodInfos.Find(x => x.MethodToCall.Target == methodProvider).MethodToCall;
         }
 
-        public string GetName()
+        private void SetButtonText(ExtendedButton button, string buttonText)
         {
-            return name;
+            if(buttonText == null)
+            {
+                button.SetText(name);
+                button.name = name;
+            }
+            else
+            {
+                button.SetText(buttonText);
+                button.name = buttonText;
+            }
         }
     }
 
@@ -84,7 +108,8 @@ namespace UI.MethodBlueprints
     {
         public string GetName();
 
-        public ExtendedButton InstantiateButton(IMethodProvider methodProvider);
+        public ExtendedButton InstantiateButton(IMethodProvider methodProvider, string buttonText = null);
+        public ExtendedButton GetButton(IMethodProvider methodProvider);
         // public void SetupButton(IMethodProvider methodProvider);
     }
 

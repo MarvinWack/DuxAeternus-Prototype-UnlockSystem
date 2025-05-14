@@ -4,8 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
+using Entities.Buildings;
 using Objects;
 using Objects.Research;
+using UI.MethodBlueprints;
 using UnityEngine;
 
 /// <summary>
@@ -14,14 +16,12 @@ using UnityEngine;
 /// be unlocked through research, but they may also be required to unlock
 /// certain research.
 /// </summary>
-public class ResearchTree : MonoBehaviour, ISlotContentSource
+public class ResearchTree : MonoBehaviour, ISlotContentSource, IDropdownCaller
 {
     [SerializeField] private ObjectBluePrint[] lastEntriesInTree;
     
     //make this a list instead?
     [SerializeField] private SerializedDictionary<string, BaseObject> _baseObjects = new();
-    
-    private ulong _playerID;
     
     [SerializeField] private BaseObjectFactory _factory;
     
@@ -85,5 +85,12 @@ public class ResearchTree : MonoBehaviour, ISlotContentSource
     public List<ISlotContent> GetSlotItems(Type type)
     {
         return _baseObjects.Where(x => x.Value.GetType() == type).Select(x => (ISlotContent)x.Value).ToList();
+    }
+
+
+
+    public List<IMethodProvider> GetDropDownOptions(Type type)
+    {
+        return _baseObjects.Where(x => x.Value.GetType() == type).Select(x => (IMethodProvider)x.Value).ToList();
     }
 }

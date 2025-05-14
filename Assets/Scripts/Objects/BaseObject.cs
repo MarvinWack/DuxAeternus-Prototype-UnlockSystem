@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using Core;
 using Objects;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
-public abstract class BaseObject : MonoBehaviour, IUnlockable, IRequirement, ITickReceiver, ISlotContent
+public abstract class BaseObject : SerializedMonoBehaviour, IUnlockable, IRequirement, ITickReceiver, ISlotContent
 {
     public event IRequirement.RequirementValueUpdated OnRequirementValueUpdated;
     

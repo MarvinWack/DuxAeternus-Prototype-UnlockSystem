@@ -44,7 +44,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3eb7ece4718456fa64e84b5f8c8a647, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: f1830911676154178ac15c5c29fbf52e, type: 2}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: createBuildingMethod
+      Entry: 10
+      Data: 0
   _objectBluePrint: {fileID: 0}
   _isUnlocked: 0
+  _isAvailable: 0
   buildings: []
   CreateBuildingButton: 0
