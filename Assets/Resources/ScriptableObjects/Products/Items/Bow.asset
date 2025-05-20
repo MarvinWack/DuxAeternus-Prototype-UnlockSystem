@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RequiredProductionAmount: 30
   Icon: {fileID: 2800000, guid: 516305e2469a54288980ad2d24520510, type: 3}
-  Cost: {fileID: 0}
+  Cost: {fileID: 11400000, guid: 2c92955017f7c4b4d849f931db23aaf8, type: 2}
   MeleeDamage: 1
   RangedDamage: 5
   Defense: 1

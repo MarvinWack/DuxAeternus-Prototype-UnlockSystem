@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UI.Slot;
+using Unity.VisualScripting;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace UI.MethodBlueprints
 {
@@ -16,8 +15,10 @@ namespace UI.MethodBlueprints
     {
         [Header("Settings")] 
         [SerializeField] private bool visualiseProgress;
+        [SerializeField] private string buttonText;
         
         public ExtendedButton buttonPrefab;
+        [SerializeField] private ExtendedText labelPrefab;
         
         protected readonly List<MethodInfo<T>> methodInfos = new();
 
@@ -25,13 +26,33 @@ namespace UI.MethodBlueprints
         protected abstract void SubscribeProviderToButtonEvent(IMethodProvider methodProvider, ExtendedButton button);
         protected abstract void SubscribeButtonToUpdateEvents(IMethodProvider methodProvider, ExtendedButton button);
 
-        public virtual ExtendedButton InstantiateButton(IMethodProvider methodProvider, string buttonText = null)
+        public ExtendedButton SetupButton(ExtendedButton button, IMethodProvider methodProvider, string text = null)
+        {
+            if(text != null)
+                SetButtonText(button, text);
+            else
+                SetButtonText(button, buttonText);
+            
+            methodInfos.Find(x => x.MethodProvider == methodProvider).Button = button;
+            
+            SubscribeProviderToButtonEvent(methodProvider, button);
+            SubscribeButtonToUpdateEvents(methodProvider, button);
+            
+            UIUpdater.UIBehaviourModifiedTick?.Invoke();
+            
+            button.UseFadeOnInteractableChanged(true);
+            
+            return button;
+        }
+        
+        public virtual ExtendedButton InstantiateButton(IMethodProvider methodProvider, string text = null)
         {
             var button = Instantiate(buttonPrefab);
 
-            SetButtonText(button, buttonText);
-            
-            //todo: in base extended button Action<T> -> konkrete buttons nur ein event?
+            if(text != null)
+                SetButtonText(button, text);
+            else
+                SetButtonText(button, buttonText);
             
             methodInfos.Find(x => x.MethodProvider == methodProvider).Button = button;
             
@@ -45,6 +66,34 @@ namespace UI.MethodBlueprints
             return button;
         }
 
+        private ExtendedText InstantiateLabel(IMethodProvider methodProvider, string initalText = null)
+        {
+            var label = Instantiate(labelPrefab);
+            
+            if(initalText != null)
+                label.SetText(initalText);
+            
+            SubscribeLabelToUpdateEvent(methodProvider, label);
+            
+            return label;
+        }
+
+        private void SubscribeLabelToUpdateEvent(IMethodProvider methodProvider, ExtendedText label)
+        {
+            if(methodProvider is IUpgradeMethodProvider upgradeMethodProvider)
+            {
+                upgradeMethodProvider.OnUpgradeFinished += UpdateLabelText;
+                label.OnDestruction += () => upgradeMethodProvider.OnUpgradeFinished -= UpdateLabelText;
+            }
+
+            return;
+
+            void UpdateLabelText(int value)
+            {
+                label.SetText(value.ToString());
+            }
+        }
+
         public ExtendedButton GetButton(IMethodProvider methodProvider)
         {
             var button = methodInfos.Find(x=> x.MethodProvider == methodProvider).Button;
@@ -54,13 +103,41 @@ namespace UI.MethodBlueprints
             return button;
         }
 
+        public List<ExtendedButton> GetAllButtons(ExtendedButton stylePreset)
+        {
+            var buttons = new List<ExtendedButton>();
+
+            foreach (var method in methodInfos)
+            {
+                var button = Instantiate(stylePreset.gameObject).GetComponent<ExtendedButton>();
+                buttons.Add(SetupButton(button, method.MethodProvider, method.MethodProvider.GetName()));
+            }
+
+            return buttons;
+        }
+        
         public List<ExtendedButton> GetAllButtons()
         {
             var buttons = new List<ExtendedButton>();
 
             foreach (var method in methodInfos)
             {
-                buttons.Add(InstantiateButton(method.MethodProvider, method.MethodProvider.GetType().Name));
+                buttons.Add(InstantiateButton(method.MethodProvider, method.MethodProvider.GetName()));
+            }
+
+            return buttons;
+        }
+        
+        public List<Tuple<ExtendedButton, ExtendedText>> GetAllButtonsWithLabels()
+        {
+            var buttons = new List<Tuple<ExtendedButton, ExtendedText>>();
+
+            foreach (var method in methodInfos)
+            {
+                var button = InstantiateButton(method.MethodProvider, method.MethodProvider.GetName());
+                var label = InstantiateLabel(method.MethodProvider, "0");
+                
+                buttons.Add(new Tuple<ExtendedButton, ExtendedText>(button, label));
             }
 
             return buttons;
@@ -89,7 +166,7 @@ namespace UI.MethodBlueprints
             return methodInfos.Find(x => x.MethodToCall.Target == methodProvider).MethodToCall;
         }
 
-        private void SetButtonText(ExtendedButton button, string buttonText)
+        protected void SetButtonText(ExtendedButton button, string buttonText)
         {
             if(buttonText == null)
             {
@@ -108,9 +185,8 @@ namespace UI.MethodBlueprints
     {
         public string GetName();
 
-        public ExtendedButton InstantiateButton(IMethodProvider methodProvider, string buttonText = null);
+        public ExtendedButton InstantiateButton(IMethodProvider methodProvider, string text = null);
         public ExtendedButton GetButton(IMethodProvider methodProvider);
-        // public void SetupButton(IMethodProvider methodProvider);
     }
 
     public class MethodInfo<T>

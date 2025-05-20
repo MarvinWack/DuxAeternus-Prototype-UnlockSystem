@@ -9,6 +9,7 @@ namespace UI.Slot
     {
         public event Action<Vector3> OnHoverStart;
         public event Action OnHoverEnd;
+        public event Action OnDestruction;
 
         [Header("Settings")] 
         [SerializeField] private bool callInfoWindow;
@@ -29,6 +30,11 @@ namespace UI.Slot
         public void OnPointerExit(PointerEventData eventData)
         {
             OnHoverEnd?.Invoke();
+        }
+        
+        private void OnDestroy()
+        {
+            OnDestruction?.Invoke();
         }
     }
 }

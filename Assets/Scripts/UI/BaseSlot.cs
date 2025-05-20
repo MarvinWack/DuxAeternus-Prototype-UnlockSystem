@@ -1,24 +1,16 @@
 using System;
 using System.Collections.Generic;
-using Entities.Buildings;
-using Objects;
 using Sirenix.OdinInspector;
-using UI.MethodBlueprints;
 using UnityEngine;
 
 namespace UI.Slot
 {
     public abstract class BaseSlot : SerializedMonoBehaviour
     {
-        // public event IDropdownCaller.OptionSetHandler OptionSet;
-        
-        // [SerializeField] protected ISlotContentSource slotContentSource;
-        [SerializeField] protected DropDownMenu dropdownMenu; //todo: in factory auslagern
-        
-        // [SerializeField] protected List<IMethod> methodList;
+        // [SerializeField] protected DropDownMenu dropdownMenu; //todo: in factory auslagern
 
         protected bool _isOptionSet;
-        protected bool _isOptionLocked;
+        // protected bool _isOptionLocked;
 
         [SerializeField] protected List<ExtendedButton> buttons;
 
@@ -49,7 +41,7 @@ namespace UI.Slot
         {
             // dropdownMenu.Show(position, this);
         }
-        public abstract Dictionary<string, bool> GetDropDownOptions();
-        public abstract bool HandleOptionClicked(int index);
+        // public abstract Dictionary<string, bool> GetDropDownOptions();
+        // public abstract bool HandleOptionClicked(int index);
     }
 }

@@ -64,7 +64,7 @@ public class TroopType : SerializedMonoBehaviour, IMethodProvider, ISlotContent,
     {
         var PurchaseArgs = new PurchaseArgs();
         
-        CheckIfPurchaseValid?.Invoke(MultiplyDictionaryValues(Weapon.Cost.Amount[0], amount), PurchaseArgs);
+        CheckIfPurchaseValid?.Invoke(MultiplyDictionaryValues(Weapon.Cost.Amount[1], amount), PurchaseArgs);
         
         if (!PurchaseArgs.IsValid)
         {
@@ -78,7 +78,7 @@ public class TroopType : SerializedMonoBehaviour, IMethodProvider, ISlotContent,
     {
         var PurchaseArgs = new PurchaseArgs();
         
-        OnTryPurchase?.Invoke(MultiplyDictionaryValues(Weapon.Cost.Amount[0], amount), PurchaseArgs);
+        OnTryPurchase?.Invoke(MultiplyDictionaryValues(Weapon.Cost.Amount[1], amount), PurchaseArgs);
         
         if (!PurchaseArgs.IsValid)
         {
@@ -117,5 +117,15 @@ public class TroopType : SerializedMonoBehaviour, IMethodProvider, ISlotContent,
     public List<IMethod> GetMethods()
     {
         return methods.Cast<IMethod>().ToList();
+    }
+
+    public string GetName()
+    {
+        return name;
+    }
+
+    public bool DoesBelongToPlayer()
+    {
+        return true;
     }
 }

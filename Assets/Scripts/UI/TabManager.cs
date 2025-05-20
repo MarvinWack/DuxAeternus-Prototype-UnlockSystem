@@ -1,8 +1,11 @@
 using System.Linq;
+using UI;
 using UnityEngine;
 
 public class TabManager : MonoBehaviour
 {
+    [SerializeField] private DropDownMenu dropDownMenu;
+    
     private Tab currentTab;
     
     private void Start()
@@ -30,5 +33,7 @@ public class TabManager : MonoBehaviour
         currentTab.Hide();
         currentTab = tab;
         currentTab.Show();
+        
+        dropDownMenu.Hide();
     }
 }

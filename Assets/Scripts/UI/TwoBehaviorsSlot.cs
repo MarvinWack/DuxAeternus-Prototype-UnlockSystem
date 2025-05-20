@@ -9,18 +9,18 @@ namespace UI
         {
             _isOptionSet = true;
         }
-        public override bool HandleOptionClicked(int index)
-        {
-            if (!_isOptionSet)
-                return NoOptionSetBehavior(index);
-            else
-                return OptionSetBehavior(index);
-        }
-        
-        public override Dictionary<string, bool> GetDropDownOptions()
-        {
-            return _isOptionSet ? GetOptionSetMenu() : GetOptionNotSetMenu();
-        }
+        // public override bool HandleOptionClicked(int index)
+        // {
+        //     if (!_isOptionSet)
+        //         return NoOptionSetBehavior(index);
+        //     else
+        //         return OptionSetBehavior(index);
+        // }
+        //
+        // public override Dictionary<string, bool> GetDropDownOptions()
+        // {
+        //     return _isOptionSet ? GetOptionSetMenu() : GetOptionNotSetMenu();
+        // }
 
         protected abstract Dictionary<string, bool> GetOptionNotSetMenu();
 

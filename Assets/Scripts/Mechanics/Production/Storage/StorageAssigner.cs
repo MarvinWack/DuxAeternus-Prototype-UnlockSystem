@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Production.Items;
-using UI;
 using UnityEngine;
-using UnityEngine.Rendering.VirtualTexturing;
 
 namespace Production.Storage
 {

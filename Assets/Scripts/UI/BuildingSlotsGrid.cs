@@ -1,43 +1,45 @@
 using System;
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using Sirenix.Serialization;
-using UI;
 using UI.MethodBlueprints;
 using UI.Slot;
 using UnityEngine;
 
-public class BuildingSlotsGrid : SerializedMonoBehaviour
+public class BuildingSlotGrid : SlotGridBase
 {
     [OdinSerialize] private Type _buildingType;
-    [SerializeField] private GameObject _slotPrefab;
     [SerializeField] private GameSettings _gameSettings;
-    [SerializeField] private DropDownMenu dropdownMenu;
-    [SerializeField] private ResearchTree researchTree;
     [SerializeField] private CreateBuildingMethod createBuildingMethod;
+
+    [SerializeField] private ExtendedButton stylePreset;
     
     private List<BuildingSlot> _slots = new();
     
     private void Start()
     {
-        for(int i = 0; i < _gameSettings.NumberOfSmallBuildings; i++)
+        Setup();
+    }
+
+    protected override void Setup()
+    {
+        createBuildingMethod.OnBuildingCreated += SetBuilding;
+
+        for(int i = 0; i < _gameSettings.GetNumberOfBuildings(_buildingType); i++)
         {
             var instance = Instantiate(_slotPrefab, transform);
             instance.name = $"{_buildingType} slot {i}";
+            
             var slot = instance.GetComponent<BuildingSlot>();
-            slot.Setup(_buildingType, dropdownMenu, researchTree);
             slot.DropDownCalled += CallDropDown;
             _slots.Add(slot);
         }
-        
-        createBuildingMethod.OnBuildingCreated += SetBuilding;
     }
 
-    private void CallDropDown(Vector3 position, Building building)
+    private void CallDropDown(Vector3 position, IMethodProvider building)
     {
         if(building == null)
-            dropdownMenu.Show(position, 
-                createBuildingMethod.GetAllButtons());
+            dropDownMenu.Show(position, 
+                createBuildingMethod.GetAllButtons(stylePreset));
         else
         {
             List<ExtendedButton> buttons = new();
@@ -47,10 +49,11 @@ public class BuildingSlotsGrid : SerializedMonoBehaviour
                 buttons.Add(method.InstantiateButton(building, method.GetName()));
             }
             
-            dropdownMenu.Show(position, buttons);
+            dropDownMenu.Show(position, buttons);
         }
     }
 
+    //Pick next free slot
     private void SetBuilding(Building building)
     {
         _slots.Find(x => x.IsBuildingSet == false).SetBuilding(building);

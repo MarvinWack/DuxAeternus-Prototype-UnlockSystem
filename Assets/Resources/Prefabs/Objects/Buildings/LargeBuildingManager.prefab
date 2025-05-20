@@ -48,7 +48,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 11400000, guid: f1830911676154178ac15c5c29fbf52e, type: 2}
+    - {fileID: 11400000, guid: 6c77dbba9c3ff47ffb5cdd63c37737ab, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []

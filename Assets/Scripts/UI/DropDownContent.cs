@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using TMPro;
 using UI.Slot;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,14 +25,7 @@ public class DropDownContent : MonoBehaviour
     {
         gameObject.SetActive(true);
         
-        // foreach (var button in buttons)
-        // {
-        //     Destroy(button.gameObject);
-        // }
-        
         buttons.Clear();
-
-        // int index = 0;
         
         foreach (var option in options)
         {
@@ -51,23 +43,5 @@ public class DropDownContent : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-    }
-
-    private void InstantiateButton(string label, bool enable, int index)
-    {
-        // var instance = Instantiate(buttonPrefab, transform);
-        // instance.name = label;
-        // instance.GetComponentInChildren<TextMeshProUGUI>().text = label;
-        //
-        // var button = instance.GetComponent<DropDownButton>();
-        // button.Setup(index);
-        // // buttons.Add(button);
-        // // button.OnClick += HandleButtonClicked;
-        // button.interactable = enable;
-    }
-
-    private void HandleButtonClicked(int index)
-    {
-        // OnButtonClicked?.Invoke(index);
     }
 }

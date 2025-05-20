@@ -8,7 +8,7 @@ using UI.MethodBlueprints;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class Building : MonoBehaviour, ICustomer, IUpgradable, ICallableByUI, IMethodProvider
+public class Building : MonoBehaviour, ICustomer, ICallableByUI, IUpgradeMethodProvider
 {
     [InspectorButton("StartUpgrade")]
     public bool UpgradeButton;
@@ -19,9 +19,9 @@ public class Building : MonoBehaviour, ICustomer, IUpgradable, ICallableByUI, IM
     public event Action<Dictionary<ProductBlueprint, int>, PurchaseArgs> OnTryPurchase;
     public event Action<Dictionary<ProductBlueprint, int>, PurchaseArgs> CheckIfPurchaseValid;
 
-    public event Action<int> OnUpgrade;
+    public event Action<int> OnUpgradeFinished;
     public event Action<float> OnUpgradeProgress;
-    public event Action<bool> OnUpgradableStatusChanged;
+    // public event Action<bool> OnUpgradableStatusChanged;
     public event Action<Dictionary<Func<bool>, bool>> OnCallableMethodsChanged;
     
     public int Level => _level;
@@ -49,7 +49,7 @@ public class Building : MonoBehaviour, ICustomer, IUpgradable, ICallableByUI, IM
             
         _elapsedUpgradingTime++;
         
-        OnUpgradeProgress?.Invoke((float)_elapsedUpgradingTime / _blueprint.UpgradeTime);
+        OnUpgradeProgress?.Invoke((float) _elapsedUpgradingTime / _blueprint.UpgradeTime);
         
         if(_elapsedUpgradingTime >= _blueprint.UpgradeTime)
             Upgrade();
@@ -169,5 +169,15 @@ public class Building : MonoBehaviour, ICustomer, IUpgradable, ICallableByUI, IM
     public List<IMethod> GetMethods()
     {
         return new List<IMethod>{upgradeMethod};
+    }
+
+    public string GetName()
+    {
+        return _blueprint.name;
+    }
+
+    public bool DoesBelongToPlayer()
+    {
+        return true;
     }
 }

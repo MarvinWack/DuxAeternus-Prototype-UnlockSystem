@@ -9,6 +9,7 @@ namespace UI.MethodBlueprints
     public class RecruitMethod : MethodBlueprint<Action<int>>
     {
         [SerializeField] private int amountToRecruit;
+        [SerializeField] private int[] amounts = new int[3];
 
         private readonly List<Func<int,bool>> enableCheckers = new();
         
@@ -31,12 +32,6 @@ namespace UI.MethodBlueprints
             UIUpdater.UIBehaviourModifiedTick += () => 
                 button.SetInteractable(GetEnableChecker(methodProvider).Invoke(amountToRecruit));
         }
-
-        // protected override void UnsubscribeButtonFromEvents(ExtendedButton button, IMethodProvider methodProvider)
-        // {
-        //     UIUpdater.UIBehaviourModifiedTick -= () => 
-        //         button.SetInteractable(GetEnableChecker(methodProvider).Invoke(amountToRecruit));
-        // }
 
         protected override void SubscribeProviderToButtonEvent(IMethodProvider methodProvider, ExtendedButton button)
         {

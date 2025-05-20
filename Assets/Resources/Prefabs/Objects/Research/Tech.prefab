@@ -44,10 +44,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2b003c45e1804e0fa3f80668ee99f6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstUpdateType: 1
-  secondUpdateType: 0
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   _objectBluePrint: {fileID: 0}
   _isUnlocked: 0
+  _isAvailable: 0
   StartResearchButton: 0
   CompleteResearchButton: 0
   Level: 0
+  _upgradeMethod: {fileID: 11400000, guid: 06260e9fe359048b2b7c7706eded4518, type: 2}

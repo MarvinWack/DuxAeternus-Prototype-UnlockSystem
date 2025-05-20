@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3992b8ae7c53436c9f8f65844bd5004f, type: 3}
+  m_Name: BananaTech
+  m_EditorClassIdentifier: 
+  UnlockRequirements: {fileID: 11400000, guid: 1dec1704b9a794822b550916709918cd, type: 2}
+  MaxLevel: 5
+  Description: Banana ist completely op.
+  Item: {fileID: 11400000, guid: 0a9a21aed13df4b2795263c4f15c31fe, type: 2}

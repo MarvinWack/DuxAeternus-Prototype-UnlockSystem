@@ -24,14 +24,13 @@ public abstract class BuildingManager : BaseObject, IUpgradeTickReceiver, IProdu
         createBuildingMethod.RegisterMethodToCall(TryCreateBuilding, this);
         createBuildingMethod.RegisterMethodEnableChecker(CheckIfBuildingIsBuildable);
     }
-
-    //todo: params für ui-message wenn nicht buildable
+    
     public abstract Building TryCreateBuilding();
     
     protected Building CreateBuilding()
     {
         var building = _buildingFactory.CreateObject(BuildingBlueprint);
-        building.OnUpgrade += HandleUpgrade;
+        building.OnUpgradeFinished += HandleUpgradeFinished;
         buildings.Add(building);
         building.transform.SetParent(transform);
         return building;
@@ -48,7 +47,7 @@ public abstract class BuildingManager : BaseObject, IUpgradeTickReceiver, IProdu
         return true;
     }
 
-    private void HandleUpgrade(int level)
+    private void HandleUpgradeFinished(int level)
     { 
         RaiseOnRequirementValueUpdatedEvent(level);
     }
@@ -86,5 +85,10 @@ public abstract class BuildingManager : BaseObject, IUpgradeTickReceiver, IProdu
     public List<IMethod> GetMethods()
     {
         throw new System.NotImplementedException();
+    }
+
+    public bool DoesBelongToPlayer()
+    {
+        return true;
     }
 }

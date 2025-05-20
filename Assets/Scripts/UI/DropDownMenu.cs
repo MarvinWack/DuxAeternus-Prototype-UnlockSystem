@@ -9,7 +9,7 @@ namespace UI
     {
         [SerializeField] private DropDownContent content;
 
-        private IDropdownCaller slot;
+        private IDropdownCaller caller;
         
         protected override void Setup()
         {
@@ -19,16 +19,10 @@ namespace UI
         
         public void Show(Vector3 position, List<ExtendedButton> options)
         {
+            Hide();
             base.Show(position);
-            
-            // if(caller is IDropdownCaller dropdownCaller)
-            // {
-            //     slot = dropdownCaller;
+
             content.Show(options);
-            // }
-            
-            // else
-            //     Debug.LogError("Caller is not a dropdown caller");
         }
         
         public override void Hide()

@@ -2,7 +2,6 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UI.Slot
@@ -105,5 +104,37 @@ namespace UI.Slot
         {
             OnDestruction?.Invoke();
         }
+
+        // public void ApplyStyling(ExtendedButton buttonStyleToCopy)
+        // {  
+        //     if (buttonStyleToCopy == null)
+        //     {
+        //         Debug.LogWarning("ApplyStyling: buttonStyleToCopy is null");
+        //         return;
+        //     }
+        //     
+        //     // Copy RectTransform properties
+        //     RectTransform sourceRect = buttonStyleToCopy.GetComponent<RectTransform>();
+        //     RectTransform targetRect = GetComponent<RectTransform>();
+        //
+        //     sourceRect.rect.position = sourceRect.rect.position;
+        //     
+        //     if (sourceRect != null && targetRect != null)
+        //     {
+        //         targetRect.anchorMin = sourceRect.anchorMin;
+        //         targetRect.anchorMax = sourceRect.anchorMax;
+        //         targetRect.pivot = sourceRect.pivot;
+        //         targetRect.sizeDelta = sourceRect.sizeDelta;
+        //         targetRect.anchoredPosition = sourceRect.anchoredPosition;
+        //     }            
+        //     var buttonColors = buttonStyleToCopy.button.colors;
+        //     button.colors = buttonColors;
+        //
+        //     var imageColors = buttonStyleToCopy.buttonImage.color;
+        //     buttonImage.color = imageColors;
+        //
+        //     var labelColors = buttonStyleToCopy.buttonLabel.color;
+        //     buttonLabel.color = labelColors;
+        // }
     }
 }

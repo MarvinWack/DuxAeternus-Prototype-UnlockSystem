@@ -1,4 +1,3 @@
-// using Entities.Buildings;
 using UnityEngine;
 
 namespace UI
@@ -22,7 +21,21 @@ namespace UI
         {
             blocker.gameObject.SetActive(true);
             gameObject.SetActive(true);
-            transform.position = position;
+            
+            var newPosition = KeepPositionInsideScreen(position);
+            transform.position = newPosition;
+        }
+
+        private Vector3 KeepPositionInsideScreen(Vector3 position)
+        {
+            RectTransform rectTransform = GetComponent<RectTransform>();
+            
+            Vector2 size = Vector2.Scale(rectTransform.rect.size, rectTransform.lossyScale);
+            
+            position.x = Mathf.Clamp(position.x, size.x / 2, Screen.width - size.x / 2);
+            position.y = Mathf.Clamp(position.y, size.y / 2, Screen.height - size.y / 2);
+
+            return position;
         }
 
         public virtual void Hide()

@@ -22,7 +22,6 @@ namespace UI
                 slots.Add(Instantiate(_slotPrefab, transform)); 
             }
             
-            //todo: timing?
             trooptypeCreator.SlotContentAdded += SetupNewSlot;
         }
 
