@@ -54,9 +54,11 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _objectBluePrint: {fileID: 0}
-  _isUnlocked: 0
+  _unlockRequirementsFulfilled: 0
   _isAvailable: 0
   StartResearchButton: 0
   CompleteResearchButton: 0
   Level: 0
-  _upgradeMethod: {fileID: 11400000, guid: 06260e9fe359048b2b7c7706eded4518, type: 2}
+  upgradeMethod: {fileID: 11400000, guid: 06260e9fe359048b2b7c7706eded4518, type: 2}
+  selectWeaponItemMethod: {fileID: 11400000, guid: cb5581c16b8e0438c994651ef148c116, type: 2}
+  selectArmorItemMethod: {fileID: 11400000, guid: 3f5b83f31f00d47b78dbc17b9c5d2942, type: 2}

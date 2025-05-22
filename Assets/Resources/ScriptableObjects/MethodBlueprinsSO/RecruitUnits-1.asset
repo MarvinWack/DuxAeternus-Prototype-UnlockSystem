@@ -12,5 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5904b8d5444c4083bfc49cbacabebe2f, type: 3}
   m_Name: RecruitUnits-1
   m_EditorClassIdentifier: 
+  visualiseProgress: 0
+  buttonText: 
   buttonPrefab: {fileID: 9059893531190325456, guid: fccb1e770bede499a90486423997ceb3, type: 3}
+  labelPrefab: {fileID: 215176102884824445, guid: 613f1da9c1a074a0dbd97f302532f6aa, type: 3}
   amountToRecruit: 1
+  amounts: 01000000030000000a000000
+  parameterButtonPrefab: {fileID: 776075535060225613, guid: fbae7a3a5e2924ce4bec880972b23316, type: 3}

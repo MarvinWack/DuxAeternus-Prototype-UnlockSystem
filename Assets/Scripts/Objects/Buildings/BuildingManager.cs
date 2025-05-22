@@ -38,7 +38,7 @@ public abstract class BuildingManager : BaseObject, IUpgradeTickReceiver, IProdu
 
     protected virtual bool CheckIfBuildingIsBuildable()
     {
-        if (!_isUnlocked || !_isAvailable)
+        if (!_unlockRequirementsFulfilled || !_isAvailable)
         {
             // Debug.Log("building not unlocked or not available");
             return false;
@@ -74,13 +74,13 @@ public abstract class BuildingManager : BaseObject, IUpgradeTickReceiver, IProdu
         }
     }
     
-    public override bool CallSlotAction()
-    {
-        if (TryCreateBuilding() == null)
-            return false;
-
-        return true;
-    }
+    // public override bool CallSlotAction()
+    // {
+    //     if (TryCreateBuilding() == null)
+    //         return false;
+    //
+    //     return true;
+    // }
 
     public List<IMethod> GetMethods()
     {

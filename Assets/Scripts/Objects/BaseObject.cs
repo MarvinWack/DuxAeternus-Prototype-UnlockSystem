@@ -3,6 +3,7 @@ using Core;
 using Objects;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public abstract class BaseObject : SerializedMonoBehaviour, IUnlockable, IRequirement, ITickReceiver, ISlotContent
 {
@@ -14,7 +15,7 @@ public abstract class BaseObject : SerializedMonoBehaviour, IUnlockable, IRequir
     //todo: remove?
     public bool IsAvailable => _isAvailable;
     
-    public bool _isUnlocked;
+    public bool _unlockRequirementsFulfilled;
     public bool _isAvailable;
 
     public IUnlockable.RequirementFulfilledHandler GetEventHandler()
@@ -33,14 +34,14 @@ public abstract class BaseObject : SerializedMonoBehaviour, IUnlockable, IRequir
     {
         if(requirements.Count == 0)
         {
-            _isUnlocked = true;
+            _unlockRequirementsFulfilled = true;
             _isAvailable = true;
         }
     }
 
     private void HandleRequirementFulfilled()
     {
-        _isUnlocked = true;
+        _unlockRequirementsFulfilled = true;
         _isAvailable = true;
     }
 
@@ -48,8 +49,6 @@ public abstract class BaseObject : SerializedMonoBehaviour, IUnlockable, IRequir
     {
         OnRequirementValueUpdated?.Invoke(_objectBluePrint, value);
     }
-
-    public abstract bool CallSlotAction();
 
     public string GetName()
     {

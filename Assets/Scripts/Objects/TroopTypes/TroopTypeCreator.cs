@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Objects.TroopTypes
 {
-    public class TroopTypeCreator : GameplayInstance, IDynamicSlotContentSource, IMethodProvider
+    public class TroopTypeCreator : MonoBehaviour, IDynamicSlotContentSource, IMethodProvider
     {
         [InspectorButton("CreateTroopType")]
         public bool _CreateTroopType;
@@ -18,6 +18,8 @@ namespace Objects.TroopTypes
         public List<TroopType> TroopTypes => troopTypes;
 
         public event Action<ISlotContent> SlotContentAdded;
+        
+        [SerializeField] protected bool _belongsToPlayer;
         
         [SerializeField] private TroopType troopTypePrefab;
         [SerializeField] private ItemBlueprint weapon;
@@ -104,7 +106,7 @@ namespace Objects.TroopTypes
             var instance = Instantiate(troopTypePrefab, transform);
             instance.name = troopTypeName + " Type";
            
-            instance.Setup(weapon, armour, troopTypeName);
+            instance.Setup(weapon, armour, troopTypeName, _belongsToPlayer);
             troopTypes.Add(instance);
             
             SlotContentAdded?.Invoke(instance);

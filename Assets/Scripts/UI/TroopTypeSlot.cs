@@ -1,3 +1,4 @@
+using UI.MethodBlueprints;
 using UI.Slot;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ namespace UI
     public class TroopTypeSlot : BaseSlot
     {
         [SerializeField] private ExtendedText _nameText;
+        [SerializeField] private RecruitMethod recruitMethod;
         
         private TroopType _troopType;
 
@@ -19,11 +21,13 @@ namespace UI
                 Debug.LogError($"{name}: Troop type is null");
                 return;
             }
-            
-            foreach (var method in troopType.GetMethods())
+   
+            // recruitMethod.InstantiateButton(troopType, "+").transform.SetParent(transform.GetChild(1), false);
+            foreach (var button in recruitMethod.GetButtonForEachOption())
             {
-                method.InstantiateButton(troopType, "+").transform.SetParent(transform.GetChild(1), false);
+                button.transform.SetParent(transform.GetChild(1), false);
             }
         }
+        
     }
 }

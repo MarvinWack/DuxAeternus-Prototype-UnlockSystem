@@ -20,6 +20,7 @@ public class TroopType : SerializedMonoBehaviour, IMethodProvider, ISlotContent,
     public event Action<Dictionary<ProductBlueprint, int>, PurchaseArgs> CheckIfPurchaseValid;
 
     [OdinSerialize] private List<RecruitMethod> methods;
+    [SerializeField] private bool _belongsToPlayer;
     
     [SerializeField] private ItemBlueprint weapon;
     [SerializeField] private ItemBlueprint armour;
@@ -30,19 +31,17 @@ public class TroopType : SerializedMonoBehaviour, IMethodProvider, ISlotContent,
     public ItemBlueprint Weapon => weapon;
     public ItemBlueprint Armour => armour;
 
-    public void Setup(ItemBlueprint firstItem, ItemBlueprint secondItem, string troopTypeName)
+    public void Setup(ItemBlueprint firstItem, ItemBlueprint secondItem, string troopTypeName, bool belongsToPlayer)
     {
         name = troopTypeName;
         weapon = firstItem;
         armour = secondItem;
+        _belongsToPlayer = belongsToPlayer;
         
         CreateUnit();
-
-        foreach (var method in methods)
-        {
-            method.RegisterMethodToCall(Recruit, this);
-            method.RegisterMethodEnableChecker(CheckIfRecruitmentPossible);
-        }
+        
+        methods[0].RegisterMethodToCall(Recruit, this);
+        methods[0].RegisterMethodEnableChecker(CheckIfRecruitmentPossible);
     }
 
     private void CreateUnit()
@@ -126,6 +125,6 @@ public class TroopType : SerializedMonoBehaviour, IMethodProvider, ISlotContent,
 
     public bool DoesBelongToPlayer()
     {
-        return true;
+        return _belongsToPlayer;
     }
 }

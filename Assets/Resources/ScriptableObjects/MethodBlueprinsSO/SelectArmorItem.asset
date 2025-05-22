@@ -15,4 +15,5 @@ MonoBehaviour:
   visualiseProgress: 0
   buttonText: Select Armor
   buttonPrefab: {fileID: 5456282469630226102, guid: 818dd6f09805f471185326e946eb04d7, type: 3}
-  itemButtonPrefab: {fileID: 776075535060225613, guid: fbae7a3a5e2924ce4bec880972b23316, type: 3}
+  labelPrefab: {fileID: 215176102884824445, guid: 613f1da9c1a074a0dbd97f302532f6aa, type: 3}
+  parameterButtonPrefab: {fileID: 776075535060225613, guid: fbae7a3a5e2924ce4bec880972b23316, type: 3}

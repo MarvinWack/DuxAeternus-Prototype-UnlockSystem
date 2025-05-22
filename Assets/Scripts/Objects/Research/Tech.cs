@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Core;
 using UI.MethodBlueprints;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [Serializable]
 public class Tech : BaseObject, IResearchTickReceiver, IEnableChecker, IUpgradeMethodProvider
@@ -20,7 +21,9 @@ public class Tech : BaseObject, IResearchTickReceiver, IEnableChecker, IUpgradeM
 
     public TechBlueprint TechBlueprint => _objectBluePrint as TechBlueprint;
     
-    [SerializeField] private UpgradeMethod _upgradeMethod;
+    [SerializeField] private UpgradeMethod upgradeMethod;
+    [SerializeField] private SelectItemMethod selectWeaponItemMethod;
+    [SerializeField] private SelectItemMethod selectArmorItemMethod;
 
     private bool _isResearching;
     private ushort _elapsedResearchTime;
@@ -32,24 +35,21 @@ public class Tech : BaseObject, IResearchTickReceiver, IEnableChecker, IUpgradeM
 
     private void Setup()
     {
-        _upgradeMethod.RegisterMethodToCall(StartUpgradeNoReturnValue, this);
-        _upgradeMethod.RegisterEnableChecker(CheckIfMethodIsEnabled);
+        upgradeMethod.RegisterMethodToCall(StartUpgrade, this);
+        upgradeMethod.RegisterEnableChecker(CheckIfMethodIsEnabled);
+        
+        // selectWeaponItemMethod.RegisterMethodEnableChecker(CheckIfAssociatedItemIsUnlocked);
+        // selectArmorItemMethod.RegisterMethodEnableChecker(CheckIfAssociatedItemIsUnlocked);
     }
 
     private bool CheckIfMethodIsEnabled()
     {
-        return Level > 0 ? CheckIfUpgradeIsPossible() : CheckIfItemIsUnlocked();
-    }
-
-    private void StartUpgradeNoReturnValue()
-    {
-        StartUpgrade();
+        return Level > 0 ? CheckIfUpgradeIsPossible() : CheckIfUnlockRequirementsFulfilled();
     }
     
-    public bool StartUpgrade()
+    public void StartUpgrade()
     {
         _isResearching = CheckIfUpgradeIsPossible();
-        return _isResearching;
     }
 
     private void CompleteResearch()
@@ -67,11 +67,6 @@ public class Tech : BaseObject, IResearchTickReceiver, IEnableChecker, IUpgradeM
         return TechBlueprint.UnlockRequirements;
     }
 
-    public override bool CallSlotAction()
-    {
-        return StartUpgrade();
-    }
-
     public void ResearchTickHandler()
     {
         if (!_isResearching) return;
@@ -85,30 +80,26 @@ public class Tech : BaseObject, IResearchTickReceiver, IEnableChecker, IUpgradeM
 
     public bool CheckIfUpgradeIsPossible()
     {
-        if (!_isUnlocked)
-        {
-            // Debug.Log("Tech is not unlocked");
-            return false;
-        }
+        if (!_unlockRequirementsFulfilled) return false;
         
-        if (Level >= TechBlueprint.MaxLevel)
-        {
-            // Debug.Log("Tech is already at max level");
-            return false;
-        }
+        if (Level >= TechBlueprint.MaxLevel) return false;
 
         return true;
     }
 
-    public bool CheckIfItemIsUnlocked()
+    public bool CheckIfUnlockRequirementsFulfilled()
     {
-        return _isUnlocked;
-        //return Level > 0;
+        return _unlockRequirementsFulfilled;
+    }
+
+    public bool CheckIfAssociatedItemIsUnlocked()
+    {
+        return Level > 0;
     }
 
     public List<IMethod> GetMethods()
     {
-        return new List<IMethod> { _upgradeMethod };
+        return new List<IMethod> { upgradeMethod };
     }
 
     public bool DoesBelongToPlayer()

@@ -149,6 +149,7 @@ public class Building : MonoBehaviour, ICustomer, ICallableByUI, IUpgradeMethodP
         _level++;
         _isUpgrading = false;
         _elapsedUpgradingTime = 0;
+        OnUpgradeFinished?.Invoke(_level);
     }
 
     private int CalculateProductionAmount() //todo: in storage auslagern, sobald Blueprint als Key dort Sinn macht

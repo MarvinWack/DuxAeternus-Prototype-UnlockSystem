@@ -5,6 +5,7 @@ using Objects.Research;
 using Production.Items;
 using UI.Slot;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace UI.MethodBlueprints
 {
@@ -13,7 +14,7 @@ namespace UI.MethodBlueprints
     {
         public event Action<string> OnItemSelected;
         
-        [SerializeField] private ItemParameterButton itemButtonPrefab;
+        [SerializeField] private ParameterButton parameterButtonPrefab;
         
         private ResearchTree _researchTree;
         private List<Func<bool>> enableCheckers = new();
@@ -34,11 +35,11 @@ namespace UI.MethodBlueprints
         
         protected override void SubscribeProviderToButtonEvent(IMethodProvider methodProvider, ExtendedButton button)
         {
-            if(button is ItemParameterButton parameterButton)
+            if(button is ParameterButton parameterButton)
                 parameterButton.OnClickNoParamsTest += () =>
                 {
-                    GetMethod(methodProvider).Invoke(parameterButton.GetParameter());
-                    OnItemSelected?.Invoke(parameterButton.GetParameter().name);
+                    GetMethod(methodProvider).Invoke(parameterButton.GetItemBlueprint());
+                    OnItemSelected?.Invoke(parameterButton.GetItemBlueprint().name);
                 };
         }
 
@@ -46,11 +47,18 @@ namespace UI.MethodBlueprints
         {
             UIUpdater.UIBehaviourModifiedTick += () => 
                 button.SetInteractable(GetEnableChecker(methodProvider).Invoke());
+            
+            button.OnDestruction += () => UIUpdater.UIBehaviourModifiedTick -= () => button.SetInteractable(GetEnableChecker(methodProvider).Invoke());
         }
 
-        public List<ItemParameterButton> GetButtonForEachOption()
+        public void Setup(ResearchTree researchTree)
         {
-            var buttons = new List<ItemParameterButton>();
+            _researchTree = researchTree;
+        }
+
+        public List<ParameterButton> GetButtonForEachOption()
+        {
+            var buttons = new List<ParameterButton>();
             
             foreach (var tech in _researchTree.GetItemTechs())
             {
@@ -60,14 +68,12 @@ namespace UI.MethodBlueprints
             return buttons;
         }
 
-        public void Setup(ResearchTree researchTree)
+        private ParameterButton InstantiateParameterButton<T>(IMethodProvider methodProvider, T t)
         {
-            _researchTree = researchTree;
-        }
-        
-        private ItemParameterButton InstantiateParameterButton(IMethodProvider methodProvider, Tech tech)
-        {
-            var button = Instantiate(itemButtonPrefab);
+            var button = Instantiate(parameterButtonPrefab);
+
+            if (t is not Tech tech)
+                return null;
             
             if(tech.TechBlueprint is ItemTechBlueprint itemTech)
                 button.SetParameter(itemTech.Item);    
@@ -82,10 +88,11 @@ namespace UI.MethodBlueprints
             SubscribeProviderToButtonEvent(methodProvider, button);
             
             UIUpdater.UIBehaviourModifiedTick += () => 
-                button.SetInteractable(tech.CheckIfItemIsUnlocked());
-            
+                button.SetInteractable(tech.CheckIfAssociatedItemIsUnlocked());
+
+            //funzt nicht weil Tech (enableChecker != MethodProvider)
             // SubscribeButtonToUpdateEvents(methodProvider, button);
-            
+
             try
             {
                 UIUpdater.UIBehaviourModifiedTick?.Invoke();
