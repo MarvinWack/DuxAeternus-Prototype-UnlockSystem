@@ -15,4 +15,4 @@ MonoBehaviour:
   NumberOfCoreBuildings: 2
   NumberOfSmallBuildings: 4
   NumberOfLargeBuildings: 2
-  NumberOfTroopTypes: 8
+  NumberOfTroopTypes: 5

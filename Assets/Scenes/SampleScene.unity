@@ -1483,7 +1483,7 @@ MonoBehaviour:
   m_CellSize: {x: 500, y: 100}
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 1
-  m_ConstraintCount: 1
+  m_ConstraintCount: 2
 --- !u!1 &261493250
 GameObject:
   m_ObjectHideFlags: 0
@@ -3026,7 +3026,7 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 250, y: 100}
+  m_CellSize: {x: 500, y: 100}
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 1
   m_ConstraintCount: 2
@@ -3084,7 +3084,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 4
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 250, y: 100}
@@ -3942,11 +3942,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1075139006}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 250, y: -50}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 500, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &915637886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4090,24 +4090,28 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1729551848057446418, guid: 818dd6f09805f471185326e946eb04d7, type: 3}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1729551848057446418, guid: 818dd6f09805f471185326e946eb04d7, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 168d928dbccd34c3aa626a7feec5983b, type: 3}
+      objectReference: {fileID: 21300000, guid: cafd6e7b054364a0dad231c9823a7b98, type: 3}
     - target: {fileID: 1729551848057446418, guid: 818dd6f09805f471185326e946eb04d7, type: 3}
       propertyPath: m_Color.b
-      value: 0.18396229
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1729551848057446418, guid: 818dd6f09805f471185326e946eb04d7, type: 3}
       propertyPath: m_Color.g
-      value: 0.18396229
+      value: 0.591418
       objectReference: {fileID: 0}
     - target: {fileID: 1729551848057446418, guid: 818dd6f09805f471185326e946eb04d7, type: 3}
       propertyPath: m_Color.r
-      value: 1
+      value: 0.18431371
       objectReference: {fileID: 0}
     - target: {fileID: 6745502678456725740, guid: 818dd6f09805f471185326e946eb04d7, type: 3}
       propertyPath: m_Name
-      value: Extended Button
+      value: Blue Style ExtButton
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5200,7 +5204,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1703806045556362149, guid: 299ccb03ad15343f8bd2be20a28228ca, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 317.00034
+      value: 317.02872
       objectReference: {fileID: 0}
     - target: {fileID: 1703806045556362149, guid: 299ccb03ad15343f8bd2be20a28228ca, type: 3}
       propertyPath: m_ConstrainProportionsScale
@@ -6732,7 +6736,7 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 250, y: 100}
+  m_CellSize: {x: 500, y: 100}
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 1
   m_ConstraintCount: 2
@@ -7431,10 +7435,10 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 500, y: 100}
+  m_CellSize: {x: 1000, y: 100}
   m_Spacing: {x: 0, y: 0}
-  m_Constraint: 0
-  m_ConstraintCount: 2
+  m_Constraint: 1
+  m_ConstraintCount: 1
 --- !u!114 &2065286920
 MonoBehaviour:
   m_ObjectHideFlags: 0

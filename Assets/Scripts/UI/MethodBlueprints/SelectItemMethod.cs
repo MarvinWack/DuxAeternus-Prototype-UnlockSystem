@@ -89,6 +89,8 @@ namespace UI.MethodBlueprints
             
             UIUpdater.UIBehaviourModifiedTick += () => 
                 button.SetInteractable(tech.CheckIfAssociatedItemIsUnlocked());
+            
+            button.OnDestruction += () => UIUpdater.UIBehaviourModifiedTick -= () => button.SetInteractable(tech.CheckIfAssociatedItemIsUnlocked());
 
             //funzt nicht weil Tech (enableChecker != MethodProvider)
             // SubscribeButtonToUpdateEvents(methodProvider, button);
@@ -99,8 +101,9 @@ namespace UI.MethodBlueprints
             }
             catch (Exception ex)
             {
-                Debug.LogError($"Error during UIBehaviourModifiedTick invocation! " +
-                               $"Check if all required SOs are Set; Check if all enableChecker-Methods work" +
+                Debug.LogError("Error during UIBehaviourModifiedTick invocation! " +
+                               "Check if all required SOs are Set; Check if all enableChecker-Methods work. " +
+                               "Check if all buttons unsubscribe from UIUpdater correctly. " +
                                $": {ex.Message}\n{ex.StackTrace}");
             }
             

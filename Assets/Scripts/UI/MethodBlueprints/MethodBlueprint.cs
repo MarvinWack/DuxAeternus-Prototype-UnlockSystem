@@ -48,22 +48,8 @@ namespace UI.MethodBlueprints
         public virtual ExtendedButton InstantiateButton(IMethodProvider methodProvider, string text = null)
         {
             var button = Instantiate(buttonPrefab);
-
-            if(text != null)
-                SetButtonText(button, text);
-            else
-                SetButtonText(button, buttonText);
             
-            methodInfos.Find(x => x.MethodProvider == methodProvider).Button = button;
-            
-            SubscribeProviderToButtonEvent(methodProvider, button);
-            SubscribeButtonToUpdateEvents(methodProvider, button);
-            
-            UIUpdater.UIBehaviourModifiedTick?.Invoke();
-            
-            button.UseFadeOnInteractableChanged(true);
-            
-            return button;
+            return SetupButton(button, methodProvider, text);
         }
 
         private ExtendedText InstantiateLabel(IMethodProvider methodProvider, string initalText = null)
