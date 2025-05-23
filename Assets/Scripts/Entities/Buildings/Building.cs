@@ -8,7 +8,7 @@ using UI.MethodBlueprints;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class Building : MonoBehaviour, ICustomer, IUpgradeMethodProvider
+public class Building : MonoBehaviour, ICustomer, IUpgradeMethodProvider, INEWUpgradeMethodProvider
 {
     [InspectorButton("StartUpgrade")]
     public bool UpgradeButton;
@@ -23,6 +23,8 @@ public class Building : MonoBehaviour, ICustomer, IUpgradeMethodProvider
     public event Action<float> OnUpgradeProgress;
     // public event Action<bool> OnUpgradableStatusChanged;
     // public event Action<Dictionary<Func<bool>, bool>> OnCallableMethodsChanged;
+    
+    [SerializeField] private MethodAssigner methodAssigner;
     
     public int Level => _level;
     public int _level;
@@ -39,8 +41,10 @@ public class Building : MonoBehaviour, ICustomer, IUpgradeMethodProvider
 
     private void Awake()
     {
-        upgradeMethod.RegisterMethodToCall(StartUpgradeNoReturnValue, this);
-        upgradeMethod.RegisterMethodEnableChecker(CheckIfUpgradePossible);
+        // upgradeMethod.RegisterMethodToCall(StartUpgradeNoReturnValue, this);
+        // upgradeMethod.RegisterMethodEnableChecker(CheckIfUpgradePossible);
+        
+        methodAssigner.HandleMethodProviderCreated(this);
     }
     
     public void HandleUpgradeTick()
@@ -180,5 +184,15 @@ public class Building : MonoBehaviour, ICustomer, IUpgradeMethodProvider
     public bool DoesBelongToPlayer()
     {
         return true;
+    }
+
+    public void CallParameterAction()
+    {
+        StartUpgradeNoReturnValue();
+    }
+
+    public bool CheckIfActionCallable()
+    {
+        return CheckIfUpgradePossible();
     }
 }

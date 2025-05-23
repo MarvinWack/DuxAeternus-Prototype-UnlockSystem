@@ -3117,7 +3117,6 @@ MonoBehaviour:
   selectWeaponMethod: {fileID: 11400000, guid: cb5581c16b8e0438c994651ef148c116, type: 2}
   selectArmorMethod: {fileID: 11400000, guid: 3f5b83f31f00d47b78dbc17b9c5d2942, type: 2}
   createTroopTypeMethod: {fileID: 11400000, guid: 959589190290a45b69e9a8bd9507175f, type: 2}
-  setUnitNameMethod: {fileID: 0}
   nameInputField: {fileID: 992232042}
   createTroopTypeButton: {fileID: 924174460}
   troopTypeCreator: {fileID: 1107728385}

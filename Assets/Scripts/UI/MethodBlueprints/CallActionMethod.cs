@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace UI.MethodBlueprints
 {
-    [CreateAssetMenu(menuName = "UI/CallActionMethod")]
-    public abstract class CallActionMethod : MethodBlueprint<Action>
+    // [CreateAssetMenu(menuName = "UI/CallActionMethod")]
+    public abstract class CallActionMethod : MethodBlueprint<Action>, ICallActionInput
     {
         protected override void SubscribeProviderToButtonEvent(IMethodProvider methodProvider, ExtendedButton button)
         {

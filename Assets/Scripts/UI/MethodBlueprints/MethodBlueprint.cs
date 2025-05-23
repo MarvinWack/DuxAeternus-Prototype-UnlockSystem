@@ -10,7 +10,7 @@ namespace UI.MethodBlueprints
     /// Controls behaviour of buttons and sets up events for communication between buttons
     /// and method-providers.
     /// </summary>
-    public abstract class MethodBlueprint<T> : ScriptableObject, IMethod where T : Delegate
+    public abstract class MethodBlueprint<T> : ScriptableObject, IMethod, IMethodBluePrintInput<T> where T : Delegate
     {
         [SerializeField] protected ExtendedButton buttonPrefab;
         [SerializeField] private string buttonText;
