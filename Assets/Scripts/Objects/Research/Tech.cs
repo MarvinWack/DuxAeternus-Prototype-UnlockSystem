@@ -36,7 +36,7 @@ public class Tech : BaseObject, IResearchTickReceiver, IEnableChecker, IUpgradeM
     private void Setup()
     {
         upgradeMethod.RegisterMethodToCall(StartUpgrade, this);
-        upgradeMethod.RegisterEnableChecker(CheckIfMethodIsEnabled);
+        upgradeMethod.RegisterMethodEnableChecker(CheckIfMethodIsEnabled);
         
         // selectWeaponItemMethod.RegisterMethodEnableChecker(CheckIfAssociatedItemIsUnlocked);
         // selectArmorItemMethod.RegisterMethodEnableChecker(CheckIfAssociatedItemIsUnlocked);

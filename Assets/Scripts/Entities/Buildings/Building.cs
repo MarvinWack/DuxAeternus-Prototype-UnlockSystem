@@ -8,7 +8,7 @@ using UI.MethodBlueprints;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class Building : MonoBehaviour, ICustomer, ICallableByUI, IUpgradeMethodProvider
+public class Building : MonoBehaviour, ICustomer, IUpgradeMethodProvider
 {
     [InspectorButton("StartUpgrade")]
     public bool UpgradeButton;
@@ -22,7 +22,7 @@ public class Building : MonoBehaviour, ICustomer, ICallableByUI, IUpgradeMethodP
     public event Action<int> OnUpgradeFinished;
     public event Action<float> OnUpgradeProgress;
     // public event Action<bool> OnUpgradableStatusChanged;
-    public event Action<Dictionary<Func<bool>, bool>> OnCallableMethodsChanged;
+    // public event Action<Dictionary<Func<bool>, bool>> OnCallableMethodsChanged;
     
     public int Level => _level;
     public int _level;
@@ -40,7 +40,7 @@ public class Building : MonoBehaviour, ICustomer, ICallableByUI, IUpgradeMethodP
     private void Awake()
     {
         upgradeMethod.RegisterMethodToCall(StartUpgradeNoReturnValue, this);
-        upgradeMethod.RegisterEnableChecker(CheckIfUpgradePossible);
+        upgradeMethod.RegisterMethodEnableChecker(CheckIfUpgradePossible);
     }
     
     public void HandleUpgradeTick()

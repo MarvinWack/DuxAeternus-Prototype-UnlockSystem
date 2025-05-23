@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5904b8d5444c4083bfc49cbacabebe2f, type: 3}
-  m_Name: RecruitUnits-3
+  m_Script: {fileID: 11500000, guid: 8aff0e3e58b54a1184c1c8f6b538e9d6, type: 3}
+  m_Name: Upgrade Building
   m_EditorClassIdentifier: 
-  buttonPrefab: {fileID: 9059893531190325456, guid: fccb1e770bede499a90486423997ceb3, type: 3}
-  amountToRecruit: 3
+  visualiseProgress: 0
+  buttonText: 
+  buttonPrefab: {fileID: 5456282469630226102, guid: 818dd6f09805f471185326e946eb04d7, type: 3}
+  labelPrefab: {fileID: 0}

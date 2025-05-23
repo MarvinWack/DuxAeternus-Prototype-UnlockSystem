@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visualiseProgress: 0
   buttonText: Create Troop Type
-  buttonPrefab: {fileID: 5456282469630226102, guid: 818dd6f09805f471185326e946eb04d7, type: 3}
+  buttonPrefab: {fileID: 0}
+  labelPrefab: {fileID: 0}

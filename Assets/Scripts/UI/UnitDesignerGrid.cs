@@ -12,7 +12,6 @@ namespace UI
         [SerializeField] private SelectItemMethod selectWeaponMethod;
         [SerializeField] private SelectItemMethod selectArmorMethod;
         [SerializeField] private UpgradeMethod createTroopTypeMethod;
-        [SerializeField] private SetTextMethod setUnitNameMethod;
         
         [SerializeField] private TMP_InputField nameInputField;
         [FormerlySerializedAs("buttonStyle")] [SerializeField] private ExtendedButton createTroopTypeButton;

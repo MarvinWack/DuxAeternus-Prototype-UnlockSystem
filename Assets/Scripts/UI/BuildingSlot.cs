@@ -18,6 +18,7 @@ namespace UI.Slot
         private void Awake()
         {
             callDropdownButton.OnClick += CallDropDown;
+            callDropdownButton.SetText("Choose building");
         }
 
         public void SetBuilding(Building building)

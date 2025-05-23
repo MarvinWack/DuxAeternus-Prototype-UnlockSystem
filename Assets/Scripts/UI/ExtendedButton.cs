@@ -30,7 +30,6 @@ namespace UI.Slot
         [SerializeField] private bool callDropDown;
         [SerializeField] private bool callInfoWindow;
         [SerializeField] private bool isInteractable = true;
-        [SerializeField] private bool useFadeOnInteractableChanged = false;
 
         [Header("References")]
         [SerializeField] private Button button;

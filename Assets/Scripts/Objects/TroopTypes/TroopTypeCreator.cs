@@ -46,7 +46,7 @@ namespace Objects.TroopTypes
             selectArmorMethod.RegisterMethodToCall(SetArmorItem, this);
             
             createTroopTypeMethod.RegisterMethodToCall(CreateTroopType, this);
-            createTroopTypeMethod.RegisterEnableChecker(CheckIfItemsSet);
+            createTroopTypeMethod.RegisterMethodEnableChecker(CheckIfItemsSet);
         }
 
         public void SetTypeName(string typeName)
