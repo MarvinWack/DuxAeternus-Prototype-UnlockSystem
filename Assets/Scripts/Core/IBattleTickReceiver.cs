@@ -2,6 +2,6 @@ namespace Core
 {
     public interface IBattleTickReceiver
     {
-        public abstract void BattleTickHandler();
+        public void BattleTickHandler();
     }
 }

@@ -35,8 +35,6 @@ namespace Production.Storage
             }
         }
 
-        //todo: remove checks once buildings are distuingished by produced product
-
         public void AddResources(ProductBlueprint type, int value)
         {
             if(type is ResourceBlueprint resourceType)
@@ -45,10 +43,6 @@ namespace Production.Storage
                 OnResourceAmountChanged?.Invoke(resources);
                 OnModifierValueUpdated?.Invoke();
             }
-            // else
-            // {
-            //     Debug.LogWarning($"Received production tick for {type.name} which is not a ResourceBlueprint");
-            // }
         }
 
         public bool CheckIfEnoughResourcesAvailable(ResourceBlueprint resource, int amount)

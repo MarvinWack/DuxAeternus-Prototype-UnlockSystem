@@ -30,8 +30,8 @@ namespace Objects
         {
             return bluePrint.ObjectType switch
             {
-                ObjectType.Building => CreateBuildingManager(bluePrint as BuildingBlueprint, parent),
-                ObjectType.Research => CreateTech(bluePrint as TechBlueprint, parent),
+                ObjectType.Building => CreateBuildingManager(bluePrint as BuildingBlueprint, parent.Find("Buildings")),
+                ObjectType.Research => CreateTech(bluePrint as TechBlueprint, parent.Find("Techs")),
                 _ => throw new Exception("Invalid Object Type")
             };
         }

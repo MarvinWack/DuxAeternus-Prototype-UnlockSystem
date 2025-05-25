@@ -73,18 +73,15 @@ public abstract class BuildingManager : BaseObject, IUpgradeTickReceiver, IProdu
             building.HandleProductionTick();
         }
     }
-    
-    // public override bool CallSlotAction()
-    // {
-    //     if (TryCreateBuilding() == null)
-    //         return false;
-    //
-    //     return true;
-    // }
 
     public List<IMethod> GetMethods()
     {
         throw new System.NotImplementedException();
+    }
+
+    public string GetName()
+    {
+        return gameObject.name;
     }
 
     public bool DoesBelongToPlayer()

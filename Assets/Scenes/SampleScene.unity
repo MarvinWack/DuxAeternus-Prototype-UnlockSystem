@@ -1239,7 +1239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ace90ea7490a4760ae23fd6bbf6e762, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropdown: {fileID: 1102819562}
+  dropdownMenu: {fileID: 0}
 --- !u!114 &242023316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1329,6 +1329,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da492da56125475e8f8cb9ae000d2f61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blocker: {fileID: 0}
+  infoText: {fileID: 0}
 --- !u!225 &252253820
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -2529,6 +2531,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da492da56125475e8f8cb9ae000d2f61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blocker: {fileID: 0}
+  infoText: {fileID: 0}
 --- !u!114 &367121973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3005,6 +3009,7 @@ MonoBehaviour:
   dropDownMenu: {fileID: 1339663197}
   _gameSettings: {fileID: 11400000, guid: 467d44174b6a34978a2f6b00b0c3661b, type: 2}
   createBuildingMethod: {fileID: 11400000, guid: f1830911676154178ac15c5c29fbf52e, type: 2}
+  upgradeMethod: {fileID: 11400000, guid: fd6969ffb67e441a2b5011c618ea1b51, type: 2}
   stylePreset: {fileID: 924174460}
 --- !u!114 &539631475
 MonoBehaviour:
@@ -4340,7 +4345,7 @@ GameObject:
   - component: {fileID: 1059080444}
   - component: {fileID: 1059080443}
   m_Layer: 0
-  m_Name: TroopDesignerTab
+  m_Name: UnitDesignerTab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4759,17 +4764,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 299ccb03ad15343f8bd2be20a28228ca, type: 3}
---- !u!114 &1102819562 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3911905538709362757, guid: 299ccb03ad15343f8bd2be20a28228ca, type: 3}
-  m_PrefabInstance: {fileID: 1102819561}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72cfbad2796146e98453655256123062, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &1102819563 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9155184283605295546, guid: 299ccb03ad15343f8bd2be20a28228ca, type: 3}
@@ -5203,7 +5197,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1703806045556362149, guid: 299ccb03ad15343f8bd2be20a28228ca, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 317
+      value: 317.00003
       objectReference: {fileID: 0}
     - target: {fileID: 1703806045556362149, guid: 299ccb03ad15343f8bd2be20a28228ca, type: 3}
       propertyPath: m_ConstrainProportionsScale
@@ -6368,7 +6362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ace90ea7490a4760ae23fd6bbf6e762, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropdown: {fileID: 1339663197}
+  dropdownMenu: {fileID: 1339663197}
 --- !u!114 &1702063813 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6380170062016511907, guid: 8bedea98f68ff4b55bc9fafbe5bae803, type: 3}
@@ -6773,6 +6767,7 @@ MonoBehaviour:
   dropDownMenu: {fileID: 1339663197}
   _gameSettings: {fileID: 11400000, guid: 467d44174b6a34978a2f6b00b0c3661b, type: 2}
   createBuildingMethod: {fileID: 11400000, guid: 6c77dbba9c3ff47ffb5cdd63c37737ab, type: 2}
+  upgradeMethod: {fileID: 0}
   stylePreset: {fileID: 0}
 --- !u!1 &1856933579
 GameObject:
@@ -7460,8 +7455,8 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _slotPrefab: {fileID: 7420522300174986956, guid: 08ec43942914e400da5b758912f5f8cc, type: 3}
+  dropDownMenu: {fileID: 1339663197}
   _gameSettings: {fileID: 11400000, guid: 467d44174b6a34978a2f6b00b0c3661b, type: 2}
-  dropdownMenu: {fileID: 1339663197}
   trooptypeCreator: {fileID: 1107728385}
 --- !u!1 &2105206057
 GameObject:

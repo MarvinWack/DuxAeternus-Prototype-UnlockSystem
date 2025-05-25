@@ -1,14 +1,12 @@
 using System;
 using System.Collections.Generic;
-using Objects;
 using Production.Items;
 using Production.Storage;
-using UI;
 using UI.MethodBlueprints;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class Building : MonoBehaviour, ICustomer, IUpgradeMethodProvider, INEWUpgradeMethodProvider
+public class Building : MonoBehaviour, ICustomer, IUpgradeMethodProvider
 {
     [InspectorButton("StartUpgrade")]
     public bool UpgradeButton;
@@ -21,10 +19,8 @@ public class Building : MonoBehaviour, ICustomer, IUpgradeMethodProvider, INEWUp
 
     public event Action<int> OnUpgradeFinished;
     public event Action<float> OnUpgradeProgress;
-    // public event Action<bool> OnUpgradableStatusChanged;
-    // public event Action<Dictionary<Func<bool>, bool>> OnCallableMethodsChanged;
-    
-    [SerializeField] private MethodAssigner methodAssigner;
+
+    // [SerializeField] private MethodAssigner methodAssigner;
     
     public int Level => _level;
     public int _level;
@@ -41,10 +37,10 @@ public class Building : MonoBehaviour, ICustomer, IUpgradeMethodProvider, INEWUp
 
     private void Awake()
     {
-        // upgradeMethod.RegisterMethodToCall(StartUpgradeNoReturnValue, this);
-        // upgradeMethod.RegisterMethodEnableChecker(CheckIfUpgradePossible);
+        upgradeMethod.RegisterMethodToCall(StartUpgrade, this);
+        upgradeMethod.RegisterMethodEnableChecker(CheckIfUpgradePossible);
         
-        methodAssigner.HandleMethodProviderCreated(this);
+        // methodAssigner.HandleMethodProviderCreated(this);
     }
     
     public void HandleUpgradeTick()
@@ -57,8 +53,6 @@ public class Building : MonoBehaviour, ICustomer, IUpgradeMethodProvider, INEWUp
         
         if(_elapsedUpgradingTime >= _blueprint.UpgradeTime)
             Upgrade();
-
-        CheckIfCallableMethodsChanged();
     }
 
     public void HandleProductionTick()
@@ -66,32 +60,11 @@ public class Building : MonoBehaviour, ICustomer, IUpgradeMethodProvider, INEWUp
         if(!_isProducing) return;
         
         OnProduction?.Invoke(_blueprint.ProducedProduct, CalculateProductionAmount());
-        
-        CheckIfCallableMethodsChanged();
     }
 
-    private void CheckIfCallableMethodsChanged()
-    {
-        // if(_callableMethods.Count == 0) return;
-        //
-        // if (_callableMethods[StartUpgrade] != CheckIfUpgradePossible(false))
-        // {
-        //     _callableMethods[StartUpgrade] = CheckIfUpgradePossible(false);
-        //     OnCallableMethodsChanged?.Invoke(_callableMethods);
-        //     OnUpgradableStatusChanged?.Invoke(_callableMethods[StartUpgrade]);
-        // }
-    }
-
-    public void StartUpgradeNoReturnValue()
-    {
-        StartUpgrade();
-    }
-
-    public bool StartUpgrade()
+    private void StartUpgrade()
     {
         _isUpgrading = CheckIfUpgradePossible() && TryPurchase();
-
-        return _isUpgrading;
     }
 
     private bool CheckIfUpgradePossible()
@@ -184,15 +157,5 @@ public class Building : MonoBehaviour, ICustomer, IUpgradeMethodProvider, INEWUp
     public bool DoesBelongToPlayer()
     {
         return true;
-    }
-
-    public void CallParameterAction()
-    {
-        StartUpgradeNoReturnValue();
-    }
-
-    public bool CheckIfActionCallable()
-    {
-        return CheckIfUpgradePossible();
     }
 }

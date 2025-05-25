@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AYellowpaper.SerializedCollections;
-using Core;
 using Production.Items;
 using Production.Storage;
 using UI.MethodBlueprints;
@@ -10,14 +8,14 @@ using UnityEngine;
 
 namespace Objects.TroopTypes
 {
-    public class TroopTypeCreator : MonoBehaviour, IDynamicSlotContentSource, IMethodProvider
+    public class TroopTypeCreator : MonoBehaviour, IMethodProvider
     {
         [InspectorButton("CreateTroopType")]
         public bool _CreateTroopType;
         
         public List<TroopType> TroopTypes => troopTypes;
 
-        public event Action<ISlotContent> SlotContentAdded;
+        public event Action<TroopType> SlotContentAdded;
         
         [SerializeField] protected bool _belongsToPlayer;
         
@@ -33,12 +31,6 @@ namespace Objects.TroopTypes
         [SerializeField] private SelectItemMethod selectWeaponMethod;
         [SerializeField] private SelectItemMethod selectArmorMethod;
         [SerializeField] private UpgradeMethod createTroopTypeMethod;
-        
-        private SerializedDictionary<string, ItemBlueprint> itemSlots = new()
-        {
-            { "weapon", null },
-            { "armor", null }
-        };
 
         private void Awake()
         {
@@ -95,11 +87,7 @@ namespace Objects.TroopTypes
         {
             return troopTypes.All(type => type.CheckIfUnitsAvailableToFight());
         }
-
-        public List<ISlotContent> GetSlotItems(Type type)
-        {
-            return troopTypes.Cast<ISlotContent>().ToList();
-        }
+        
 
         private void CreateTroopType()
         {

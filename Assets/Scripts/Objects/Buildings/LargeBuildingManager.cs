@@ -18,7 +18,6 @@ public class LargeBuildingManager : BuildingManager
         return building;
     }
     
-    //todo: proaktiv wenn gebaut wurde isAvailable in base oder manager setzen
     protected override bool CheckIfBuildingIsBuildable()
     {
         if(!base.CheckIfBuildingIsBuildable())

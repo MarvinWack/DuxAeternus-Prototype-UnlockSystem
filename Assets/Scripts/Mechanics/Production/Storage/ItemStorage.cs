@@ -22,8 +22,7 @@ namespace Production.Storage
                 items.Add((ItemBlueprint)blueprint, 0);
             }
         }
-
-        //todo: remove checks once buildings are distuingished by produced product
+        
         public void HandleProductionTick(ProductBlueprint itemType, int value)
         {
             if (itemType is ItemBlueprint itemBlueprint)

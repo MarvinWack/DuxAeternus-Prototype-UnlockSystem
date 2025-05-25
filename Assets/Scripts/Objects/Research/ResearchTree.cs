@@ -1,13 +1,9 @@
-// using System;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
-using Entities.Buildings;
 using Objects;
 using Objects.Research;
-using UI.MethodBlueprints;
 using UnityEngine;
 
 /// <summary>
@@ -16,7 +12,7 @@ using UnityEngine;
 /// be unlocked through research, but they may also be required to unlock
 /// certain research.
 /// </summary>
-public class ResearchTree : MonoBehaviour, ISlotContentSource, IDropdownCaller
+public class ResearchTree : MonoBehaviour
 {
     [SerializeField] private ObjectBluePrint[] lastEntriesInTree;
     
@@ -74,23 +70,5 @@ public class ResearchTree : MonoBehaviour, ISlotContentSource, IDropdownCaller
         var techs =  _baseObjects.Where(x => x.Value is Tech)
             .Select(x => x.Value as Tech).ToList();
         return techs.Where(x => x.TechBlueprint is ItemTechBlueprint).ToList();
-    }
-    
-    public List<Tech> GetAllTechs()
-    {
-        return _baseObjects.Where(x => x.Value is Tech)
-            .Select(x => x.Value as Tech).ToList();
-    }
-
-    public List<ISlotContent> GetSlotItems(Type type)
-    {
-        return _baseObjects.Where(x => x.Value.GetType() == type).Select(x => (ISlotContent)x.Value).ToList();
-    }
-
-
-
-    public List<IMethodProvider> GetDropDownOptions(Type type)
-    {
-        return _baseObjects.Where(x => x.Value.GetType() == type).Select(x => (IMethodProvider)x.Value).ToList();
     }
 }

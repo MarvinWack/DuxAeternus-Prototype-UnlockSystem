@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Core;
 using UI.MethodBlueprints;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [Serializable]
 public class Tech : BaseObject, IResearchTickReceiver, IEnableChecker, IUpgradeMethodProvider
@@ -100,6 +99,11 @@ public class Tech : BaseObject, IResearchTickReceiver, IEnableChecker, IUpgradeM
     public List<IMethod> GetMethods()
     {
         return new List<IMethod> { upgradeMethod };
+    }
+
+    public string GetName()
+    {
+        return gameObject.name;
     }
 
     public bool DoesBelongToPlayer()

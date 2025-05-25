@@ -45,8 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UpgradeButton: 0
-  upgradeMethod: {fileID: 11400000, guid: b66fde997adba41e3b82982c530258ff, type: 2}
-  methodAssigner: {fileID: 11400000, guid: 173cc68d929164cb4842c300b580a18f, type: 2}
+  upgradeMethod: {fileID: 11400000, guid: fd6969ffb67e441a2b5011c618ea1b51, type: 2}
   _level: 0
   _isProducing: 0
   _currentlyAccumulatedProduction: 0
